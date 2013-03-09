@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 from itertools import imap as lazy_apply, ifilter
+from each_way import each_way, each_way_r
 '''
 
 "The Laws of Form" by G. Spencer-Brown.
@@ -91,6 +92,7 @@ mark = memoize(mark, D)
 
 for expected, form in (
 
+  ( True, (),),
   (False, ((),),),
   ( True, (((),),),),
   (False, ((((),),),),),
