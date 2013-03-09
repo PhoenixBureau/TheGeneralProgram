@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-from itertools import imap as lazy_apply
+from itertools import imap as lazy_apply, ifilter
 '''
 
 "The Laws of Form" by G. Spencer-Brown.
@@ -15,22 +15,58 @@ Boolean value of False.
 
 '''
 
+#: The lambda function "mark" reduces any form and returns its Boolean value.
+#:
 mark = lambda form: not form or not any(lazy_apply(mark, form))
+
+
+
 
 
 #  Reduce a form according to these rules:
 #
 #    (()) -> nothing    "Cancel"
-#    ()() -> ()         "Repeat"
+#    ()() -> ()      un-"Repeat"
 #
 
-a = lambda form: tuple(inner for inner in form if inner != ((),))
 
-b = lambda form: form if () not in form else (
-  ((),) + tuple(inner for inner in form if inner)
-  )
+#: Let k be a function that returns True (()) if the argument is (())
+#: and False () otherwise.
+#:
+k = lambda form: form if form == ((),) else ()
 
-R = lambda form: tuple(a(b(R(inner) for inner in form)))
+
+#: Let f be a function that filters a form by a predicate.
+#:
+f = lambda predicate, form: tuple(ifilter(predicate, form))
+
+
+#: Let a be a Value-Preserving function that removes (()) from forms.
+#:
+#: This corresponds to applying "Cancel" to all possible inner forms in a
+#: form.
+#:
+a = lambda form: f(k, form)
+
+#: Let b be a Value-Preserving function that removes all copies of () in
+#: a form.
+#:
+#: This corresponds to applying un-"Repeat" to all possible inner forms
+#: in a form.
+#:
+b = lambda form: form if () not in form else ((),) + f(None, form)
+
+#: We can define the Value-Preserving function R in terms of recursive
+#: application of the a and b reduction functions, which correspond to
+#: "Cancel" and un-"Repeat" applied exhaustively.
+#:
+#: bool(R(form)) == mark(form) for all forms.
+#:
+R = lambda form: tuple(a(b(map(R, form))))
+
+
+
+
 
 
 
