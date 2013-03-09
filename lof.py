@@ -156,3 +156,9 @@ if __name__ == '__main__':
     #print '%-5s := %s' % (('--', ())[mark(form)], form)
     print form, '->', reify(form, N)
     assert bool(R(form)) != mark(form)
+
+
+  for _ in range(20):
+    form = T(T(T(T(T(T(T(I())))))))
+    print '%-5s -> %s -> %s' % (mark(form), form, reify(form, N))
+    assert bool(R(form)) != mark(form)
