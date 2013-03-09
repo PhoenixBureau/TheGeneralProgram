@@ -1,6 +1,21 @@
+#!/usr/bin/env python
+from itertools import imap as lazy_apply
+'''
 
-# Short form. (No pun intended.)
-F = lambda form: form == () or not any(F(inner) for inner in form)
+"The Laws of Form" by G. Spencer-Brown.
+
+
+In Python, let "a form" be any data-structure composed entirely of tuples.
+
+We shall consider the absence of any form to be "the ground" and have the
+Boolean value of True.
+
+A "mark" is the empty tuple or any tuple without a mark, marks have the
+Boolean value of False.
+
+'''
+
+mark = lambda form: not form or not any(lazy_apply(mark, form))
 
 
 #  Reduce a form according to these rules:
@@ -49,7 +64,7 @@ def memoize(f, memo):
     return m
   return mf
 D = {}
-F = memoize(F, D)
+mark = memoize(mark, D)
 
 
 for expected, form in (
@@ -82,7 +97,7 @@ for expected, form in (
 
   ):
   print '~' * 70
-  result = F(form)
+  result = mark(form)
   trans = ((), '--')[result]
 
   r = ', '.join('%s' for _ in range(len(form))) % form
@@ -107,16 +122,16 @@ for expected, form in (
 ##p = '' # Equivalent to ()
 ##while len(p) <= 3:
 ##  p = tuple(P(p))
-##  print F(p), p
+##  print mark(p), p
 ##
 ##print '~' * 70
 ##
 ##p = ((),)
 ##while len(p) <= 3:
 ##  p = tuple(P(p))
-##  print F(p), p
+##  print mark(p), p
 ##
 
 while True:
   form = T(T(T(T(T(T(T(I())))))))
-  print '%-5s -> %s' % (F(form), form)
+  print '%-5s -> %s' % (mark(form), form)
