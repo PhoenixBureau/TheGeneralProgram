@@ -90,7 +90,34 @@ D = {}
 mark = memoize(mark, D)
 
 
+# I can haz maths?
+
+def form_to_number(form):
+  return sum(mark(inner) for inner in form)
+
+def number_to_form(n):
+  return ((),) * n
+
+
+def walk(name, meaning):
+    while name in meaning:
+      name = meaning[name]
+    return name
+
+
+def reify(form, meaning):
+  if form in meaning:
+    return walk(form, meaning)
+  return tuple(reify(inner, meaning) for inner in form)
+
+
 if __name__ == '__main__':
+  
+  N= dict(
+    (number_to_form(i), i)
+    for i in range(20)
+    )
+
   for expected, form in (
 
     ( True, (),),
@@ -126,5 +153,6 @@ if __name__ == '__main__':
     ( True, (((((),),),), ((((),),),), ((((),),),),),),
     ):
 
-    print '%-5s := %s' % (('--', ())[mark(form)], form)
+    #print '%-5s := %s' % (('--', ())[mark(form)], form)
+    print form, '->', reify(form, N)
     assert bool(R(form)) != mark(form)
