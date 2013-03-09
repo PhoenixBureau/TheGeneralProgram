@@ -1,3 +1,5 @@
+from sys import stderr
+from random import choice
 
 
 def each_way(a=None, b=None):
@@ -34,6 +36,24 @@ def each_way_r(meta_form):
         except ValueError:
 
           yield form
+
+
+def generate(source_set):
+  source_set = tuple(source_set)
+  return each_way(choice(source_set), choice(source_set))
+
+
+q = set((None, ())) # start with nothing and something.
+
+
+def increase():
+  while True:
+    new = generate(q)
+    if new not in q:
+      print >> stderr, new
+      q.add(new)
+      break
+
 
 if __name__ == '__main__':
   trial = (
