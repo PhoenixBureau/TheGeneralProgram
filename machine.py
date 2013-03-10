@@ -85,8 +85,38 @@ def undelete(form, i, anything):
   return form[:i] + (anything,) + form[i:]
 
 
+def copy(form, i):
+  '''
+  A(B) -> A(AB)
+  '''
+  left, A, t, right = form[:i + 1], form[i], form[i + 1], form[i + 2:]
+#  print 'copy', left, A, t, right
+  return left + ((A,) + t,) + right
+
+
+def uncopy(form, i):
+  '''
+  A(AB) -> A(B)
+  '''
+  left, A, t, right = form[:i], form[i], form[i + 1], form[i + 2:]
+  assert t[0] == A
+  return left + (t[1:],) + right
+
+
+def apply_(form, program):
+  if program and callable(program[0]):
+    function, args = program[0], program[1:]
+    return function(form, *args)
+  for inner in program:
+    form = apply_(form, inner)
+  return form
+
+
 if __name__ == '__main__':
-  g = tuple(range(3))
+  print '~' * 70
+  print 'Wrap / UnWrap' ; print
+
+  g = tuple(range(2))
   WG = []
   for n in range(2 * len(g) + 1):
     wg = wrap(g, n)
@@ -99,7 +129,8 @@ if __name__ == '__main__':
     print n / 2, '->', wg, '->', unwrap(wg, n / 2)
 
   print
-  print
+  print '~' * 70
+  print 'Delete / UnDelete' ; print
 
   g = tuple(() for _ in range(3))
   for i in range(len(g)):
@@ -109,8 +140,16 @@ if __name__ == '__main__':
     g = delete(g, i)
     print g
 
+  print
+  print '~' * 70
+  print 'Copy / UnCopy' ; print
 
-
+  g = ((), 'A', ('B',), ())
+  print g, '->',
+  g = copy(g, 1)
+  print g, '->',
+  g = uncopy(g, 1)
+  print g
 
 
 
