@@ -11,7 +11,7 @@ In Python, let "a form" be any data-structure composed entirely of tuples.
 We shall consider the absence of any form to be "the ground" and have the
 Boolean value of True.
 
-A "mark" is the empty tuple or any tuple without a mark, marks have the
+A "mark" is the empty tuple or any tuple without a mark; marks have the
 Boolean value of False.
 
 '''
