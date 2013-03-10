@@ -199,7 +199,6 @@ def copy(form, i):
   A(B) -> A(AB)
   '''
   left, A, t, right = form[:i + 1], form[i], form[i + 1], form[i + 2:]
-#  print 'copy', left, A, t, right
   return left + ((A,) + t,) + right
 
 
@@ -234,44 +233,71 @@ Instructions = {
 Instructions_reversed = {
   'wrap': ((number_to_form(1),),),
   'unwrap': ((number_to_form(2),),),
-  'delete': ((number_to_form(4),),),
-  'undelete': ((number_to_form(5),),),
-  'copy': ((number_to_form(6),),),
+  'delete': ((number_to_form(3),),),
+  'undelete': ((number_to_form(4),),),
+  'copy': ((number_to_form(5),),),
   'uncopy': ((number_to_form(6),),),
   }
 
 
-if __name__ == '__main__':
-
-  N = dict((number_to_form(i), i) for i in range(20))
-
-  program = tuple(
+def prepare_program(program):
+  return tuple(
     (Instructions_reversed[instr], number_to_form(index))
-    for instr, index in (
+    for instr, index in program)
 
-      ('wrap', 0),
-      ('wrap', 0),
-      ('wrap', 0),
-      ('wrap', 0),
 
-      ))
+N = dict(
+  (number_to_form(i), i)
+  for i in range(20)
+  )
+meaning = {}
+meaning.update(N)
+meaning.update(Instructions)
 
-  meaning = {}
-  meaning.update(N)
-  meaning.update(Instructions)
 
-  print '---'
+def verbose_run(program):
+  print '---\nRaw program as a form expression:'
   for instruction, selector in program:
     print (instruction, selector)
-  print '---'
+
+  print '---\nHuman friendly form:'
   for instruction, selector in reify(program, meaning):
     print (instruction.__name__, selector)
+
+  print '---\nRun the program on the () form:'
+
+  print apply_((), reify(program, meaning))
   print '---'
 
-  P = reify(program, meaning)
-  print apply_((), P)
-  print '---'
 
+if __name__ == '__main__':
+
+  verbose_run(prepare_program((
+
+      ('wrap', 0),
+      ('wrap', 0),
+      ('wrap', 0),
+      ('wrap', 0),
+
+      )))
+
+  verbose_run(prepare_program((
+
+      ('wrap', 0),
+      ('wrap', 1),
+      ('wrap', 2),
+#      ('wrap', 0),
+
+      )))
+
+  verbose_run(prepare_program((
+
+      ('wrap', 0),
+      ('wrap', 1),
+      ('wrap', 0),
+      ('copy', 0),
+
+      )))
 
 ##  J = {(): z, ((),): y}
 ##  j = {(): 'wrap', ((),): 'copy'}
