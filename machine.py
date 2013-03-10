@@ -67,6 +67,24 @@ def unwrap(form, i):
 _k = lambda (((anything,),)): anything
 
 
+def delete(form, i):
+  '''
+  OA -> O
+  '''
+  assert form[i] == ()
+  i += 1
+  return form[:i] + form[i + 1:]
+
+
+def undelete(form, i, anything):
+  '''
+  O -> OA
+  '''
+  assert form[i] == ()
+  i += 1
+  return form[:i] + (anything,) + form[i:]
+
+
 if __name__ == '__main__':
   g = tuple(range(3))
   WG = []
@@ -80,8 +98,16 @@ if __name__ == '__main__':
   for n, wg in enumerate(WG):
     print n / 2, '->', wg, '->', unwrap(wg, n / 2)
 
+  print
+  print
 
-
+  g = tuple(() for _ in range(3))
+  for i in range(len(g)):
+    print i, '->', g, '->',
+    g = undelete(g, i, "Hey there!")
+    print g, '->',
+    g = delete(g, i)
+    print g
 
 
 
