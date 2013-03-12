@@ -66,10 +66,10 @@ def to_d3_json(form, nodes=None, links=None):
   return d
 
 
-form = tuple(
-  tuple(() for _ in range(n))
-  for n in range(24)
-  )
+##form = tuple(
+##  tuple(() for _ in range(n))
+##  for n in range(24)
+##  )
 ##
 ##(
 ##  (((),),(),),
@@ -86,7 +86,9 @@ form = tuple(
 ##    ((((),),(),(),),),
 ##    (),((),),
 ##    ),
-##  ) # ((((),(),),),(),),(),)
+##  )
+
+form = ((((),(),),),(),(),)
 
 print dumps(to_d3_graph(form), indent=2)
 

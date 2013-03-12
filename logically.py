@@ -181,7 +181,7 @@ def unify(u, v, s):  # no check at the moment
             return False
         for uu, vv in zip(u, v):  # avoiding recursion
             s = unify(uu, vv, s)
-            if s is False:
+            if not s:
                 return False
         return s
     return False
