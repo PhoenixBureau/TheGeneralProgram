@@ -1,6 +1,12 @@
 
 def run(n, x, *goals, **kwargs):
-    return take(n, unique(reify(x, s) for s in goaleval(lallearly(*goals))({})))
+    return take(
+        n,
+        unique(
+            reify(x, s)
+            for s in goaleval(lallearly(*goals)) ({})
+            )
+        )
 
 import itertools as it
 def take(n, seq):
@@ -20,17 +26,15 @@ def unique(seq):
 def reify(e, s):
     if isvar(e):
         return walkstar(e, s)
-    elif isinstance(e, tuple):
+    if isinstance(e, tuple):
         return tuple(reify(arg, s) for arg in e)
-    else:
-        return e
+    return e
 
 def walkstar(key, d):
     key = transitive_get(key, d)
     if isinstance(key, tuple):
         return tuple(map(lambda k: walkstar(k, d), key))
-    else:
-        return key
+    return key
 
 def transitive_get(key, d):
     while key in d:
@@ -43,14 +47,16 @@ def goaleval(goal):
         return goal
     if isinstance(goal, tuple): # goal is not yet evaluated like (eq, x, 1)
         egoal = goalexpand(goal)
-        return egoal[0](*egoal[1:])
+        func, args = egoal[0], egoal[1:]
+        return func(*args)
     raise TypeError("Expected either function or tuple")
 
 def goalexpand(goalt):
-    tmp = goalt
-    while isinstance(tmp, tuple) and len(tmp) >= 1 and not callable(tmp):
-        goalt = tmp
-        tmp = goalt[0](*goalt[1:])
+    f = goalt
+    while isinstance(f, tuple) and len(f) >= 1:
+        goalt = f
+        func, args = f[0], f[1:]
+        f = func(*args)
     return goalt
 
 def lallearly(*goals):
@@ -74,11 +80,15 @@ def lall(*goals):
         return success
     if len(goals) == 1:
         return goals[0]
+
+    head, tail = goals[0], (lall,) + tuple(goals[1:])
+
     def allgoal(s):
-        g = goaleval(reify(goals[0], s))
+        g = goaleval(reify(head, s))
         return unique_dict(interleave(
-            goaleval(reify((lall,) + tuple(goals[1:]), ss))(ss)
-            for ss in g(s)))
+            goaleval(reify(tail, ss))(ss) for ss in g(s)
+            ))
+
     return allgoal
 
 def earlyorder(*goals):
@@ -90,31 +100,23 @@ def earlyorder(*goals):
     See also:
         EarlyGoalError
     """
-    groups = groupby(earlysafe, goals)
-    good = groups.get(True, [])
-    bad  = groups.get(False, [])
-
+    bad, good = groupby(earlysafe, goals)
     if not good:
         raise EarlyGoalError()
-    else:
-        if not bad:
-            return tuple(good)
-        else:
-            return tuple(good) + ((lallearly,) + tuple(bad),)
+    good = tuple(good)
+    if bad:
+        bad.insert(0, lallearly)
+        good += (tuple(bad),)
+    return good
 
 def dicthash(d):
     return hash(frozenset(d.items()))
 
 def unique_dict(seq):
-    seen = set()
-    for d in seq:
-        h = dicthash(d)
-        if h not in seen:
-            seen.add(h)
-            yield d
+    return dict((dicthash(d), d) for d in seq).itervalues()
 
 def interleave(seqs, pass_exceptions=()):
-    iters = it.imap(iter, seqs)
+    iters = map(iter, seqs)
     while iters:
         newiters = []
         for itr in iters:
@@ -137,13 +139,10 @@ class EarlyGoalError(Exception):
     pass
 
 def groupby(f, coll):
-    d = dict()
+    bins = [], []
     for item in coll:
-        key = f(item)
-        if key not in d:
-            d[key] = []
-        d[key].append(item)
-    return d
+        bins[f(item)].append(item)
+    return bins
 
 def fail(s):
     return ()
@@ -159,7 +158,7 @@ def eq(u, v):
     """
     def goal_eq(s):
         result = unify(u, v, s)
-        if result is not False:
+        if result:
             yield result
     return goal_eq
 
