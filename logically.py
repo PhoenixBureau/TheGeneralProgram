@@ -1,5 +1,30 @@
 
 
+class Var(object):
+
+    _id = 1
+
+    def __init__(self, *token):
+        if not token:
+            token = "_%s" % self._id
+            self._id += 1
+
+        elif len(token) == 1:
+            token = token[0]
+
+        self.token = token
+
+    def __str__(self):
+        return "~" + str(self.token)
+    __repr__ = __str__
+
+    def __eq__(self, other):
+        return type(self) == type(other) and self.token == other.token
+
+    def __hash__(self):
+        return hash((type(self), self.token))
+
+
 class Substitution(dict):
 
     def reify(self, e):
@@ -38,21 +63,6 @@ def run(n, x, *goals, **kwargs):
             for s in goaleval(lallearly(*goals)) (Substitution())
             )
         )
-
-import itertools as it
-def take(n, seq):
-    if n is None:
-        return seq
-    if n == 0:
-        return tuple(seq)
-    return tuple(it.islice(seq, 0, n))
-
-def unique(seq):
-    seen = set()
-    for item in seq:
-        if item not in seen:
-            seen.add(item)
-            yield item
 
 
 def goaleval(goal):
@@ -123,18 +133,6 @@ def earlyorder(*goals):
     return good
 
 
-def interleave(seqs, pass_exceptions=()):
-    iters = map(iter, seqs)
-    while iters:
-        newiters = []
-        for itr in iters:
-            try:
-                yield next(itr)
-                newiters.append(itr)
-            except (StopIteration,) + tuple(pass_exceptions):
-                pass
-        iters = newiters
-
 def earlysafe(goal):
     """ Call goal be evaluated without raising an EarlyGoalError """
     try:
@@ -180,9 +178,9 @@ def unify(u, v, s):  # no check at the moment
     v = s.walk(v)
     if u == v:
         return s
-    if isvar(u):
+    if isinstance(u, Var):
         return s.assoc(u, v)
-    if isvar(v):
+    if isinstance(v, Var):
         return s.assoc(v, u)
     if isinstance(u, tuple) and isinstance(v, tuple):
         if len(u) != len(v):
@@ -195,41 +193,40 @@ def unify(u, v, s):  # no check at the moment
     return False
 
 
-class Var(object):
-
-    _id = 1
-
-    def __init__(self, *token):
-        if not token:
-            token = "_%s" % self._id
-            self._id += 1
-
-        elif len(token) == 1:
-            token = token[0]
-
-        self.token = token
-
-    def __str__(self):
-        return "~" + str(self.token)
-    __repr__ = __str__
-
-    def __eq__(self, other):
-        return type(self) == type(other) and self.token == other.token
-
-    def __hash__(self):
-        return hash((type(self), self.token))
-
-isvar = lambda t: isinstance(t, Var)
-
-x = Var('x')
-y = Var()
-print run(0, y, (eq, x, 5), (eq, x, y))
+# These functions are generic (in the sense that they don't have anything
+# specifically to do with unification, just helping out in general.)
+import itertools as it
 
 
+def take(n, seq):
+    if n is None:
+        return seq
+    if n == 0:
+        return tuple(seq)
+    return tuple(it.islice(seq, 0, n))
 
 
+def unique(seq):
+    seen = set()
+    for item in seq:
+        if item not in seen:
+            seen.add(item)
+            yield item
 
 
+def interleave(seqs, pass_exceptions=()):
+    iters = map(iter, seqs)
+    while iters:
+        newiters = []
+        for itr in iters:
+            try:
+                yield next(itr)
+                newiters.append(itr)
+            except (StopIteration,) + tuple(pass_exceptions):
+                pass
+        iters = newiters
 
-
-
+if __name__ == '__main__':
+    x = Var('x')
+    y = Var()
+    print run(0, y, (eq, x, 5), (eq, x, y))
