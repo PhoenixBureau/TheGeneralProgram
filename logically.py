@@ -1,10 +1,41 @@
 
+
+class Substitution(dict):
+
+    def reify(self, e):
+        if isinstance(e, Var):
+            return self.walkstar(e)
+        if isinstance(e, tuple):
+            return tuple(map(self.reify, e))
+        return e
+
+    def walkstar(self, key):
+        key = self.walk(key)
+        if isinstance(key, tuple):
+            return tuple(map(self.walkstar, key))
+        return key
+
+    def walk(self, key):
+        while key in self:
+            key = self[key]
+        return key
+
+    def assoc(self, key, value):
+        d = self.__class__(self.copy())
+        d[key] = value
+        return d
+
+    def __hash__(self):
+        return hash(frozenset(self.items()))
+
+
+
 def run(n, x, *goals, **kwargs):
     return take(
         n,
         unique(
-            reify(x, s)
-            for s in goaleval(lallearly(*goals)) ({})
+            s.reify(x)
+            for s in goaleval(lallearly(*goals)) (Substitution())
             )
         )
 
@@ -23,24 +54,6 @@ def unique(seq):
             seen.add(item)
             yield item
 
-def reify(e, s):
-    if isvar(e):
-        return walkstar(e, s)
-    if isinstance(e, tuple):
-        return tuple(reify(arg, s) for arg in e)
-    return e
-
-def walkstar(key, d):
-    key = transitive_get(key, d)
-    if isinstance(key, tuple):
-        return tuple(map(lambda k: walkstar(k, d), key))
-    return key
-
-def transitive_get(key, d):
-    while key in d:
-        key = d[key]
-    return key
-walk = transitive_get
 
 def goaleval(goal):
     if callable(goal):          # goal is already a function like eq(x, 1)
@@ -84,9 +97,9 @@ def lall(*goals):
     head, tail = goals[0], (lall,) + tuple(goals[1:])
 
     def allgoal(s):
-        g = goaleval(reify(head, s))
-        return unique_dict(interleave(
-            goaleval(reify(tail, ss))(ss) for ss in g(s)
+        g = goaleval(s.reify(head))
+        return unique(interleave(
+            goaleval(ss.reify(tail))(ss) for ss in g(s)
             ))
 
     return allgoal
@@ -109,11 +122,6 @@ def earlyorder(*goals):
         good += (tuple(bad),)
     return good
 
-def dicthash(d):
-    return hash(frozenset(d.items()))
-
-def unique_dict(seq):
-    return dict((dicthash(d), d) for d in seq).itervalues()
 
 def interleave(seqs, pass_exceptions=()):
     iters = map(iter, seqs)
@@ -168,28 +176,24 @@ def unify(u, v, s):  # no check at the moment
     >>> unify((1, x), (1, 2), {})
     {x: 2}
     """
-    u = walk(u, s)
-    v = walk(v, s)
+    u = s.walk(u)
+    v = s.walk(v)
     if u == v:
         return s
     if isvar(u):
-        return assoc(s, u, v)
+        return s.assoc(u, v)
     if isvar(v):
-        return assoc(s, v, u)
+        return s.assoc(v, u)
     if isinstance(u, tuple) and isinstance(v, tuple):
         if len(u) != len(v):
             return False
         for uu, vv in zip(u, v):  # avoiding recursion
-            s = unify(uu, vv, s)
+            s = s.unify(uu, vv)
             if not s:
                 return False
         return s
     return False
 
-def assoc(dict, key, value):
-    d = dict.copy()
-    d[key] = value
-    return d
 
 class Var(object):
 
