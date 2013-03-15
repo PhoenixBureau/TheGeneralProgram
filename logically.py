@@ -1,5 +1,33 @@
 
 
+def unify(u, v, s):
+    """
+    Find substitution so that u == v while satisfying s
+
+    >>> unify((1, x), (1, 2), {})
+    {x: 2}
+
+    """
+    s = s if isinstance(s, Substitution) else Substitution(s)
+    u = s.walk(u)
+    v = s.walk(v)
+    if u == v:
+        return s
+    if isinstance(u, Var):
+        return s.assoc(u, v)
+    if isinstance(v, Var):
+        return s.assoc(v, u)
+    if isinstance(u, tuple) and isinstance(v, tuple):
+        if len(u) != len(v):
+            return False
+        for uu, vv in zip(u, v):  # avoiding recursion
+            s = unify(uu, vv, s)
+            if s == False: # (instead of a Substitution object.)
+                break
+        return s
+    return False
+
+
 class Var(object):
 
     _id = 1
@@ -55,16 +83,6 @@ class Substitution(dict):
 
 
 
-def run(n, x, *goals, **kwargs):
-    return take(
-        n,
-        unique(
-            s.reify(x)
-            for s in goaleval(lallearly(*goals)) (Substitution())
-            )
-        )
-
-
 def goaleval(goal):
     if callable(goal):          # goal is already a function like eq(x, 1)
         return goal
@@ -74,6 +92,7 @@ def goaleval(goal):
         return func(*args)
     raise TypeError("Expected either function or tuple")
 
+
 def goalexpand(goalt):
     f = goalt
     while isinstance(f, tuple) and len(f) >= 1:
@@ -81,6 +100,60 @@ def goalexpand(goalt):
         func, args = f[0], f[1:]
         f = func(*args)
     return goalt
+
+
+def earlyorder(*goals):
+    """ Reorder goals to avoid EarlyGoalErrors
+
+    All goals are evaluated.  Those that raise EarlyGoalErrors are placed at
+    the end in a lallearly
+
+    See also:
+        EarlyGoalError
+    """
+    bad, good = groupby(earlysafe, goals)
+    if not good:
+        raise EarlyGoalError()
+    good = tuple(good)
+    if bad:
+        bad.insert(0, lallearly)
+        good += (tuple(bad),)
+    return good
+
+
+def earlysafe(goal):
+    """ Call goal be evaluated without raising an EarlyGoalError """
+    try:
+        goaleval(goal)
+        return True
+    except EarlyGoalError:
+        return False
+
+class EarlyGoalError(Exception):
+    pass
+
+
+
+# Goal functions.
+
+
+def fail(s):
+    return ()
+
+def success(s):
+    return (s,)
+
+def eq(u, v):
+    """ Goal such that u == v
+
+    See also:
+        unify
+    """
+    def goal_eq(s):
+        result = unify(u, v, s)
+        if result:
+            yield result
+    return goal_eq
 
 def lallearly(*goals):
     """ Logical all with goal reordering to avoid EarlyGoalErrors
@@ -114,83 +187,18 @@ def lall(*goals):
 
     return allgoal
 
-def earlyorder(*goals):
-    """ Reorder goals to avoid EarlyGoalErrors
 
-    All goals are evaluated.  Those that raise EarlyGoalErrors are placed at
-    the end in a lallearly
-
-    See also:
-        EarlyGoalError
-    """
-    bad, good = groupby(earlysafe, goals)
-    if not good:
-        raise EarlyGoalError()
-    good = tuple(good)
-    if bad:
-        bad.insert(0, lallearly)
-        good += (tuple(bad),)
-    return good
+# Main "interface" to the unification function.
 
 
-def earlysafe(goal):
-    """ Call goal be evaluated without raising an EarlyGoalError """
-    try:
-        goaleval(goal)
-        return True
-    except EarlyGoalError:
-        return False
-
-class EarlyGoalError(Exception):
-    pass
-
-def groupby(f, coll):
-    bins = [], []
-    for item in coll:
-        bins[f(item)].append(item)
-    return bins
-
-def fail(s):
-    return ()
-
-def success(s):
-    return (s,)
-
-def eq(u, v):
-    """ Goal such that u == v
-
-    See also:
-        unify
-    """
-    def goal_eq(s):
-        result = unify(u, v, s)
-        if result:
-            yield result
-    return goal_eq
-
-def unify(u, v, s):  # no check at the moment
-    """ Find substitution so that u == v while satisfying s
-
-    >>> unify((1, x), (1, 2), {})
-    {x: 2}
-    """
-    u = s.walk(u)
-    v = s.walk(v)
-    if u == v:
-        return s
-    if isinstance(u, Var):
-        return s.assoc(u, v)
-    if isinstance(v, Var):
-        return s.assoc(v, u)
-    if isinstance(u, tuple) and isinstance(v, tuple):
-        if len(u) != len(v):
-            return False
-        for uu, vv in zip(u, v):  # avoiding recursion
-            s = s.unify(uu, vv)
-            if not s:
-                return False
-        return s
-    return False
+def run(n, x, *goals, **kwargs):
+    return take(
+        n,
+        unique(
+            s.reify(x)
+            for s in goaleval(lallearly(*goals)) (Substitution(kwargs))
+            )
+        )
 
 
 # These functions are generic (in the sense that they don't have anything
@@ -225,6 +233,14 @@ def interleave(seqs, pass_exceptions=()):
             except (StopIteration,) + tuple(pass_exceptions):
                 pass
         iters = newiters
+
+
+def groupby(predicate, coll):
+    bins = [], []
+    for item in coll:
+        bins[predicate(item)].append(item)
+    return bins
+
 
 if __name__ == '__main__':
     x = Var('x')
