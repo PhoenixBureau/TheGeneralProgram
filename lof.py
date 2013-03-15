@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-from itertools import imap as lazy_apply, ifilter
+from itertools import imap, ifilter
 from each_way import each_way, each_way_r
 '''
 
@@ -18,7 +18,7 @@ Boolean value of False.
 
 #: The lambda function "mark" reduces any form and returns its Boolean value.
 #:
-mark = lambda form: not form or not any(lazy_apply(mark, form))
+mark = lambda form: not form or not any(imap(mark, form))
 
 
 #  Reduce a form according to these rules:
