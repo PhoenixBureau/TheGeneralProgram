@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 from itertools import imap, ifilter
+from functools import wraps
 from each_way import each_way, each_way_r
 '''
 
@@ -111,6 +112,18 @@ def reify(form, meaning):
   return tuple(reify(inner, meaning) for inner in form)
 
 
+def deep(func):
+  @wraps(func)
+  def f(form, *indicies):
+    if len(indicies) == 1:
+      return func(form, indicies[0])
+    i, indicies = indicies[0], indicies[1:]
+    n = f(form[i], *indicies)
+    return form[:i] + (n,) + form[i + 1:]
+  return f
+
+
+@deep
 def wrap(form, i):
   '''
 
@@ -148,6 +161,7 @@ def wrap(form, i):
   return left + (t,) + right
 
 
+@deep
 def unwrap(form, i):
   '''
 
@@ -176,6 +190,7 @@ def unwrap(form, i):
 _k = lambda (((anything,),)): anything
 
 
+@deep
 def delete(form, i):
   '''
   OA -> O
@@ -185,7 +200,14 @@ def delete(form, i):
   return form[:i] + form[i + 1:]
 
 
-def undelete(form, i, anything):
+def undelete(form, anything, *i):
+  @deep
+  def inner_undelete(form, i):
+    return _undelete(form, anything, i)
+  return inner_undelete(form, *i)
+
+
+def _undelete(form, anything, i):
   '''
   O -> OA
   '''
@@ -194,6 +216,7 @@ def undelete(form, i, anything):
   return form[:i] + (anything,) + form[i:]
 
 
+@deep
 def copy(form, i):
   '''
   A(B) -> A(AB)
@@ -202,6 +225,7 @@ def copy(form, i):
   return left + ((A,) + t,) + right
 
 
+@deep
 def uncopy(form, i):
   '''
   A(AB) -> A(B)
@@ -241,9 +265,9 @@ Instructions_reversed = {
 
 
 def prepare_program(program):
-  return tuple(
-    (Instructions_reversed[instr], number_to_form(index))
-    for instr, index in program)
+  for step in program:
+    i, s = step[0], step[1:]
+    yield (Instructions_reversed[i],) + tuple(map(number_to_form, s))
 
 
 N = dict(
@@ -299,80 +323,88 @@ if __name__ == '__main__':
 
       )))
 
+##  verbose_run(prepare_program((
+##
+##      ('wrap', 0),
+##      ('undelete', (), 0, 0),
+##      ('wrap', 0, 3),
+##
+##      )))
+
   J = {(): z, ((),): y}
   j = {(): 'wrap', ((),): 'copy'}
 
 
-  print 'Reify some forms into numbers.'
-
-  for expected, form in (
-
-    ( True, (),),
-    (False, ((),),),
-    ( True, (((),),),),
-    (False, ((((),),),),),
-    ( True, (((((),),),),),),
-    (False, ((((((),),),),),),),
-    ( True, (((((((),),),),),),),),
-    (False, ((((((((),),),),),),),),),
-
-    (False, ((), ())),
-    (False, ((), (), ())),
-    (False, ((), (), (), ())),
-    (False, ((), ((), ()))),
-    (False, (((),), ())),
-
-    ( True, (((),), ((),))),
-    ( True, (((),), ((),), ((),))),
-    ( True, (((),), ((),), ((),), ((),))),
-    ( True, (((),), ((),), ((),), ((),), ((),))),
-    ( True, (((),), ((), ()), ((),), ((),))),
-    ( True, (((),), ((), ((),)), ((),), ((),))),
-
-    (False, (((),), (((),), ((),)), ((),), ((),))),
-    (False, (((),), (((),),))),
-    (False, (((),), (((),),), ((),), ((),),),),
-    ( True, (((), ((), ())), ((((),),), ((),),),),),
-
-    (False, ((((),),),),),
-    (False, ((((),),), ((),),),),
-    (False, ((((),),), (((),),), (((),),),),),
-    ( True, (((((),),),), ((((),),),), ((((),),),),),),
-    ):
-
-    #print '%-5s := %s' % (('--', ())[mark(form)], form)
-    print form, '->', reify(form, N)
-    assert bool(R(form)) != mark(form)
-
-  print
-  print 'Create a very simple one-dimensional cellular automata.'
-
-  # Create a small random initial form.
-  form = T(T(I()))
-
-  # Run the generation loop a few times
-  for _ in range(3):
-
-    # Reify the form with the meaning of generator functions to produce
-    # a sequence of transformations to apply to the form.
-    new_program = reify(form, J)
-
-    # There is a "hole" in the logic that lets a "bare" function through,
-    # So we detect and protect against that here.
-    if not isinstance(new_program, tuple):
-      new_program = (new_program,)
-
-    # Display the form, its Boolean value according to mark(), and a
-    # display of the program.  This last is created by reifying the
-    # form with a meaning of labels corresponding to the functions in the
-    # "program".  You can notice the same "hole" in the logic when the
-    # label ocasionally comes out as ('p', 'a', 'r', 'w') instead of
-    # ('wrap',)...
-    print '%-5s -> %s -> %s' % (mark(form), form, tuple(reversed(reify(form, j))))
-
-    # "Apply" the new program to generate a new form.
-    for func in new_program:
-      form = func(form)
-
-  # Display the final form.
-  print '%-5s -> %s' % (mark(form), form)
+##  print 'Reify some forms into numbers.'
+##
+##  for expected, form in (
+##
+##    ( True, (),),
+##    (False, ((),),),
+##    ( True, (((),),),),
+##    (False, ((((),),),),),
+##    ( True, (((((),),),),),),
+##    (False, ((((((),),),),),),),
+##    ( True, (((((((),),),),),),),),
+##    (False, ((((((((),),),),),),),),),
+##
+##    (False, ((), ())),
+##    (False, ((), (), ())),
+##    (False, ((), (), (), ())),
+##    (False, ((), ((), ()))),
+##    (False, (((),), ())),
+##
+##    ( True, (((),), ((),))),
+##    ( True, (((),), ((),), ((),))),
+##    ( True, (((),), ((),), ((),), ((),))),
+##    ( True, (((),), ((),), ((),), ((),), ((),))),
+##    ( True, (((),), ((), ()), ((),), ((),))),
+##    ( True, (((),), ((), ((),)), ((),), ((),))),
+##
+##    (False, (((),), (((),), ((),)), ((),), ((),))),
+##    (False, (((),), (((),),))),
+##    (False, (((),), (((),),), ((),), ((),),),),
+##    ( True, (((), ((), ())), ((((),),), ((),),),),),
+##
+##    (False, ((((),),),),),
+##    (False, ((((),),), ((),),),),
+##    (False, ((((),),), (((),),), (((),),),),),
+##    ( True, (((((),),),), ((((),),),), ((((),),),),),),
+##    ):
+##
+##    #print '%-5s := %s' % (('--', ())[mark(form)], form)
+##    print form, '->', reify(form, N)
+##    assert bool(R(form)) != mark(form)
+##
+##  print
+##  print 'Create a very simple one-dimensional cellular automata.'
+##
+##  # Create a small random initial form.
+##  form = T(T(I()))
+##
+##  # Run the generation loop a few times
+##  for _ in range(3):
+##
+##    # Reify the form with the meaning of generator functions to produce
+##    # a sequence of transformations to apply to the form.
+##    new_program = reify(form, J)
+##
+##    # There is a "hole" in the logic that lets a "bare" function through,
+##    # So we detect and protect against that here.
+##    if not isinstance(new_program, tuple):
+##      new_program = (new_program,)
+##
+##    # Display the form, its Boolean value according to mark(), and a
+##    # display of the program.  This last is created by reifying the
+##    # form with a meaning of labels corresponding to the functions in the
+##    # "program".  You can notice the same "hole" in the logic when the
+##    # label ocasionally comes out as ('p', 'a', 'r', 'w') instead of
+##    # ('wrap',)...
+##    print '%-5s -> %s -> %s' % (mark(form), form, tuple(reversed(reify(form, j))))
+##
+##    # "Apply" the new program to generate a new form.
+##    for func in new_program:
+##      form = func(form)
+##
+##  # Display the final form.
+##  print '%-5s -> %s' % (mark(form), form)
