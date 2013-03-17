@@ -1,4 +1,7 @@
 #!/usr/bin/env python
+import sys
+from pprint import pprint
+from collections import defaultdict
 from itertools import imap, ifilter
 from functools import wraps
 from each_way import each_way, each_way_r
@@ -89,27 +92,6 @@ def memoize(f, memo):
   return mf
 D = {}
 mark = memoize(mark, D)
-
-
-# I can haz maths?
-
-def form_to_number(form):
-  return sum(mark(inner) for inner in form)
-
-def number_to_form(n):
-  return ((),) * n
-
-
-def walk(name, meaning):
-    while name in meaning:
-      name = meaning[name]
-    return name
-
-
-def reify(form, meaning):
-  if form in meaning:
-    return walk(form, meaning)
-  return tuple(reify(inner, meaning) for inner in form)
 
 
 def deep(func):
@@ -235,176 +217,118 @@ def uncopy(form, i):
   return left + (t[1:],) + right
 
 
-def apply_(form, program):
+def apply_(form, program, indent=0):
+#  print >> sys.stderr, '  ' * indent, ' '.join(str(f) for f in form)
   if program and callable(program[0]):
     function, args = program[0], program[1:]
+#    print >> sys.stderr, '  ' * indent, function.__name__, args
     return function(form, *args)
   for inner in program:
     form = apply_(form, inner)
   return form
 
 
-Instructions = {
-  ((number_to_form(1),),): wrap,
-  ((number_to_form(2),),): unwrap,
-  ((number_to_form(3),),): delete,
-  ((number_to_form(4),),): undelete,
-  ((number_to_form(5),),): copy,
-  ((number_to_form(6),),): uncopy,
-  }
-
-
-Instructions_reversed = {
-  'wrap': ((number_to_form(1),),),
-  'unwrap': ((number_to_form(2),),),
-  'delete': ((number_to_form(3),),),
-  'undelete': ((number_to_form(4),),),
-  'copy': ((number_to_form(5),),),
-  'uncopy': ((number_to_form(6),),),
-  }
-
-
-def prepare_program(program):
-  for step in program:
-    i, s = step[0], step[1:]
-    yield (Instructions_reversed[i],) + tuple(map(number_to_form, s))
-
-
-N = dict(
-  (number_to_form(i), i)
-  for i in range(20)
+P = (
+  (wrap, 0),
+  (undelete, (), 0, 0),
+  (wrap, 0, 3),
   )
-meaning = {}
-meaning.update(N)
-meaning.update(Instructions)
 
 
-def verbose_run(program):
-  print '---\nRaw program as a form expression:'
-  for instruction, selector in program:
-    print (instruction, selector)
-
-  print '---\nHuman friendly form:'
-  for instruction, selector in reify(program, meaning):
-    print (instruction.__name__, selector)
-
-  print '---\nRun the program on the () form:'
-
-  print apply_((), reify(program, meaning))
-  print '---'
+form = apply_((), (P, P))
+#print ' '.join(str(f) for f in form)
 
 
-if __name__ == '__main__':
+rules = '''
 
-  verbose_run(prepare_program((
 
-      ('wrap', 0),
-      ('wrap', 0),
-      ('wrap', 0),
-      ('wrap', 0),
+   (()) -> nothing
+nothing -> (())
 
-      )))
+   ()() -> ()
+     () -> ()()
 
-  verbose_run(prepare_program((
+   A(B) -> A(AB)
+  A(AB) -> A(B)
 
-      ('wrap', 0),
-      ('wrap', 1),
-      ('wrap', 2),
-#      ('wrap', 0),
 
-      )))
+'''
 
-  verbose_run(prepare_program((
 
-      ('wrap', 0),
-      ('wrap', 1),
-      ('wrap', 0),
-      ('copy', 0),
+def generate(form, steps, seen):
+  found = {}
+  for step in steps:
+    try:
+      new_form = apply_(form, step)
+      if new_form not in seen and new_form not in found:
+        found[new_form] = step
+        seen.add(new_form)
+    except:
+      pass
+  return found
 
-      )))
 
-##  verbose_run(prepare_program((
+Programs = {}
+
+
+steps = [
+  (rule, i)
+  for rule in (wrap, unwrap, copy, uncopy, delete)
+  for i in range(5)
+  ]
+
+
+forms = set()
+found = generate((), steps, forms)
+
+
+##print len(forms)
+##pprint(forms)
 ##
-##      ('wrap', 0),
-##      ('undelete', (), 0, 0),
-##      ('wrap', 0, 3),
-##
-##      )))
+##print len(found)
+##pprint(found)
 
-  J = {(): z, ((),): y}
-  j = {(): 'wrap', ((),): 'copy'}
+def _l(step): return (step[0].__name__,) + step[1:]
+
+for form, step1 in found.iteritems():
+
+  Programs[_l(step1)] = form
+
+  found = generate(form, steps, forms)
+  for form, step2 in found.iteritems():
+
+    Programs[(_l(step1), _l(step2))] = form
+
+    found = generate(form, steps, forms)
+    for form, step3 in found.iteritems():
+
+      Programs[(_l(step1), _l(step2), _l(step3))] = form
+
+      found = generate(form, steps, forms)
+      for form, step4 in found.iteritems():
+
+        Programs[(_l(step1), _l(step2), _l(step3), _l(step4))] = form
+
+        found = generate(form, steps, forms)
+        for form, step5 in found.iteritems():
+
+          Programs[(_l(step1), _l(step2), _l(step3), _l(step4),
+                    _l(step5))] = form
+
+          found = generate(form, steps, forms)
+          for form, step6 in found.iteritems():
+
+            Programs[(_l(step1), _l(step2), _l(step3), _l(step4),
+                      _l(step5), _l(step6))] = form
+
+            found = generate(form, steps, forms)
+            for form, step7 in found.iteritems():
+
+              Programs[(_l(step1), _l(step2), _l(step3), _l(step4),
+                        _l(step5), _l(step6), _l(step7))] = form
 
 
-##  print 'Reify some forms into numbers.'
-##
-##  for expected, form in (
-##
-##    ( True, (),),
-##    (False, ((),),),
-##    ( True, (((),),),),
-##    (False, ((((),),),),),
-##    ( True, (((((),),),),),),
-##    (False, ((((((),),),),),),),
-##    ( True, (((((((),),),),),),),),
-##    (False, ((((((((),),),),),),),),),
-##
-##    (False, ((), ())),
-##    (False, ((), (), ())),
-##    (False, ((), (), (), ())),
-##    (False, ((), ((), ()))),
-##    (False, (((),), ())),
-##
-##    ( True, (((),), ((),))),
-##    ( True, (((),), ((),), ((),))),
-##    ( True, (((),), ((),), ((),), ((),))),
-##    ( True, (((),), ((),), ((),), ((),), ((),))),
-##    ( True, (((),), ((), ()), ((),), ((),))),
-##    ( True, (((),), ((), ((),)), ((),), ((),))),
-##
-##    (False, (((),), (((),), ((),)), ((),), ((),))),
-##    (False, (((),), (((),),))),
-##    (False, (((),), (((),),), ((),), ((),),),),
-##    ( True, (((), ((), ())), ((((),),), ((),),),),),
-##
-##    (False, ((((),),),),),
-##    (False, ((((),),), ((),),),),
-##    (False, ((((),),), (((),),), (((),),),),),
-##    ( True, (((((),),),), ((((),),),), ((((),),),),),),
-##    ):
-##
-##    #print '%-5s := %s' % (('--', ())[mark(form)], form)
-##    print form, '->', reify(form, N)
-##    assert bool(R(form)) != mark(form)
-##
-##  print
-##  print 'Create a very simple one-dimensional cellular automata.'
-##
-##  # Create a small random initial form.
-##  form = T(T(I()))
-##
-##  # Run the generation loop a few times
-##  for _ in range(3):
-##
-##    # Reify the form with the meaning of generator functions to produce
-##    # a sequence of transformations to apply to the form.
-##    new_program = reify(form, J)
-##
-##    # There is a "hole" in the logic that lets a "bare" function through,
-##    # So we detect and protect against that here.
-##    if not isinstance(new_program, tuple):
-##      new_program = (new_program,)
-##
-##    # Display the form, its Boolean value according to mark(), and a
-##    # display of the program.  This last is created by reifying the
-##    # form with a meaning of labels corresponding to the functions in the
-##    # "program".  You can notice the same "hole" in the logic when the
-##    # label ocasionally comes out as ('p', 'a', 'r', 'w') instead of
-##    # ('wrap',)...
-##    print '%-5s -> %s -> %s' % (mark(form), form, tuple(reversed(reify(form, j))))
-##
-##    # "Apply" the new program to generate a new form.
-##    for func in new_program:
-##      form = func(form)
-##
-##  # Display the final form.
-##  print '%-5s -> %s' % (mark(form), form)
+for k, v in sorted(Programs.items()):
+  print k
+  pprint(v)
+  print
