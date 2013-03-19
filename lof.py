@@ -279,7 +279,7 @@ steps = [
 
 
 forms = set()
-found = generate((), steps, forms)
+found = generate(('a', 'b', 'c'), steps, forms)
 
 
 depth = lambda form: 1 + (max(depth(inner) for inner in form) if form else 0)
@@ -331,15 +331,16 @@ for form, step1 in found.iteritems():
                         _l(step5), _l(step6), _l(step7))] = form
 
 
-##for k, v in sorted(Programs.items()):
-##  print k
-##  pprint(v)
-##  print
-k = Programs.values()
-J = [(len(l), count(l), depth(l), l) for l in k]
-J.sort()
-print '\n'.join(
-  ('%-3i %-3i %-3i %r' % (l, c, d, form))
-  for l, c, d, form in J
-  )
+for k, v in sorted(Programs.items()):
+  print k
+  pprint(v)
+  print
+
+##k = Programs.values()
+##J = [(len(l), count(l), depth(l), l) for l in k]
+##J.sort()
+##print '\n'.join(
+##  ('%-3i %-3i %-3i %r' % (l, c, d, form))
+##  for l, c, d, form in J
+##  )
 
