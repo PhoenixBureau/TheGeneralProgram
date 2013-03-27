@@ -16,12 +16,12 @@ def encode(game, value, path=None):
 
   predicate, choices = game
 
-  P = not predicate(value) # Invert to index the branches.
+  P = predicate(value) # Invert to index the branches.
                            # True takes left
                            # False takes right branch.
   path.append(int(P))
 
-  it = choices[P]
+  it = choices[not P]
 
   if isinstance(it, tuple):
     return encode(it, value, path)
@@ -34,7 +34,7 @@ def encode(game, value, path=None):
 def decode(game, path):
   for bit in path:
     _, choices = game
-    game = choices[bit]
+    game = choices[not bit]
   return game
 
 
@@ -45,9 +45,9 @@ def list_codes(game, path=None):
     yield path, game
   else:
     f, (l, r) = game
-    for P, leaf in list_codes(l, path[:] + [0]):
+    for P, leaf in list_codes(l, path[:] + [1]):
       yield P, leaf
-    for P, leaf in list_codes(r, path[:] + [1]):
+    for P, leaf in list_codes(r, path[:] + [0]):
       yield P, leaf
 
 
@@ -68,28 +68,25 @@ def O(n, m):
   return f, (O(n, midpoint), O(midpoint + 1, m))
 
 
-def _t(bits):
-  return int(''.join(str(bit) for bit in bits), 2)
-
 if __name__ == '__main__':
-  o = O(0, 16)
+  o = O(0, 10)
   for p, g in list_codes(o):
     d = decode(o, p)
-    print '%-2s -> %r = %i -> %s' % (g, p, _t(p), d)
+    print '%-2s -> %r = %s' % (g, p, d)
     assert d == g ,(d, g)
 
   print '-' * 70
   o = O(0, 15)
   for p, g in list_codes(o):
     d = decode(o, p)
-    print '%-2s -> %r = %i -> %s' % (g, p, _t(p), d)
+    print '%-2s -> %r = %s' % (g, p, d)
     assert d == g ,(d, g)
 
   print '-' * 70
   o = O(33, 35)
   for p, g in list_codes(o):
     d = decode(o, p)
-    print '%-2s -> %r = %i -> %s' % (g, p, _t(p), d)
+    print '%-2s -> %r = %s' % (g, p, d)
     assert d == g ,(d, g)
 
 
@@ -105,7 +102,7 @@ if __name__ == '__main__':
   print
 
   B = F(-3, add, 1)
-  for n in range(-4, 1):
+  for n in range(-4, 2):
     path = encode(B, n)
     print n, path, decode(B, path) if path else None
   print

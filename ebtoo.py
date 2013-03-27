@@ -18,7 +18,10 @@ def decode(game, path):
   Return the value of the path for the game.
   '''
   for bit in path:
-    game = game(bit)
+    if callable(game):
+      game = game(bit)
+    else:
+      break
   return game
 
 
