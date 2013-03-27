@@ -1,3 +1,4 @@
+import itertools
 
 
 def make_a_game(from_=0, to=10):
@@ -42,3 +43,46 @@ e, d = make_a_game(3, 7)
 for n in range(3, 8):
   path = encode(e, n)
   print n, '->', path, '->', decode(d, path)
+
+
+def mapit(game):
+  if not callable(game):
+    return game
+
+  try:
+    left = game(1)
+  except:
+    right = game(0)
+    right = mapit(right)
+    return right
+
+  try:
+    left = mapit(left)
+  except:
+    right = game(0)
+    right = mapit(right)
+    return right
+
+  try:
+    right = game(0)
+    right = mapit(right)
+    return left, right
+  except:
+    return left
+
+
+print
+print mapit(d)
+
+
+
+
+
+
+
+
+
+
+
+
+
