@@ -52,21 +52,15 @@ def mapit(game):
   try:
     left = game(1)
   except:
-    right = game(0)
-    right = mapit(right)
-    return right
+    return mapit(game(0))
 
   try:
     left = mapit(left)
   except:
-    right = game(0)
-    right = mapit(right)
-    return right
+    return mapit(game(0))
 
   try:
-    right = game(0)
-    right = mapit(right)
-    return left, right
+    return left, mapit(game(0))
   except:
     return left
 
