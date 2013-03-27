@@ -1,44 +1,63 @@
 #!/usr/bin/env python
 
-def a_mark(value):
-  if value == ():
-    return '0'
-  bits = A(value)
-  return '1' + bits
+def a(value):
+  return '1' + b(value) if value else '0'
 
-def A(value):
-  bits = a_mark(value[0])
-  if len(value) == 1:
-    return '0' + bits
-  bits += a_mark(value[1:])
-  return '1' + bits
+def b(value):
+  bits = a(value[0])
+  return '0' + bits if len(value) == 1 else '1' + bits + a(value[1:])
 
 if __name__ == '__main__':
-  q, p = {}, {}
-  for form in (
-    (),
-    ((),),
-    ((), (),),
-    ((), (), (),),
-    ((), (), (), (),),
-    (((),),),
-    (((),), ()),
-    ((), ((),),),
-    (((),), ((),)),
-    (((),), ((),), ((),)),
-    (((),), ((),), ((),), ((),)),
-    ((((),),),),
-    ):
+  from itertools import combinations_with_replacement as combo, chain, permutations
 
-    path = a_mark(form)
+  initial = (), ((),)
+  K = set(initial)
+  Found = K.copy()
+
+  def permute(n, k=K):
+    return set(chain(*(permutations(form) for form in set(combo(k, n)))))
+
+  q, p = {}, {}
+
+  def register(form, path):
+    assert form not in p or p[form] == path
     q[path] = form
     p[form] = path
 
-    print '%-28s -> %s' % (form, path),
-    if path.endswith('0100'):
-      print '~>', path[:-4] + 'x'
-    else:
-      print
+  for form in (
+    (),
+    ((),),
+##    ((), (),),
+##    ((), (), (),),
+##    ((), (), (), (),),
+##    (((),),),
+##    (((),), ()),
+##    ((), ((),),),
+##    (((),), ((),)),
+##    (((),), ((),), ((),)),
+##    (((),), ((),), ((),), ((),)),
+##    ((((),),),),
+    ):
 
-##    print '_' * 70
+    path = a(form)
+    register(form, path)
+    print '%-28s -> %s' % (form, path)
+##    if path.endswith('0100'):
+##      print '~>', path[:-4] + 'x'
+##    else:
+##      print
 
+  print '_' * 70
+
+  FORMs = sorted(p)
+  for n in range(2, 5):
+    for form in combo(FORMs, n):
+      path = a(form)
+      if form in p:
+        assert p[form] == path, [form, path, p[form]]
+        print 'found %s again' % (form,)
+        continue
+
+      register(form, path)
+      print form
+      print path
