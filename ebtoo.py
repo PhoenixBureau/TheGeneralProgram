@@ -1,13 +1,22 @@
 
 
 def make_a_game(from_=0, to=10):
-  def game(value):
-    if value > to:
+
+  def encode(value):
+    if value > to or value < from_:
       raise ValueError(value)
     if value == from_:
       return 1, None
-    return 0, make_a_game(from_ + 1, to)
-  return game
+    return 0, make_a_game(from_ + 1, to)[0]
+
+  def decode(bit, n=from_):
+    if n > to or n < from_:
+      raise ValueError(n)
+    if bit:
+      return n
+    return lambda bit_: decode(bit_, n + 1)
+
+  return encode, decode
 
 
 def encode(game, value):
@@ -27,14 +36,9 @@ def decode(game, path):
   return game
 
 
-def g(bit, n=0):
-  if bit:
-    return n
-  return lambda bit_: g(bit_, n + 1)
-  
+e, d = make_a_game(3, 7)
 
-G = make_a_game()
 
-for n in range(11):
-  path = encode(G, n)
-  print n, '->', path, '->', decode(g, path)
+for n in range(3, 8):
+  path = encode(e, n)
+  print n, '->', path, '->', decode(d, path)
