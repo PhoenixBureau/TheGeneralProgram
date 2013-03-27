@@ -4,10 +4,7 @@ def encode(game, value):
   '''
   Return the path that encodes the value according to the game.
   '''
-  path = []
-  bits = game(value)
-  path += map(int, bits)
-  return path
+  return map(int, game(value))
 
 def a_mark(value):
   if value == ():
@@ -23,6 +20,7 @@ def A(value):
   return [1] + bits
 
 if __name__ == '__main__':
+  q, p = {}, {}
   for form in (
     (),
     ((),),
@@ -37,5 +35,11 @@ if __name__ == '__main__':
     (((),), ((),), ((),), ((),)),
     ((((),),),),
     ):
-    print form, '->', encode(a_mark, form)
-    print '_' * 70
+
+    path = ''.join(map(str, encode(a_mark, form)))
+    q[path] = form
+    p[form] = path
+
+    print '%-28s -> %s' % (form, path)
+##    print '_' * 70
+
