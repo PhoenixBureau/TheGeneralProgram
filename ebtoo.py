@@ -30,11 +30,8 @@ def decode(game, path):
 def g(bit, n=0):
   if bit:
     return n
-  def g_(bit_):
-    return g(bit_, n + 1)
-  return g_
+  return lambda bit_: g(bit_, n + 1)
   
-
 
 G = make_a_game()
 
