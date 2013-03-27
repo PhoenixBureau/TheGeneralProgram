@@ -1,7 +1,10 @@
-import itertools
+#!/usr/bin/env python
 
 
 def make_a_game(from_=0, to=10):
+  '''
+  The "dumb" game.
+  '''
 
   def encode(value):
     if value > to or value < from_:
@@ -37,25 +40,12 @@ def decode(game, path):
   return game
 
 
-e, d = make_a_game(3, 7)
-
-
-for n in range(3, 8):
-  path = encode(e, n)
-  print n, '->', path, '->', decode(d, path)
-
-
 def mapit(game):
   if not callable(game):
     return game
 
   try:
-    left = game(1)
-  except:
-    return mapit(game(0))
-
-  try:
-    left = mapit(left)
+    left = mapit(game(1))
   except:
     return mapit(game(0))
 
@@ -65,11 +55,30 @@ def mapit(game):
     return left
 
 
-print
-print mapit(d)
+def decode_tree(game_tree, path):
+  for bit in path:
+    try:
+      game_tree = game_tree[not bit]
+    except TypeError:
+      pass
+  return game_tree
 
 
+if __name__ == '__main__':
+  e, d = make_a_game(3, 7)
 
+  for n in range(3, 8):
+    path = encode(e, n)
+    print n, '->', path, '->', decode(d, path)
+
+  print
+  print mapit(d)
+
+  print
+  gt = mapit(d)
+  for n in range(3, 8):
+    path = encode(e, n)
+    print n, '->', path, '->', decode_tree(gt, path)
 
 
 
