@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-from omgebt import encode, decode, _s
+from by import encode, decode, _s
 from itertools import product
 
 
