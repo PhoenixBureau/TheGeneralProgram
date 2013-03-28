@@ -5,7 +5,9 @@ def a(value):
 
 def b(value):
   bits = a(value[0])
-  return '0' + bits if len(value) == 1 else '1' + bits + a(value[1:])
+  if len(value) == 1:
+    return '0' + bits
+  return '1' + bits + a(value[1:])
 
 if __name__ == '__main__':
   from itertools import combinations_with_replacement as combo, chain, permutations
@@ -27,6 +29,7 @@ if __name__ == '__main__':
   for form in (
     (),
     ((),),
+    (((),),),
 ##    ((), (),),
 ##    ((), (), (),),
 ##    ((), (), (), (),),
@@ -41,7 +44,8 @@ if __name__ == '__main__':
 
     path = a(form)
     register(form, path)
-    print '%-28s -> %s' % (form, path)
+    pr_form = ' '.join(map(str, form))
+    print '%-28s -> %s' % (pr_form, path)
 ##    if path.endswith('0100'):
 ##      print '~>', path[:-4] + 'x'
 ##    else:
@@ -59,5 +63,5 @@ if __name__ == '__main__':
         continue
 
       register(form, path)
-      print form
+      print ' '.join(map(str, form))
       print path
