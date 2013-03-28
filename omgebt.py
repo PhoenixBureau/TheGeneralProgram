@@ -1,4 +1,19 @@
 # -*- coding: utf-8 -*-
+'''
+
+_ -> 0    "Nothing"
+○ -> 100  "I exist but I'm empty and have no friends."
+
+(A)B ->  1AB
+
+◎ -> 1 100 0
+○○ -> 1 0 100
+
+◎○ -> 1 100 100
+○◎ -> 1 0 11000
+◎◎ -> 1 100 11000
+
+'''
 
 #: Depth-first encoding of forms.
 encode = lambda *f: '1' + encode(*f[0]) + encode(*f[1:]) if f else '0'
@@ -16,14 +31,12 @@ def _decode(path):
   return (A,) + B, path
 
 
-def _s(shell):
-  return (
-    ''.join(map(str, shell))
-      .replace(',', '')
-      .replace(' ', '')
-      .replace('(())', '◎')
-      .replace('()', '○')
-    )
+def _s(shell, do_special=False):
+  s = ''.join(map(str, shell)).replace(',', '').replace(' ', '')
+  if do_special:
+    s = s.replace('(())', '◎').replace('()', '○')
+  return s
+
 
 if __name__ == '__main__':
 
