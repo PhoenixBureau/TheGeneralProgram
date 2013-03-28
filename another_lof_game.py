@@ -9,6 +9,9 @@ def b(value):
     return '0' + bits
   return '1' + bits + a(value[1:])
 
+
+
+
 if __name__ == '__main__':
   from itertools import product
 
@@ -33,17 +36,23 @@ if __name__ == '__main__':
     pr_form = ' '.join(map(str, form))
     print ('%-' + str(w) + 's -> %s') % (pr_form, path)
 
-  initial = (), ((),)
+  t = ()
+  initial = t,
   initial = set(initial)
+  for _ in range(7):
+    t = t,
+    initial.add(t)
+  print sorted(initial)
+  print '-' * 70
 
   for form in P(initial.copy()):
     initial.add(form)
 
-  for form in P(initial.copy()):
-    initial.add(form)
+##  for form in P(initial.copy()):
+##    initial.add(form)
 
   w = max(len(str(form)) for form in initial)
-  for form in sorted(initial):
+  for form in sorted(initial, key=lambda form: (len(str(a(form))), len(form))):
     register(form, w)
 
 ##    if path.endswith('0100'):
