@@ -10,58 +10,45 @@ def b(value):
   return '1' + bits + a(value[1:])
 
 if __name__ == '__main__':
-  from itertools import combinations_with_replacement as combo, chain, permutations
+  from itertools import product
 
-  initial = (), ((),)
-  K = set(initial)
-  Found = K.copy()
+  def patterns(forms, n=2):
+    return product(*([forms] * n))
 
-  def permute(n, k=K):
-    return set(chain(*(permutations(form) for form in set(combo(k, n)))))
+  def P(f, n=2, m=4):
+    if n == m:
+      return
+    for p in patterns(f, n):
+      yield p
+    for pp in P(f, n+1, m):
+      yield pp
 
   q, p = {}, {}
 
-  def register(form, path):
+  def register(form, w=28):
+    path = a(form)
     assert form not in p or p[form] == path
     q[path] = form
     p[form] = path
-
-  for form in (
-    (),
-    ((),),
-    (((),),),
-##    ((), (),),
-##    ((), (), (),),
-##    ((), (), (), (),),
-##    (((),),),
-##    (((),), ()),
-##    ((), ((),),),
-##    (((),), ((),)),
-##    (((),), ((),), ((),)),
-##    (((),), ((),), ((),), ((),)),
-##    ((((),),),),
-    ):
-
-    path = a(form)
-    register(form, path)
     pr_form = ' '.join(map(str, form))
-    print '%-28s -> %s' % (pr_form, path)
+    print ('%-' + str(w) + 's -> %s') % (pr_form, path)
+
+  initial = (), ((),)
+  initial = set(initial)
+
+  for form in P(initial.copy()):
+    initial.add(form)
+
+  for form in P(initial.copy()):
+    initial.add(form)
+
+  w = max(len(str(form)) for form in initial)
+  for form in sorted(initial):
+    register(form, w)
+
 ##    if path.endswith('0100'):
 ##      print '~>', path[:-4] + 'x'
 ##    else:
 ##      print
 
-  print '_' * 70
-
-  FORMs = sorted(p)
-  for n in range(2, 5):
-    for form in combo(FORMs, n):
-      path = a(form)
-      if form in p:
-        assert p[form] == path, [form, path, p[form]]
-        print 'found %s again' % (form,)
-        continue
-
-      register(form, path)
-      print ' '.join(map(str, form))
-      print path
+#  print '_' * 70

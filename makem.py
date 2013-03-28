@@ -8,7 +8,7 @@ Found = K.copy()
 
 
 def permute(n, k=K):
-  return set(chain(*(permutations(form) for form in set(combo(k, n)))))
+  return chain.from_iterable(permutations(form) for form in set(combo(k, n)))
 
 
 def foo(n, root, extended):
