@@ -18,7 +18,7 @@ def P(f, n=2, m=4):
 
 q, p = {}, {}
 def register(form, w=28):
-  path = encode(*form)
+  path = encode(form)
   assert form not in p or p[form] == path
   q[path] = form
   p[form] = path
@@ -39,7 +39,7 @@ print '-' * 70
 for form in P(initial.copy()):
   initial.add(form)
 w = max(len(str(form)) for form in initial)
-for form in sorted(initial, key=lambda form: (len(str(encode(*form))), len(form))):
+for form in sorted(initial, key=lambda form: (len(str(encode(form))), len(form))):
   register(form, w)
 print '_' * 70
 

@@ -25,4 +25,4 @@ while len(seen) < 30:
     seen.add(form)
 
 for form in sorted(seen):
-  print _s(form, True), '->', encode(*form)
+  print _s(form, True), '->', encode(form)
