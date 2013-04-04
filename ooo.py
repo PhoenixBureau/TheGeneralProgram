@@ -8,13 +8,6 @@ for path in open('paths.txt'):
   else:
     print _s(f0, True), '---', _s(f1, True)
 
-
-
-S = lambda x: lambda y: lambda z: x(z)(y(z))
-
-K = lambda x: lambda y: x
-
-
 # xSK  ->  x(S)(K)
 
 # "[F]"  "the meaning of the expression F"
@@ -31,4 +24,11 @@ K = lambda x: lambda y: x
 ##                     (lambda (x) (lambda (y) x))))))
 ##
 
-O = lambda c: c(S)(K)
+
+iota = lambda bit: (
+  iota(bit)(iota(bit)) if next(bit) == '*' else (
+    lambda c: c(lambda x: lambda y: lambda z: x(z)(y(z)))
+    (lambda x: lambda y: x)))
+
+
+print iota(iter('*ii'))(23)
