@@ -25,7 +25,7 @@ The circle expressions are susceptible to manipulation by means of the primary a
 Two circle expressions that yield the same behaviour (extensional identity) can have different properties otherwise (intentional dis-identity.)
 
 
-This can be exploited to create programs and hardware with characteristics that are desirable while proving extensional identity with "correct" forms.  (This is why Turing Machine-based software can typically out-perform "Functional" software as of this writing.)
+This can be exploited to create programs and hardware with characteristics that are desirable while proving extensional identity with "correct" forms.
 
 
 It should be possible to construct simple systems that search for extensionally identical forms of  expressions automatically.  (cf. GMs.)
