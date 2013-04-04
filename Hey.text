@@ -1,0 +1,49 @@
+The Egg of Ouroboros
+
+A Notation for Tractable Reasoning
+
+-
+
+A "mark" is a circle that is empty or contains no marks.
+
+
+Such a mark acts as a "nor" gate on its contents.
+
+
+It is known art that all logic gate networks can be constructed out of nor gates.
+
+
+Each LoF mark form ("circle expression") is a specification of a network of logic gates and a proof of the expectable operation of that network. The proof proves the circuit and the circuit computes the proof.
+
+
+Composing circle expressions composes the proofs and connects the circuits.
+
+
+The circle expressions are susceptible to manipulation by means of the primary arithmetic, the primary algebra, and the primary calculus (whatever those are.)
+
+
+Two circle expressions that yield the same behaviour (extensional identity) can have different properties otherwise (intentional dis-identity.)
+
+
+This can be exploited to create programs and hardware with characteristics that are desirable while proving extensional identity with "correct" forms.  (This is why Turing Machine-based software can typically out-perform "Functional" software as of this writing.)
+
+
+It should be possible to construct simple systems that search for extensionally identical forms of  expressions automatically.  (cf. GMs.)
+
+
+All extant computers can be modeled as bit-sets (comprised of the registers, status bits, RAM, I/O, &c.) and a set of sets of circle expressions that define precisely transformations between "states" of the bits corresponding to the microcode &c. of the CPU circuitry in question.
+
+
+There is no special treatment for multiple computers connected to each other as compared to the circuitry in one machine connected to itself.
+
+
+The difference between a non-computer-machine and a computer is generally taken to be that, in a computer, the choice of which set of circle expressions to  evaluate over the bits is determined by the values of a certain subset of the bits (i.e. the "Program Counter" and the contents of the program RAM pointed to by same.)
+
+
+The fact that the resulting selected circle expressions will only treat a tiny subset (typically) of the the bits in the total bitset is precisely the complaint against the "Von Neumann Bottleneck" Backus made in his talk on Functional Programming.
+
+
+We can model the operation over time in two essential ways: We can record a protocol and analyse it, or we can analyse the system of expressions directly.  An extensive body of technique exists.
+
+
+
