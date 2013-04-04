@@ -1,16 +1,179 @@
-The Egg of Ouroboros
 
-A Notation for Tractable Reasoning
+    The Egg of Ouroboros
+
+    A Notation for Tractable Reasoning
 
 -
 
-A "mark" is a circle that is empty or contains no marks.
 
 
-Such a mark acts as a "nor" gate on its contents.
+    Know names to find the Ten Thousand Things
+    No names am the Way
+
+        ~ the Old Man
 
 
-It is known art that all logic gate networks can be constructed out of nor gates.
+
+-
+
+There are three rewards to be won by eating the Egg of Ouroboros.
+
+The first and most important (indeed the only import) is to effect transcendence of the illusion of form.
+
+The second is a notation for universal reasoning that is simple, elegant and direct.  This notation provides a mechanism for constructing all possible universes and, therefore, our own.  It is the power of this notation that permits the prepared mind to approach math as scripture and read the Word of God in the Libre Mundi.
+
+Third, new results in circuit design and program construction are enabled.
+
+-
+
+In the absence of all distiction nothing can be signified.
+
+To make a distiction is to create the entire Universe, complete, Eternal, as it is now and ever shall be.  The "Word of God" is fractally encoded into the structure of structure at the most intrinsic and essential level.  Every tiniest least distinction made inherently contains or predicts or neccesitates the entirety of everything you experience and have experienced and will experience, as well as the experiences of all other sentient beings everywhere throughout time.
+
+
+- -
+
+
+Let us demonstrate.
+
+
+Observe an empty expanse.  For concreteness take the pixels below this sentence as a small space of the nondistinct Void.  (O Beloved Reader if you are without the visual sense the following can all be done in sound as well.)
+
+
+
+
+There, that was a little bit of the Void, without distinction.
+
+Now consider this mark:
+
+   .
+
+
+That mark can be said to be "one thing", yes?  But a moment's reflection will let us understand there are three "things there":
+
+1 The inside of the mark.
+2 The outside of the mark.
+3 The distinction, the boundary, between inside and outside.
+
+
+- -
+
+
+Having made any distiction the Universe is partitioned into two "spaces" and the boundary between them. We can naturally represent this situation with a closed figure such as a circle:
+
+    O
+
+
+But having done this to illustrate the triune nature of any distinction we can reflect again that this figure O has five parts: the inside and outside, the "inside" of the boundary, and the two boundaries separating the "inside" of the boundary from the outside-outside and the inside-outside.
+
+This is a completely natural process.  Consider your location on the Earth.  The great majority of your life takes place on just such a boundary between the lava inward and the hard vacuum outward, and again on the boundary between the frozen-stone crust and the vaporous atmosphere.  If you stoop and examine conditions very close to this boundary you will discover additional boundaries to the limits of your perceptual apparatus.
+
+This is a genreral phenomenon: the closer a sensory apparatus approaches in scale to a boundary, the more meta-boundaries it will resolve, up to its limits.
+
+
+- -
+
+Make a distinction,
+
+    .
+
+
+Notice that it partitions the Universe into the mark and the unmarked.
+
+    O
+
+
+We can imagine taking a perceptual position within the boundary itself and looking "outward" both to the distinct "inside-outside" and the "outside-outside" and percieving "two things".  We can say that the Sky is around the Earth:
+
+    (O)
+
+
+Or we can say that the Earth and the Sky are "two different things":
+
+    OO
+
+
+Either way, the boundary is the percetual illusion that we name "the horizon".  A moment's reflection lets us understand that "the horizon" is not real except as "it" is perceived.  Continuing in this way, we discover that there "are" many "things" that only exist because we percieve and name them.  Continuing in this way, we discover that all "things" only exist because we percieve and name them.  If we neglect to distiguish and name "things" there is "no-thing" there.
+
+
+A man named George Spencer-Brown developed a wonderful notation and wrote it in a book he called "Laws of Form".  That is where I first encountered it, from a reference in the Whole Earth Catalog.
+
+
+If you are interested in the "mystical" aspects of this notation I urge you to read the Tao Te Ching (I recommend highly the translation by J. Star) and GSB's "Laws of Form".  The experiences of Dr. Lynn Bolte Taylor are also of direct relevance.  A neuro-anatomist who suffered a stroke, she was able to understand what was happening to her as the symbolic processing areas of her brain were impaired by the blood flooding it.  During the time that her symbolic processing systems were mechanically disengaged Dr Taylor reports transcendant bliss and the non-ability to differentiate between "her" body and the "external" Universe of phenomenon.
+
+
+No more will be said here about the transcencendental function of the notation.
+
+
+- -
+
+
+For our purposes it will suffice to understand the following rule:
+
+    A "mark" is a circle that is empty or contains no marks.
+
+
+You may find it worthwhile to play with some circles and use the rule to determine if the resulting forms count as "marks" or not.  For example these forms (taking paired parentheses to indicate closed circles) are "marks":
+
+    O    OOO     ((O))
+
+
+While these forms are not "marks" (or "not-marks"):
+
+
+   (O)    (OO)    ((O)O)
+
+
+It has been shown that two rules for "rewriting" or "transforming" these form permit all possible forms to be gererated or elucidated without altering the "mark"-ness of the resulting new forms.
+
+These are the two rules:
+
+          O <===> OO
+
+    nothing <===> (O)
+    
+    
+[Bricken]
+
+
+These rules can be described in language in many ways. We can say that any mark is the same as any number of marks, and that the Void is the same as a non-mark.  Using the rules from left-to-right (in the above depiction) generates new forms, and using them right-to-left reduces forms back to either a mark or the Void.
+
+
+It has been shown that the above notation suffices to generate all the rules of the "Primary Logic".  TODO: explain wtf I'm talking about here without rehashing too much of the ground, and reference GBS's "The Markable Mark".
+
+
+So, any expression of circles (and symbols representing circle expressions, and symbols representing expressions of such symbols and circle expressions) can be manipulated in value-preserving ways by known logic.
+
+
+We can model and solve logical systems using the notation.  If this were all (and some readers are unable or unwilling to find more) then we have not said much that is not in any book on logic and symbolic reasoning.  Indeed, you can read the Tao Te Ching and "The Laws of Form" and be far ahead of what I have so far mentioned, and you should.
+
+
+If the only advantage to the Circle Language were that it gives a simple and elegant introduction to formal reasoning then I would be satisfied, as that is a worthy and sorely needed thing.
+
+
+Gladly, the notation also provides a means of constructing logical circuits and programs.  The resulting way of thinking about machines provides for a unified treatment of hardware and software, parallel and sequential operations, and self-acting (Cybernetic) systems.
+
+
+- -
+
+
+The key is to notice that a mark acts as a "nor" gate on its contents.
+
+
+A circle in the Circle Language "is":
+
+    * A signal
+    * The value of a signal
+    * An operation.
+
+A circle is both a value (term) and an action (name). This is a very subtle point and can be tricky to cognize if you haven't encountered it before.  In the lambda calculus each lambda term is both a value and [the name for] an action to take on some values to derive or generate new values, which can themselves be lambda terms.  Likewise, in the SKI combinator calculus the combinators are both values and names of actions to take.  In computer programming, all programs are stored as sequences of bits, which are values.  The bits "name" the actions to take.
+
+We can interpret the content-free Circle Language forms as networks of NOR (not-or) logic gates.  It is known art that all logic gate networks can be constructed out of NOR gates.  Therefore the Circle Language is a notation for digital logic circuits, and every digital logic circuit can be represented as a form of the Circle Language.
+
+It is perhaps unnecessary to remark that all computers can be represented in the Circle Language.
+
+
+- -
 
 
 Each LoF mark form ("circle expression") is a specification of a network of logic gates and a proof of the expectable operation of that network. The proof proves the circuit and the circuit computes the proof.
@@ -19,19 +182,13 @@ Each LoF mark form ("circle expression") is a specification of a network of logi
 Composing circle expressions composes the proofs and connects the circuits.
 
 
-The circle expressions are susceptible to manipulation by means of the primary arithmetic, the primary algebra, and the primary calculus (whatever those are.)
+The circle expressions are susceptible to manipulation by means of the primary arithmetic, the primary algebra, and the primary calculus (whatever those are.)  Two circle expressions that yield the same behaviour (extensional identity) can have different properties otherwise (intentional dis-identity.)  This can be exploited to create programs and hardware with characteristics that are desirable while proving extensional identity with "correct" forms.  It should be possible to construct simple systems that search for extensionally identical forms of  expressions automatically.  (cf. GMs.)
 
 
-Two circle expressions that yield the same behaviour (extensional identity) can have different properties otherwise (intentional dis-identity.)
+- -
 
 
-This can be exploited to create programs and hardware with characteristics that are desirable while proving extensional identity with "correct" forms.
-
-
-It should be possible to construct simple systems that search for extensionally identical forms of  expressions automatically.  (cf. GMs.)
-
-
-All extant computers can be modeled as bit-sets (comprised of the registers, status bits, RAM, I/O, &c.) and a set of sets of circle expressions that define precisely transformations between "states" of the bits corresponding to the microcode &c. of the CPU circuitry in question.
+Computers can be modeled as bit-sets (comprised of the registers, status bits, RAM, I/O, &c.) and a set of sets of circle expressions that define precisely transformations between "states" of the bits corresponding to the microcode &c. of the CPU circuitry in question.
 
 
 There is no special treatment for multiple computers connected to each other as compared to the circuitry in one machine connected to itself.
