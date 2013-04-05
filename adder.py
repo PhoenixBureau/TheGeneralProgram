@@ -16,30 +16,22 @@ if __name__ == '__main__':
 
   a, b = 'ab'
 
-
-  print 'nor a, b ->', s(nor(a, b))
-  print 'or a, b ->', s(or_(a, b))
-  print 'and a, b ->', s(and_(a, b))
-  print 'nand a, b ->', s(nand(a, b))
-  print 'xor a, b ->', s(xor(a, b))
-
-
-
-  # Half-Bit Adder: (((a)(b))(ab)):sum, ((a)(b)):carry
-  print
-  print 'Half-Bit Adder:'
-  print 'Sum:', s(xor(a, b))
-  print 'Carry:', s(and_(a, b))
-
-
   # Full Bit Adder
   # ((((((a)(b))(ab)))(Cin))((((a)(b))(ab))Cin)) : Sum
   # (((((((a)(b))(ab)))(Cin))((a)(b)))) : Cout
 
-  def FBA(a, b, Cin):
+  def FBA1(a, b, Cin):
     '''Full Bit Adder.'''
     k = xor(a, b)
     return xor(k, Cin), or_(and_(k, Cin), and_(a, b))
+
+
+  def FBA(a, b, Cin):
+    '''Full Bit Adder, factored.'''
+    h = and_(a, b)
+    y = nor(h, nor(a, b))
+    j = and_(y, Cin)
+    return nor(j, nor(y, Cin)), or_(j, h)
 
 
   Sum, Cout = FBA(a, b, 'Cin')
@@ -58,14 +50,3 @@ if __name__ == '__main__':
         Sum, Cout = FBA(a, b, Cin)
         print map(lambda n: int(bool(n)), (a, b, Cin)), '->',
         print int(not mark(Sum)), int(not mark(Cout))
-
-
-# Making a "wider" adder circuit is trivial:
-#
-  Sum0, Cout0 = FBA('a0', 'b0', 'Cin')
-  Sum1, Cout1 = FBA('a1', 'b1', Cout0)
-  Sum2, Cout2 = FBA('a2', 'b2', Cout1)
-  Sum3, Cout3 = FBA('a3', 'b3', Cout2)
-
-  adder = Sum0, Sum1, Sum2, Sum3, Cout3
-  s(adder)
