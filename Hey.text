@@ -34,9 +34,6 @@ To make a distinction is to create the entire Universe, complete, Eternal, as it
 - -
 
 
-Let us demonstrate.
-
-
 Observe an empty expanse.  For concreteness take the pixels below this sentence as a small space of the nondistinct Void.  (O Beloved Reader if you are without the visual sense the following can all be done in sound as well.)
 
 
@@ -99,7 +96,7 @@ Either way, the boundary is the perceptual illusion that we name "the horizon". 
 A man named George Spencer-Brown developed a wonderful notation and wrote it in a book he called "Laws of Form".  That is where I first encountered it, from a reference in the Whole Earth Catalog.
 
 
-If you are interested in the "mystical" aspects of this notation I urge you to read the Tao Te Ching (I recommend highly the translation by J. Star) and GSB's "Laws of Form".  The experiences of Dr. Lynn Bolte Taylor are also of direct relevance.  A neuro-anatomist who suffered a stroke, she was able to understand what was happening to her as the symbolic processing areas of her brain were impaired by the blood flooding it.  During the time that her symbolic processing systems were mechanically disengaged Dr Taylor reports transcendent bliss and the non-ability to differentiate between "her" body and the "external" Universe of phenomenon.
+If you are interested in the "mystical" aspects of this notation I urge you to read the Tao Te Ching (I recommend highly the translation by J. Star) and GSB's "Laws of Form".  The experiences of Dr. Jill Bolte Taylor are also of direct relevance.  A neuroanatomist who suffered a stroke, she was able to understand what was happening to her as the symbolic processing areas of her brain were impaired by the flooding blood.  During the time that her symbolic processing systems were mechanically disengaged, Dr. Taylor reports transcendent bliss and the non-ability to differentiate between "her" body and the "external" Universe of phenomenon.
 
 
 No more will be said here about the transcendental function of the notation.
@@ -124,7 +121,7 @@ While these forms are not "marks" (or "not-marks"):
    (O)    (OO)    ((O)O)
 
 
-It has been shown that two rules for "rewriting" or "transforming" these form permit all possible forms to be generated or elucidated without altering the "mark"-ness of the resulting new forms.
+William Bricken has shown that two rules for "rewriting" or "transforming" these forms permit all possible forms to be generated or elucidated without altering the "mark"-ness of the resulting new forms.
 
 These are the two rules:
 
@@ -132,32 +129,26 @@ These are the two rules:
 
     nothing <===> (O)
     
-    
-[Bricken]
-
 
 These rules can be described in language in many ways. We can say that any mark is the same as any number of marks, and that the Void is the same as a non-mark.  Using the rules from left-to-right (in the above depiction) generates new forms, and using them right-to-left reduces forms back to either a mark or the Void.
 
 
-It has been shown that the above notation suffices to generate all the rules of the "Primary Logic".  TODO: explain wtf I'm talking about here without rehashing too much of the ground, and reference GBS's "The Markable Mark".
+It has been shown that the above notation suffices to generate all the rules of the "Primary Logic".  TODO: explain what I'm talking about here without rehashing too much of the ground, and reference GBS's "The Markable Mark".
 
 
-So, any expression of circles (and symbols representing circle expressions, and symbols representing expressions of such symbols and circle expressions) can be manipulated in value-preserving ways by known logic.
+So, any expression of circles (and symbols representing circle expressions, and symbols representing expressions of such symbols and circle expressions) can be manipulated in value-preserving ways by known logic.  We can model and solve logical systems using the notation.
 
 
-We can model and solve logical systems using the notation.  If this were all (and some readers are unable or unwilling to find more) then we have not said much that is not in any book on logic and symbolic reasoning.  Indeed, you can read the Tao Te Ching and "The Laws of Form" and be far ahead of what I have so far mentioned, and you should.
+If this were all then we have not said much that is not in any book on logic and symbolic reasoning.  If the only advantage to the Circle Language were that it gives a simple and elegant introduction to formal reasoning then I would be satisfied, as that is a worthy and sorely needed thing.  Admirably, the notation also provides a means of constructing logical circuits and programs.
 
 
-If the only advantage to the Circle Language were that it gives a simple and elegant introduction to formal reasoning then I would be satisfied, as that is a worthy and sorely needed thing.
-
-
-Gladly, the notation also provides a means of constructing logical circuits and programs.  The resulting way of thinking about machines provides for a unified treatment of hardware and software, parallel and sequential operations, and self-acting (Cybernetic) systems.
+The resulting way of thinking about machines provides for a unified treatment of hardware and software, parallel and sequential operations, and self-acting (Cybernetic) systems.
 
 
 - -
 
 
-The key is to notice that a mark acts as a "nor" gate on its contents.
+The key is to notice that a mark acts as a "NOR" gate on its contents.
 
 
 A circle in the Circle Language "is":
@@ -166,7 +157,7 @@ A circle in the Circle Language "is":
     * The value of a signal
     * An operation.
 
-A circle is both a value (term) and an action (name). This is a very subtle point and can be tricky to cognize if you haven't encountered it before.  In the lambda calculus each lambda term is both a value and [the name for] an action to take on some values to derive or generate new values, which can themselves be lambda terms.  Likewise, in the SKI combinator calculus the combinators are both values and names of actions to take.  In computer programming, all programs are stored as sequences of bits, which are values.  The bits "name" the actions to take.
+A circle is both a value (term) and an action (name). This is a very subtle point and can be tricky to understand properly if you haven't encountered it before.  In the lambda calculus each lambda term is both a value and [the name for] an action to take on some values to derive or generate new values, which can themselves be lambda terms.  Likewise, in the SKI combinator calculus the combinators are both values and names of actions to take.  In computer programming, all programs are stored as sequences of bits, which are values.  The bits "name" the actions to take.
 
 We can interpret the content-free Circle Language forms as networks of NOR (not-or) logic gates.  It is known art that all logic gate networks can be constructed out of NOR gates.  Therefore the Circle Language is a notation for digital logic circuits, and every digital logic circuit can be represented as a form of the Circle Language.
 
@@ -182,7 +173,7 @@ Each LoF mark form ("circle expression") is a specification of a network of logi
 Composing circle expressions composes the proofs and connects the circuits.
 
 
-The circle expressions are susceptible to manipulation by means of the primary arithmetic, the primary algebra, and the primary calculus (whatever those are.)  Two circle expressions that yield the same behaviour (extensional identity) can have different properties otherwise (intentional dis-identity.)  This can be exploited to create programs and hardware with characteristics that are desirable while proving extensional identity with "correct" forms.  It should be possible to construct simple systems that search for extensionally identical forms of  expressions automatically.  (cf. GMs.)
+Two circle expressions that yield the same behaviour ("extensional identity") can have different properties otherwise (intentional dis-identity.)  This can be exploited to create programs and hardware with characteristics that are desirable while proving extensional identity with "correct" forms.  It should be possible to construct simple systems that search for extensionally identical forms of expressions automatically.  (cf. Gödel Machines.)
 
 
 - -
@@ -197,12 +188,16 @@ There is no special treatment for multiple computers connected to each other as 
 The difference between a non-computer-machine and a computer is generally taken to be that, in a computer, the choice of which set of circle expressions to  evaluate over the bits is determined by the values of a certain subset of the bits (i.e. the "Program Counter" and the contents of the program RAM pointed to by same.)
 
 
-The fact that the resulting selected circle expressions will only treat a tiny subset (typically) of the the bits in the total bitset is precisely the complaint against the "Von Neumann Bottleneck" Backus made in his talk on Functional Programming.
+The fact that the resulting selected circle expressions will only treat a tiny subset (typically) of the the bits in the total bit-set is precisely the complaint against the Von Neumann "bottleneck" Backus made in his Turing award talk on Functional Programming.
 
 
-We can model the operation over time in two essential ways: We can record a protocol and analyze it, or we can analyze the system of expressions directly.  An extensive body of technique exists.
+The "bottleneck" is unnecessary. It is a notational artifact.
 
 
+We can model the operation over time of a symbolic system in two essential ways: we can record a protocol and analyze it, or we can analyze the system of expressions directly.
+
+
+- -
 
 
 Circuits
@@ -219,14 +214,147 @@ The circle language can be interpreted as digital logic circuits.
 
 It should be understood that more than two symbols may appear within a form.  The symbols are taken to stand for any other pattern of circles, or circles and symbols, and they also represent the "inputs" to the digital circuits.  The expressions themselves are the "outputs".
 
-A "Half-Bit" Adder circuit that will sum two binary inputs and output the sum and a "carry" or overflow signal can be represented by the following circle expressions (taking 'a' and 'b' as the binary digits to add together):
+
+For concreteness we will develop a model of the Circle Language using the Python computer programming language.
+
+
+In Python, let "a form" be any data-structure composed entirely of tuples.
+
+
+We shall consider the absence of any form to be "the ground" and have the Boolean value of True.  A "mark" is the empty tuple or any tuple without a mark in it, we shall consider marks to have the Boolean value of False.
+
+
+The function "mark" reduces any form and returns its Boolean value.  In Python it can be implemented as:
+
+    def mark(form):
+      return not form or not any(mark(inner) for inner in form))
+
+
+This is a direct "translation" of the sentence. "A mark is circle that is empty or has no marks in it."  In Python the empty tuple is considered to have the Boolean value of False so we invert that value.  If the tuple/form has contents then we recursively examine them to determine if any of them are marks.  In effect we are performing a depth-first "walk" of a tree, and "short-circuiting" the walk as soon as we can determine the "mark"-ness of the tuple/form.
+
+
+There are several optimizations that could be made to this function, simple as it is.  We could "memoize" the function so that it did not recompute the "mark"-ness of a form that it had "seen" before.  Also, it would be easy to manipulate our forms into a sort of standard form that ensured the "walk" terminated as early as possible.  For now we will neglect such considerations.
+
+
+- -
+
+
+We can implement a model of Boolean Logic gates using the tuple-based form of the Circle Language with the following Python functions:
+
+    nor = lambda *bits: bits
+    or_ = lambda *bits: nor(bits)
+    and_ = lambda *bits: tuple(nor(bit) for bit in bits)
+    nand = lambda *bits: nor(and_(*bits))
+    xor = lambda *bits: nor(and_(*bits), nor(*bits))
+
+
+If we use the above functions to generate circle expressions for the symbols 'a' and 'b' we can examine their forms:
+
+    a, b = 'ab'
+
+    nor(a, b) -> ('a', 'b')
+    or(a, b) -> (('a', 'b'),)
+    and(a, b) -> (('a',), ('b',))
+    nand(a, b) -> ((('a',), ('b',)),)
+    xor(a, b) -> ((('a',), ('b',)), ('a', 'b'))
+
+
+Here are truth tables generated from the above definitions by means of substituting the values in the first two columns (as tuple mark () and not-mark ((),) values for Boolean values) into the above expressions and then reducing them by means of the "mark" function.
+
+     and_
+    ------
+     00|0
+     01|0
+     10|0
+     11|1
+
+     or_
+    ------
+     00|0
+     01|1
+     10|1
+     11|1
+
+     nand
+    ------
+     00|1
+     01|1
+     10|1
+     11|0
+
+     nor
+    ------
+     00|1
+     01|0
+     10|0
+     11|0
+
+     xor
+    ------
+     00|0
+     01|1
+     10|1
+     11|0
+
+
+As you can verify for yourself, the expressions do indeed generate the expected values for their logical functions.
+
+
+A direct translation of a standard XOR gate built out of NOR gates might look like this if it were to be translated into Circle Expressions:
+
+    ((a(ab))((ab)b))
+
+
+But we have the expression:
+
+    (((a)(b))(ab))
+
+
+We can use the methods described so admirably well on the Markable Mark web site to prove that the two expressions will always evaluate to the same results no matter the particular values of the 'a' and 'b' sub-expressions.
+
+    ((a(ab))((ab)b)) = (((a)(b))(ab))
+
+
+This is a somewhat more sophisticated approach than the simple term factoring discussed below.  It is also worth noting, again, that it is possible to generate new forms of equivalent value mechanically using existing art and it is possible to evaluate the expected performance of extensionally identical expressions as instantiated into specific physical (or software-on-existing-hardware) forms according to preferred utility metrics mechanically.  (again, cf. Gödel Machines.)
+
+
+
+More Circuits
+
+
+TODO: Show One-of-Four-to-Two-Binary-Digits and Two-Binary-Digits-to-One-of-Four
+
+
+It is trivial to construct a circle expression that denotes a "Half-Bit Adder" circuit and proves its function. A "Half-Bit" Adder circuit that will sum two binary inputs and output the sum and a "carry" or overflow signal can be represented by the following circle expressions (taking 'a' and 'b' as the binary digits to add together):
 
     Half-Bit Adder:
     Sum: (((a)(b))(ab))
     Carry: ((a)(b))
 
 
-As you can plainly see, the sum is given by XORing the inputs while the carry signal is just logical AND of the inputs.  In order to build a general adder circuit that can be ganged together with copies of itself to add "wider" binary numbers we must arrange to take into account a 'Cin' signal to "carry in" the carry signal from an optional previous adder circuit.  Taking a standard circuit from the existing literature we have:
+As you can plainly see, the sum is given by XORing the inputs while the carry signal is just logical AND of the inputs.  In Python:
+
+
+    half-bit-adder = xor(a, b), and_(a, b)
+
+
+But notice that both expressions contain the common sub-expression '((a)(b))'?  In fact, the "carry" expression is a sub-expression of the "sum".  We can reflect that in the Python code to generate the expression:
+
+    def HBA(a, b):
+      carry = and_(a, b)
+      return nor(carry, nor(a, b))
+
+
+This function captures (and parameterizes) the creation of a Half-Bit Adder circuit, refactoring it from the first expression but creating an identical result.
+
+
+While it can be fun to perform these sorts of manipulations manually it should be obvious that they are highly susceptible to automated treatment.  There is no need to refactor the expressions at the level of Python source code, I am only doing that to illustrate the process concretely.  We explore below means of manipulating the circle expressions (as Python data structures) directly using logical unification algorithms.
+
+
+In order to have richer expressions across which to reason and extend the reach of our notation we can compose expressions to generate new expressions that capture the behaviour of the composition of logic circuits.
+
+
+For example, in order to build a general adder circuit that can be ganged together with copies of itself to add "wider" binary numbers we must arrange to take into account a 'Cin' signal to "carry in" the carry signal from an optional previous adder circuit.  Taking a standard circuit from the existing literature we have:
 
     Full-Bit Adder:
     Sum: ((((((a)(b))(ab)))(Cin))((((a)(b))(ab))Cin))
@@ -249,21 +377,89 @@ And here is the resulting Truth-Table, as generated by reducing the above expres
 The expressions give the desired output behaviour.
 
 
+The Python code to generate the Full Bit Adder is straightforward:
+
+    def FBA(a, b, Cin):
+      k = xor(a, b)
+      return xor(k, Cin), or_(and_(k, Cin), and_(a, b))
+
+And again, we can refactor the expressions "manually" in the Python code just by noticing and "pulling out" sub-expressions into formal calls to the generating functions (all of which are defined in terms of the nor() operation anyway. We are just drawing circles around circles.)
+
+
+    def FBA(a, b, Cin):
+      h = and_(a, b)
+      y = nor(h, nor(a, b))
+      j = and_(y, Cin)
+      return nor(j, nor(y, Cin)), or_(j, h)
+
+
+I should note that I originally performed this factoring by simple string replacement on the original expressions (as a string, as they appear above) substituting new string symbols for the terms I wished to factor by means of calls to the replace() method of the expression string.  This works fine but there are better methods which are discussed below.
+
+
+Again, even though the resulting expressions from each form of the FBA() function are identical, the circuits represented are not.
+
+
+Logically they are both composed of the same arrangement of NOR gates but if you were to construct each of the above circuits using discrete IC components that matched the operations that appear in the functions the resulting circuits would calculate the same results but with variations in terms of power consumption and speed (one would expect the variations to be small depending on the components chosen as modern hardware is quite efficient.)
+
+
+
+TODO: Reworking expressions using AI with LogPy.
+
+
+
+Curious Musicians
+
+Another way to think about the mark is as a musician who is so curious about sound that he or she stops playing his or her own music upon hearing any other music.
+
+If you imagine such a musician alone in the Void she would begin playing...   &c. 
+
+
+Computing with music.  Bits with frequency. Resonant "NOR-ish" operators.
 
 
 
 
-I built the expression originally by following a circuit from the web.  Once I had the expression I was free to refactor it (note the usage of this term in its mathematical sense rather than metaphorical) into a, perhaps more efficient, form.
 
-  def FBA_original(a, b, Cin):
-    k = xor(a, b)
-    return xor(k, Cin), or_(and_(k, Cin), and_(a, b))
+John Backus and Functional Programming
+- - - - - - - - - - - - - - - - - - - - - -
+https://en.wikipedia.org/wiki/John_Backus
+"Can Programming Be Liberated From the von Neumann Style?" 1977 Turing Award Lecture
+http://www.thocp.net/biographies/papers/backus_turingaward_lecture.pdf
 
 
-  def FBA_refactored(a, b, Cin):
-    h = and_(a, b)
-    y = nor(h, nor(a, b))
-    j = and_(y, Cin)
-    return nor(j, nor(y, Cin)), or_(j, h)
+
+Spencer-Brown and Laws of Form
+- - - - - - - - - - - - - - - - - - - - - -
+https://en.wikipedia.org/wiki/G._Spencer-Brown
+https://en.wikipedia.org/wiki/Laws_of_Form
+
+
+
+A good translation of the Tao Te Ching
+- - - - - - - - - - - - - - - - - - - - - -
+Star, Jonathan; Laozi "Tao Te Ching: The Definitive Edition"
+ISBN 9781585420995
+
+@book{2001tao,
+  title={Tao Te Ching: The Definitive Edition},
+  author={Star, J.},
+  isbn={9781585420995},
+  lccn={00054379},
+  url={http://books.google.com/books?id=d3jXAAAAMAAJ},
+  year={2001},
+  publisher={Jeremy P Tarcher/Putnam}
+}
+
+
+
+A Neuroanatomist becomes Buddha (doesn't make a fuss about it.)
+- - - - - - - - - - - - - - - - - - - - - -
+http://www.ted.com/talks/lang/ja/jill_bolte_taylor_s_powerful_stroke_of_insight.html
+https://en.wikipedia.org/wiki/Jill_Bolte_Taylor
+
+
+
+
+
 
 
