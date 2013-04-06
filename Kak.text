@@ -1,0 +1,64 @@
+
+We can gang together four copies of the adder circuit to create a four-bit adder with carry.  The resulting expressions are slightly unwieldy but interesting to examine:
+
+We have four output expressions for the four output bits, and one for the carry signal.
+
+    Sum0: ((((((a0)(b0))(a0b0)))(Cin))((((a0)(b0))(a0b0))Cin))
+
+    Sum1: ((((((a1)(b1))(a1b1)))((((((((a0)(b0))(a0b0)))(Cin))
+           ((a0)(b0))))))((((a1)(b1))(a1b1))(((((((a0)(b0))(a0b0)))
+           (Cin))((a0)(b0))))))
+
+    Sum2: ((((((a2)(b2))(a2b2)))((((((((a1)(b1))(a1b1)))
+           ((((((((a0)(b0))(a0b0)))(Cin))((a0)(b0))))))((a1)(b1))))))
+           ((((a2)(b2))(a2b2))(((((((a1)(b1))(a1b1)))
+           ((((((((a0)(b0))(a0b0)))(Cin))((a0)(b0))))))((a1)(b1))))))
+
+    Sum3: ((((((a3)(b3))(a3b3)))((((((((a2)(b2))(a2b2)))
+           ((((((((a1)(b1))(a1b1)))((((((((a0)(b0))(a0b0)))(Cin))
+           ((a0)(b0))))))((a1)(b1))))))((a2)(b2))))))((((a3)(b3))(a3b3))
+           (((((((a2)(b2))(a2b2)))((((((((a1)(b1))(a1b1)))
+           ((((((((a0)(b0))(a0b0)))(Cin))((a0)(b0))))))
+           ((a1)(b1))))))((a2)(b2))))))
+
+    Carry: (((((((a3)(b3))(a3b3)))((((((((a2)(b2))(a2b2)))
+            ((((((((a1)(b1))(a1b1)))((((((((a0)(b0))(a0b0)))(Cin))
+            ((a0)(b0))))))((a1)(b1))))))((a2)(b2))))))((a3)(b3))))
+
+
+Note that the symbols for Cin for the later stages are simply replaced by the Cout expressions of those stages, only 'Cin' is mentioned, referring to the "carry in" signal of the first adder stage.
+
+
+* The expression for the first stage is just that of the initial adder.
+
+* The later stages give the logical structure of the results but do not actually imply that that is the network of physical logic gates that is used in the actual circuit (and, in fact, we know it is not if we were to build such a four bit adder from discrete components) rather they tell us what the network would be, if we were to ask.
+
+Imagine that you wanted to add two four bit values but were only interested in, say, the value of the third bit of the result.  You could build just the logic represented by the 'Sum2' expression and that would tell you.
+
+* These expressions can be manipulated by the previously (still incompletely) mentioned logic and math.  The simplest thing to do is refactor the expressions to develop simpler but equivalent ("extentionally identical") expressions allowing the same function to be performed with greater utility (speed, part count, etc.)
+
+* Working with a large, rich set of expressions may provide opportunities for advances.  Composing networks of logic across systems that are normally treated as closed, self-contained "black boxes" in this notation permits reasoning across the entirety of their interconnected operation.
+
+
+Show the demo with the adder circuit.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
