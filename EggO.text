@@ -55,9 +55,9 @@ Now consider this mark:
 
 That mark can be said to be "one thing", yes?  But a moment's reflection will let us understand there are three "things there":
 
-1 The inside of the mark.
-2 The outside of the mark.
-3 The distinction, the boundary, between inside and outside.
+    1 The inside of the mark.
+    2 The outside of the mark.
+    3 The distinction, the boundary, between inside and outside.
 
 
 - -
@@ -142,7 +142,7 @@ These rules can be described in language in many ways. We can say that any mark 
 
 
 
-In the Land of Nom
+In the Land of Nomy
 ________________________________________
 
 
@@ -152,55 +152,110 @@ Once we can generate myriad forms we can perform another trick that is somewhat 
 The initial distinction can be considered a name for itself.  By existing (which it only does because you made it) the distinction the distinguishes something from the Void, and as there is no other thing to name, it names itself.
 
 
-The Void is knowable, inexpressible, but every distinction is a self-creating "name".
+The Void is unknowable, inexpressible, but every distinction is a self-creating "name".
 
 
 Then we do something really special, we "let" one bit of the plenum over here "name" some other bit of the plenum over there.
 
 
-One pattern of distinctions (which we can think about concretely using the circle language or others) can "stand for" another pattern. This is an arbitrary and meaningless thing to do, but once made such a linkage is more-or-less mechanical.
+One pattern of distinctions (which we can think about concretely using the circle language) can "stand for" another pattern. This is an arbitrary and meaningless thing to do, but once made such a linkage is more-or-less mechanical.
 
 
-We can write dictionaries and train dogs to salivate at the sound of a certain bell.  (This later sort of naming is just at the inflection point between analog and digital computation, the dog "knows" a word but it could never give you a symbolic definition of it.  However, if you were somehow to "mention" the bell-sound in a way the dog could re-cognize, perhaps by beginning a motion identical to the motion you make to ring the bell in the absence of the actual bell, the dog would salivate.  Put another way, you can tell if the dog "thinks" you are "talking about" dinner-time by whether or not it salivates.)
-
-Our own brains are constantly attempting to move pattern-handling from costly "thought" to cheap pattern-recognition.  We are always coming up with "names" for new parts of the plenum as we understand their relevance and utility for "our lives".
+We can write dictionaries and train dogs to salivate at the sound of a certain bell.  (This later sort of naming is just at the inflection point between analog and digital computation, the dog "knows" a word but it could never give you a symbolic definition of it.  However, if you were somehow to "mention" the bell-sound in a way the dog could re-cognize, perhaps by beginning a motion identical to the motion you make to ring the bell but doing it in the absence of the actual bell, the dog would salivate.  Put another way, you can tell if the dog "thinks" you are "talking about" dinner-time by whether or not it salivates.
 
 
-Despite the ocasional problems with this approach it has proved so useful (for certain kinds of "useful") that we have built machines to do it for us, faster and with greater range than our nervous systems can handle.  Computers are collections of "names" for automatic pattern manipulation, along with means for recombining the names to form new names.
+Our own brains are constantly attempting to move pattern-handling from costly "thought" to cheaper pattern-recognition.  We are always coming up with "names" for new parts of the plenum as we understand their relevance and utility for "our lives".
+
+
+Despite the occasional problems with this approach it has proved so useful (for certain kinds of "useful") that we have built machines to do it for us, faster and with greater range than our nervous systems can handle.  Computers are collections of "names" for automatic pattern manipulation, along with means for recombining the names to form new names to recognize and manipulate new patterns.
 
 
 We call these names "programs" and the art and science of writing new names out of the old is called "computer programming".
 
 
+- -
+
+
 There are two ways of making names out of the circle language, and both are "cheating".
 
 
-First, we can simple arrange patterns of circles to represent distinct symbols that we then "let stand for" other patterns.  This is how most kinds of printers actually work.  An "ink-jet" printer is precisely placing tiny circles of ink on the paper to make patterns that our nervous systems recognize.
+First, we can simply arrange patterns of circles to represent distinct symbols that we then "let stand for" other patterns.  This is how most kinds of printers actually work.  An "ink-jet" printer, for example, is precisely placing tiny circles of ink on the paper to make patterns that our nervous systems recognize.  A "dot-matrix" printer is just putting dots in a matrix.
 
 
 The other way of naming patterns is to come up with some "ordering" convention for patterns, and then use those "numbers" to "index" any other sequence of patterns.
 
 
-TODO: More on sequences, maybe mention Church Numerals.
+To make this concrete let's look at some possible orderings.  Here's one:
+
+    _
+    ()
+    ()()
+    ()()()
+    ()()()()
 
 
-We will choose the first method in most of what follows and say that a letter, such as 'a', may be the name of some other pattern of circles.
+That's pretty simple. Here's another:
+
+    _
+    ()
+    (())
+    ((()))
+    (((())))
 
 
-But here's the really weird, the really bizarre and unreasonable thing we proceed to do next, we don't say what pattern of circles the name is a name for yet.
+Also pretty straightforward.  How about:
+
+    _
+    ()
+    (())
+    ()()
+    (())()
+    ()(())
+
+
+But there's a problem with those last two patterns: they are actually the same pattern.  Circles "don't care" about the order of stuff inside them. How could they when we haven't even finished figuring out what "order" even means yet?
+
+
+Let's try again:
+    _
+    ()
+    (()) ()
+    ((()) ()) (()) ()
+    (((()) ()) (()) ()) ((()) ()) (()) ()
+    ((((()) ()) (()) ()) ((()) ()) (()) ()) (((()) ()) (()) ()) ((()) ()) (()) ()
+
+
+It is a little difficult to see but the rule is anything gets replaced by a copy of itself inside a circle next to a copy of itself outside the circle.  This is a little unwieldy but it does generate patterns that don't repeat and are always unique.  But it's hardly the only way to go about it.
+
+
+In a sense we are using these patterns as names for numbers, but in another sense numbers are just names for patterns that follow simple rules.  And, if we decided to "let" one of these sequences of patterns "stand for" an ordering, we are really just using the sequence as a kind of name aren't we?  But what are we naming with our sequence? Order?  But isn't the word "order" just a name for using a sequence as a name for "order"?  Where does this "order" really come from?
+
+
+TODO: More on sequences, maybe mention Church Numerals, Peano.
+
+
+For now, we will choose the first method in most of what follows and say that a letter, such as 'a', may be the name of some other pattern of circles.  "Just because."
+
+
+But here's the really weird, the really bizarre and unreasonable thing we proceed to do next: we don't say what pattern of circles the name is a name for yet.
 
 
 Now, whether you realize it or not, we're so used to doing this weird trick so automatically that we tend to forget just how mind-bendingly bizarre and unusual it is.
 
-It's one thing to say a mark "names itself" because that's not really saying anything at all, at all, is it? If you say that the mark is saying itself, have you said anything?  And, if you weren't there saying that would it the mark still be "a name"?  What kind of a question is that, anyway?
+
+It's one thing to say a mark "names itself" because that's not really saying anything at all, at all, is it? If you say that the mark is saying itself, have you said anything?  And, if you weren't there saying that would the mark still be "a name"?  What kind of a question is that, anyway?
+
 
 To say that a bit of pattern can "stand for" some other bit of pattern is, in comparison, quite reasonable.  "Smoke" means "fire" after all, doesn't it?
 
 
-But when my friend says to me, "I have a freind, and I can't tell you their name, but..." don't I tend to know that there is a freind of my friend? But that this friend's friend could be my friend, really? But maybe they are just making this up, after all, I'm just making them up.
+But when my friend says to me, "I have a friend, and I can't tell you his name, but..." don't I tend to know that there is a friend of my friend? But don't I tend to suspect that this friend's friend could be my friend, really? But maybe he is just making this up. After all, I'm just making him up.
 
 
-So let's say that my friend's friend once told my friend, or so my friend informs me, that the squiggly line 'a' "is a name for" some pattern of circles, but I never found out which pattern of circles it was.  I know that every pattern of circles can reduce down to either the Void or a ("the") mark, so I know this pattern "named" by 'a' must reduce down to one of those as well.
+So let's say that my friend's friend once told my friend, or so my friend informs me, that the squiggly line 'a' "is a name for" some pattern of circles, but I never found out which pattern of circles it was.
+
+
+I know that every pattern of circles can reduce down to either the Void or a mark so I know this pattern "named" by 'a' must reduce down to one of those as well.
 
 Consider this form:
 
@@ -219,7 +274,11 @@ Which is Void-valued.  And if 'a' is a mark:
 Which is also Void-valued. So, no matter what 'a' might be (a(a)) is Void-valued.
 
 
-It turns out that if we follow a few simple rules regarding names the resulting expressions can be made to enact something called the "Primary Logic".
+- -
+
+
+It turns out that if we follow a few simple rules regarding names, in addition to the ones already described for plain circles, the resulting expressions can be made to enact something called the "Primary Logic".
+
 
 The rules are simply:
 
@@ -228,9 +287,16 @@ The rules are simply:
     a(b) = a(ab)
 
 
+And that's it.
 
 
-Many people, including George Spencer-Brown in "The Laws of Forms" have examined and explained this fanstatic and marvoulous result.  A man named George Burnett-Stuart has created a website "The Markable Mark" (see the references section below) that provides a really wonderful and smooth introduction to the world of symbolic logic and formal reasoning using the notation of the Laws of Form, and it is his work which directly stimulated the paper you're reading now (any blame is mine, the inspiration is all his.)
+If you follow those rules you can use the circle language to solve any logic problem, or any math problem, now and forever.
+
+
+- -
+
+
+Many people, including George Spencer-Brown in "The Laws of Forms", have examined and explained this singular fact.  A man named George Burnett-Stuart has created a website "The Markable Mark" (see the references section below) that provides a really wonderful and smooth introduction to the world of symbolic logic and formal reasoning using the notation of the Laws of Form, and it is his work which directly stimulated the paper you're reading now (any blame is mine, the inspiration is all his.)
 
 
 TODO: Explain a little bit more so people who can't or don't want to go work through the Markable Mark site can still, hopefully, follow what's going on below.
@@ -810,31 +876,10 @@ Remember when I said, "No more will be said here about the transcendental functi
 
 References
 
-John Backus and Functional Programming
+
+"Tao Te Ching: The Definitive Edition" Star, Jonathan; Laozi
 - - - - - - - - - - - - - - - - - - - - - -
-https://en.wikipedia.org/wiki/John_Backus
-"Can Programming Be Liberated From the von Neumann Style?" 1977 Turing Award Lecture
-http://www.thocp.net/biographies/papers/backus_turingaward_lecture.pdf
-
-
-
-Spencer-Brown and Laws of Form
-- - - - - - - - - - - - - - - - - - - - - -
-https://en.wikipedia.org/wiki/G._Spencer-Brown
-https://en.wikipedia.org/wiki/Laws_of_Form
-
-
-The Markable Mark
-- - - - - - - - - - - - - - - - - - - - - -
-George Burnett-Stuart
-http://www.markability.net/
-
-
 A good translation of the Tao Te Ching
-- - - - - - - - - - - - - - - - - - - - - -
-Star, Jonathan; Laozi "Tao Te Ching: The Definitive Edition"
-ISBN 9781585420995
-
 @book{2001tao,
   title={Tao Te Ching: The Definitive Edition},
   author={Star, J.},
@@ -846,9 +891,48 @@ ISBN 9781585420995
 }
 
 
-
 A Neuroanatomist becomes Buddha (doesn't make a fuss about it.)
 - - - - - - - - - - - - - - - - - - - - - -
 http://www.ted.com/talks/lang/ja/jill_bolte_taylor_s_powerful_stroke_of_insight.html
 https://en.wikipedia.org/wiki/Jill_Bolte_Taylor
+
+
+"Laws of Form", Spencer-Brown
+- - - - - - - - - - - - - - - - - - - - - -
+https://en.wikipedia.org/wiki/G._Spencer-Brown
+https://en.wikipedia.org/wiki/Laws_of_Form
+http://boundarymath.org/
+
+
+The Markable Mark
+- - - - - - - - - - - - - - - - - - - - - -
+George Burnett-Stuart
+http://www.markability.net/
+
+
+William Bricken
+
+
+John Backus and Functional Programming
+- - - - - - - - - - - - - - - - - - - - - -
+https://en.wikipedia.org/wiki/John_Backus
+"Can Programming Be Liberated From the von Neumann Style?" 1977 Turing Award Lecture
+http://www.thocp.net/biographies/papers/backus_turingaward_lecture.pdf
+
+
+"Introduction to Cybernetics" W. Ross Ashby
+- - - - - - - - - - - - - - - - - - - - - -
+http://pespmc1.vub.ac.be/ASHBBOOK.html
+
+
+"Physics, Topology, Logic and Computation: A Rosetta Stone"
+John Baez, Michael Stay
+- - - - - - - - - - - - - - - - - - - - - -
+http://math.ucr.edu/home/baez/rosetta/rose3.pdf
+
+
+"Function Interface Models for Hardware Compilation" Dan R. Ghica
+- - - - - - - - - - - - - - - - - - - - - -
+http://www.cs.bham.ac.uk/~drg/papers/memocode11.pdf
+
 
