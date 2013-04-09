@@ -257,19 +257,23 @@ So let's say that my friend's friend once told my friend, or so my friend inform
 
 I know that every pattern of circles can reduce down to either the Void or a mark so I know this pattern "named" by 'a' must reduce down to one of those as well.
 
+
 Consider this form:
 
     (a(a))
 
 Even though I don't know what pattern of circles 'a' is a name for, I can still tell that this pattern of circles is Void-valued.  The easy way to think about a simple pattern like this one is to just imagine replacing 'a' wherever it appears with one of the two values (Void and Something Else) and then checking the result.
 
+
 If 'a' is nothing at all then:
 
     (())
 
+
 Which is Void-valued.  And if 'a' is a mark:
 
     (()(()))
+
 
 Which is also Void-valued. So, no matter what 'a' might be (a(a)) is Void-valued.
 
@@ -527,7 +531,6 @@ It is trivial to construct a circle expression that denotes a "Half-Bit Adder" c
 
 As you can plainly see, the sum is given by XORing the inputs while the carry signal is just logical AND of the inputs.  In Python:
 
-
     half_bit_adder = xor(a, b), and_(a, b)
 
 
@@ -600,6 +603,7 @@ Once we have the expressions for a Full-Bit Adder circuit that can be composed w
     Sum0, Cout0 = FBA(a0, b0, Cin)
     Sum1, Cout1 = FBA(a1, b1, Cout0)
 
+
 This generates the following expressions (note that we don't care about Cout0 because it is just passed back in to the carry signal of the next stage.  The output expressions are three: two bits for the sum and one for the carry):
 
     Sum0: ((((((a0)(b0))(a0 b0)))(Cin))((((a0)(b0))(a0 b0))Cin))
@@ -608,6 +612,7 @@ This generates the following expressions (note that we don't care about Cout0 be
       ((((a1)(b1))(a1 b1))(((((((a0)(b0))(a0 b0)))(Cin))((a0)(b0))))))
 
     Cout1: (((((((a1)(b1))(a1 b1)))((((((((a0)(b0))(a0 b0)))(Cin))((a0)(b0))))))((a1)(b1))))
+
 
 We can do things to these expressions to make them simpler, but first let's "run" them by trying different inputs and checking the values of the outputs.  I've done that and formatted the binary values in decimal to make it easier to read.  Note that the 'Cout1' signal indicates an "overflow" of the two bits and so counts as 4 for purposes of determining the output of the adder as a decimal number.
 
@@ -659,9 +664,12 @@ Consider the following self-referential form:
     The Set-Reset Flip-Flop:
     q = ((qs)r)
 
+
 If both 's' and 'r' are allowed to be Void-valued the expression becomes 'q = ((q))' which is a statement of the basic rule '(()) = Void'.  It (the equation, not 'q') is trivially True (stable) for either value that 'q' may assume.
 
+
 If 'q' is the mark (or we can say "has the value of the mark") then the value of 's' is ignored, but the value of 'r' can "invert" the value of the whole expression if it is permitted to be the value of the mark.  Likewise, the same situation holds in a kind of symmetry when 'q' is Void-valued.  In that case, the value of 'r' is ignored but 's' can "invert" the value of the whole expression if it is permitted to assume the value of the mark.
+
 
 This is a kind of "memory" circuit called a Set-Reset Flip-Flop.
 
@@ -767,34 +775,120 @@ In other cases this is not possible, and in some cases no one knows (or can prov
 
 Another interesting question is, "What precisely are these expressions and protocols versions of?"  The answer seems to be "momentum".  Or, more precisely, "patterns in momentum".  But that hardly helps because no one knows (or can prove) what momentum "is".
 
+
 - -
+
 
 Consider the adder circuits.  If we were to connect the output signals to one set of the input signals and let the system "run free" we would expect nothing to happen, unless the "free" input signals were permitted to assume some value (other than all-Void, representing the number zero.)
 
+
 If the "free" input were zero, then any pattern on the inputs/outputs would remain stable. But if a pattern were introduced into the "free" inputs and allowed to remain stable, the adder circuit would begin to count.
+
 
 The "bound" input would be "output-plus-whatever" (where "whatever" is the pattern on the "free" input"), but the output is just the "bound" input, so the system as a whole would cycle, adding the "number" pattern in the "free" input to the "number" pattern propagating through the input/output signal "lines" in a continuous cascade.
 
+
 How can we know the behaviour of the adder circuit connected to itself just by thinking about it?  We didn't compose any expressions, nor run any simulations, did we?  Perhaps our brains did so without our noticing, but if we review the above train of thought it doesn't really seems necessary, does it?
 
-We did something like, "if a+b=c, and c = a, then c+b=c"  but that only makes sense if b=0, but we are saying that we want to know what happens if b="something-else".  It turns out that either you get what is called a "paradox" or you get what is called "time".  But of course those are just two more names for "things" nobody understands.
+
+We did something like, "if a+b = c, and c = a, then c+b = c"  but that only makes sense if b = 0, but we are saying that we want to know what happens if b = "something else".  It turns out that either you get what is called a "paradox" or you get what is called "time".  But of course those are just two more names for "things" nobody understands.
+
 
 Nevertheless, the circuits work.
 
 
 - -
 
+
+More Names
+
+
+We can represent the protocols of our little machine as a sort of table, or "map", from each state of the bits to the state after one cycle:
+
+    100 -> 110
+    110 -> 010
+    111 -> 000
+    000 -> 110
+    011 -> 001
+
+
+We can think of this table as five names.  We can imagine that '100' is a name for 110, and that '000' is a name for 110.  Perhaps there is a way to make our patterns name not only numbers, but other names as well.
+
+And, if we can do that, perhaps there is a way to make our machines enact patterns that can do math with names, and not just numbers (which, recall, are just names.)
+
+
+Consider:
+
+    c = ( (a(q)) (qb) )
+
+
+If 'q' is Void-valued then 'c' will assume the value of 'b', but if 'q' is a mark then 'c' will assume the value of 'a'.  This expression uses 'q' to name either 'a' or 'b'.  (In computer programming parlance this is an "If Statement".)
+
+
+Meaning
+
+
+Let's put our table of names into a dictionary (or "namespace") in Python:
+
+    machine = {
+      '100': '110',
+      '110': '010',
+      '111': '000',
+      '000': '110',
+      '011': '001',
+      }
+
+
+Now we can model our machine by using the get() method of the Python dictionary:
+
+    >>> machine.get('100')
+    '110'
+
+
+Because we know that our machine is already in a "basin" after at most four cycles, we could use the following function to "tell the future" of any given state:
+
+    def future(m, state, time):
+      for _ in range(time):
+        state = m.get(state, state)
+      return state
+
+
+Running it at the interactive prompt would look like this:
+
+    >>> future(machine, '100', 4)
+    '010'
+
+    >>> future(machine, '011', 4)
+    '001'
+
+    >>> future(machine, '111', 4)
+    '010'
+
+
+
+
+
+- -
+
+
 A Universal Circuit?
+
 
 Consider the following self-referential form, with 'Q', 'a', and 'b' initially Void-valued:
 
-Q = ((a(Q))(Qb))
+    Q = ((a(Q))(Qb))
+
 
 The signal 'a' changing from Void to "Something" alone has no effect, but if either 'b' or 'Q' are "brought high" while 'a' is then 'Q' will remain "on" as long as 'a' does.
 
+
 On the other hand, if 'b' is "brought high" without 'a' then 'Q' cycles (at a frequency dependent upon the physical characteristics of the mechanism enacting the form.  What frequency does such a "machine" assume if it is just "imaginary", just "in your head"?  Is it possible to have an "imaginary" machine maintain a "real" cycle frequency?)
 
+
 This formal equation, depending on the circumstances of analysis, functions as a switch, a memory, and an oscillator, and copies of it can be ganged together to establish any particular function imaginable.  (That last sentence may not be true, nor this one.)
+
+
+
 
 
 

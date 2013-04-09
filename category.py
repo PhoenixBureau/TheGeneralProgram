@@ -13,3 +13,17 @@ hom[2, 3] = set()
 hom[2, 3].add(f0)
  
 
+machine = {
+  '100': '110',
+  '110': '010',
+  '111': '000',
+  '000': '110',
+  '011': '001',
+  }
+
+
+def future(m, state, time):
+  for _ in range(time):
+    state = m.get(state, state)
+  return state
+
