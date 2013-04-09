@@ -50,3 +50,24 @@ if __name__ == '__main__':
         Sum, Cout = FBA(a, b, Cin)
         print map(lambda n: int(bool(n)), (a, b, Cin)), '->',
         print int(not mark(Sum)), int(not mark(Cout))
+
+  print; print
+
+  N = lambda bits: sum(2**n for n, bit in enumerate(bits) if bool(bit))
+
+  print 'a   b  Cin sum carry'
+  for a1 in B:
+    for b1 in B:
+      for Cin in B:
+        for a0 in B:
+          for b0 in B:
+            Sum0, Cout0 = FBA(a0, b0, Cin)
+            Sum1, Cout1 = FBA(a1, b1, Cout0)
+
+            print N((b0, b1)), '+', N((a0, a1)), '+', int(not mark(Cin)),
+            print'=', N((int(not mark(Sum0)), int(not mark(Sum1)))), '+', 4 * int(not mark(Cout1))
+
+##            print map(lambda n: int(bool(n)), (a0, b0, Cin, a1, b1)), '->',
+####            print int(not mark(Sum0)), int(not mark(Sum1)), int(not mark(Cout0)), int(not mark(Cout1))
+##            print int(not mark(Sum0)), int(not mark(Sum1)), int(not mark(Cout1))
+##            print
