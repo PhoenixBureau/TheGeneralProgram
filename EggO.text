@@ -262,6 +262,7 @@ Consider this form:
 
     (a(a))
 
+
 Even though I don't know what pattern of circles 'a' is a name for, I can still tell that this pattern of circles is Void-valued.  The easy way to think about a simple pattern like this one is to just imagine replacing 'a' wherever it appears with one of the two values (Void and Something Else) and then checking the result.
 
 
@@ -276,6 +277,50 @@ Which is Void-valued.  And if 'a' is a mark:
 
 
 Which is also Void-valued. So, no matter what 'a' might be (a(a)) is Void-valued.
+
+
+
+- -
+
+
+The Guardians
+
+
+You have been captured by an evil wizard and imprisoned in a room.  There are two doors leading out of the room and in front of each door stands a mighty Guardian.  The wizard has informed you that one Guardian always tells the truth and the other Guardian always lies.  He has also informed you that one door leads to freedom while the other door leads to certain doom.  He didn't tell you which door is which, nor which Guardian is which, nor which door each Guardian is standing in front of, but he did tell you that you are allowed to ask one of the Guardians one question to figure out which door to go through..
+
+
+What question should you ask?
+
+
+Let us name the door that leads to freedom (O) and the door that leads to certain doom O, and let us name the Truth-Telling Guardian (O) and the Lie-Telling Guardian O.
+
+
+If you were to ask the Truth-Teller what door he is standing in front of he will tell you the truth. If he is standing in front of the door leading to Freedom he would say (((O))) (which is Void-valued) and if he is standing in front of the door leading to certain doom he would say ((O)) (which is the same as O).
+
+
+The liar would say ((O)) (which is the same as O) if he is standing in front of the door leading to Freedom and (O) (which is Void-valued) if he is standing in front of the door leading to certain doom.
+
+
+That doesn't help much, but what if you asked one Guardian what the other Guardian would say if you were to ask him?
+
+
+The Truth-Teller would tell the truth, so he would say the same thing that the Liar would say, but the liar would lie.  If the Truth-Teller is standing in front of the door leading to Freedom the liar would say that the Truth-Teller would say ((((O)))) (which is the same as O) but if the Truth-Teller is standing in front of the door leading to certain doom the liar would say (((O))) (which is Void-valued.)
+
+
+This is a little confusing so let's draw a little diagram:
+
+    Door   Guardian   Guardian   Answer
+    O      O          (O)        (((O))) -> _
+    O      (O)        O          (((O))) -> _
+
+    (O)    O          (O)        ((((O)))) -> O
+    (O)    (O)        O          ((((O)))) -> O
+
+
+It seems that, no matter whom you ask, and no matter which door is which, you can find out the opposite of the answer you want by asking one Guardian what the other would say about his door.
+
+
+In effect, by asking one Guardian what the other would say you are forcing them both to answer, and because one always lies and one always tells the truth, and it doesn't matter in which order they go, you can always know the right answer, the door to Freedom.
 
 
 - -
@@ -295,6 +340,22 @@ And that's it.
 
 
 If you follow those rules you can use the circle language to solve any logic problem, or any math problem, now and forever.
+
+
+- -
+
+
+The Guardians Again
+
+
+Let's use 'd' for the "name" of a door and redraw our little diagram:
+
+    Door   Guardian   Guardian   Answer
+    d      O          (O)        (((d))) -> (d)
+    d      (O)        O          (((d))) -> (d)
+
+
+No matter which order the Guardians answer (Truth about a lie, or a lie about the Truth) if you can get them both in line they will always answer "not 'd'" and so tell you the name of the door.
 
 
 - -
