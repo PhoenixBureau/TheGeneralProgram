@@ -28,6 +28,46 @@ The second is a notation for universal reasoning that is simple, elegant and dir
 
 Third, new results in circuit design and program construction are enabled.
 
+-
+
+Table of Contents
+
+0. Nonsensical Formalities
+
+I. "Formal Nonsense"
+
+  In the Land of Nomy
+
+    The Guardians
+
+    The Guardians Again
+
+  In the Land of Nor
+
+    Circuits
+
+    More Circuits
+
+    More Names
+
+    Meaning
+
+    Programming
+
+    Cybernetics [is Category Theory]
+
+    Gödel Machines
+
+    Intention
+
+Conclusion
+
+Appendix A: A Universal Circuit?
+Appendix B: Curious Musicians
+
+References & Recommended Reading
+
+
 
 Nonsensical Formalities
 ________________________________________
@@ -130,6 +170,7 @@ While these forms are not "marks" (or "not-marks"):
 
 
 William Bricken has shown that two rules for "rewriting" or "transforming" these forms permit all possible forms to be generated or elucidated without altering the "mark"-ness of the resulting new forms.
+
 
 These are the two rules:
 
@@ -234,6 +275,26 @@ In a sense we are using these patterns as names for numbers, but in another sens
 TODO: More on sequences, maybe mention Church Numerals, Peano.
 
 
+    Simple Binary Number Encoding Algorithm
+
+    23
+
+     1: XXXXXXXXXXX/ 1
+     2: XXXXX/ 1
+     4: XX/ 1
+     8: X 0
+    16: / 1
+
+    /   /   / _ /
+    1 + 2 + 4 + 16 = 23
+
+
+Count a number by making an X and counting each diagonal.  If the row ends with a single diagonal that is a '1' digit.  If it ends with a full X that is a '0' digit.  Continue the process by counting the X's in the row you just made in the same way.  You will always end on a '1' digit.  The number in binary is given by the digits from the Least Significant to the Most, i.e. 23 in binary (with normal RTL ordering) is '10111'.
+
+
+- -
+
+
 For now, we will choose the first method in most of what follows and say that a letter, such as 'a', may be the name of some other pattern of circles.  "Just because."
 
 
@@ -292,6 +353,13 @@ You have been captured by an evil wizard and imprisoned in a room.  There are tw
 What question should you ask?
 
 
+
+If you know this riddle but don't remember the answer BEWARE! You may never forget it again after reading what's next.  This "riddle" will become so plain to your understanding that you will marvel that you ever thought it was a "riddle" in the first place.
+
+
+Here we go...
+
+
 Let us name the door that leads to freedom (O) and the door that leads to certain doom O, and let us name the Truth-Telling Guardian (O) and the Lie-Telling Guardian O.
 
 
@@ -320,7 +388,7 @@ This is a little confusing so let's draw a little diagram:
 It seems that, no matter whom you ask, and no matter which door is which, you can find out the opposite of the answer you want by asking one Guardian what the other would say about his door.
 
 
-In effect, by asking one Guardian what the other would say you are forcing them both to answer, and because one always lies and one always tells the truth, and it doesn't matter in which order they go, you can always know the right answer, the door to Freedom.
+In effect, by asking one Guardian what the other would say, you are forcing them both to answer, and because one always lies and one always tells the truth, and it doesn't matter in which order they go, you can always know the right answer, the door to Freedom.
 
 
 - -
@@ -361,13 +429,16 @@ No matter which order the Guardians answer (Truth about a lie, or a lie about th
 - -
 
 
-Many people, including George Spencer-Brown in "The Laws of Forms", have examined and explained this singular fact.  A man named George Burnett-Stuart has created a website "The Markable Mark" (see the references section below) that provides a really wonderful and smooth introduction to the world of symbolic logic and formal reasoning using the notation of the Laws of Form, and it is his work which directly stimulated the paper you're reading now (any blame is mine, the inspiration is all his.)
+Many people, including George Spencer-Brown in "The Laws of Forms", have examined and explained this singular fact.  A man named George Burnett-Stuart has created a website "The Markable Mark" (see the references section below) that provides a really wonderful and smooth introduction to the world of symbolic logic and formal reasoning using the notation of the Laws of Form, and it is his work which directly stimulated the paper you're reading now (any blame is mine, the inspiration is his.)
 
 
-TODO: Explain a little bit more so people who can't or don't want to go work through the Markable Mark site can still, hopefully, follow what's going on below.
+I really can't do better than Burnett-Stuart's "The Markable Mark".
 
 
-So, any expression of circles (and symbols representing circle expressions, and symbols representing expressions of such symbols and circle expressions) can be manipulated in value-preserving ways by known logic.  We can model and solve logical systems using the notation.
+I'm going to assume that either you know what I'm on about with the "Primary Logic" already, or that you have gone and played your way through "The Markable Mark" to the point where you understand that any expression of circles and symbols "names" representing circle expressions, and symbols representing expressions of such symbols and circle expressions, and so on, can be manipulated in value-preserving ways by known logic.
+
+
+We can model and solve logical systems using the notation.
 
 
 If this were all then we have not said much that is not in any book on logic and symbolic reasoning.  If the only advantage to the Circle Language were that it gives a simple and elegant introduction to formal reasoning then I would be satisfied, as that is a worthy and sorely needed thing.  Admirably, the notation also provides a means of constructing logical circuits and programs.
@@ -427,7 +498,7 @@ The fact that the resulting selected circle expressions will only treat a tiny s
 The "bottleneck" is unnecessary. It is a notational artifact.
 
 
-I don't wish to belabor this point but it does bear some emphasis.  We have known how to create "parallel" or "concurrent" systems in hardware for a long time.  An eight-bit machine is doing (more than) eight things at a time when it, for example, adds two bytes and stores the result in a register.  For no essential reason we give up this art when we write programs in assembly language (and all "higher-level" programming languages are arrangements of machine instructions in the same way that all material around you is an arrangment of atoms.)
+I don't wish to belabor this point but it does bear some emphasis.  We have known how to create "parallel" or "concurrent" systems in hardware for a long time.  An eight-bit machine is doing (more than) eight things at a time when it, for example, adds two bytes and stores the result in a register.  For no essential reason we give up this art when we write programs in assembly language (and all "higher-level" programming languages are arrangements of machine instructions in the same way that all material around you is an arrangement of atoms.)
 
 
 We can easily compose large circle expressions that develop results across a larger subset of the bits in the bitset of a computer than those provided in the typical state-of-the-art machines.  In effect, RAM would be one (or a few) very large registers (mega-bits or more) and the Arithmetic-Logic-Unit would apply a myriad of expressions to all or most of the bits in each computational cycle to develop patterns closer to the desired output of the running program.
@@ -560,6 +631,8 @@ We can use the logical methods described so admirably well on the Markable Mark 
 This is a somewhat more sophisticated approach than the simple term factoring discussed below.  It is also worth noting, again, that it is possible to generate new forms of equivalent value mechanically using existing art and it is possible to evaluate the expected performance of extensionally identical expressions as instantiated into specific physical (or software-on-existing-hardware) forms according to preferred utility metrics mechanically.  (again, cf. Gödel Machines.)
 
 
+It turns out that chip designers have know about this for a long time.
+
 TODO: https://en.wikipedia.org/wiki/Canonical_form_%28Boolean_algebra%29 "whenever performance is vital, going beyond canonical forms and doing the mind-bending Boolean algebra to make the unenhanced NOR gates do the job is well worth while."
 
 
@@ -621,14 +694,14 @@ For example, in order to build a general adder circuit that can be ganged togeth
 And here is the resulting Truth-Table, as generated by reducing the above expressions after substituting the input values for their symbols:
 
      a  b Cin  Sum Cout
-    [0, 0, 0] -> 0 0
-    [0, 0, 1] -> 1 0
-    [0, 1, 0] -> 1 0
-    [0, 1, 1] -> 0 1
-    [1, 0, 0] -> 1 0
-    [1, 0, 1] -> 0 1
-    [1, 1, 0] -> 0 1
-    [1, 1, 1] -> 1 1
+     0  0  0  -> 0 0
+     0  0  1  -> 1 0
+     0  1  0  -> 1 0
+     0  1  1  -> 0 1
+     1  0  0  -> 1 0
+     1  0  1  -> 0 1
+     1  1  0  -> 0 1
+     1  1  1  -> 1 1
 
 
 The expressions give the desired output behaviour.
@@ -873,9 +946,9 @@ We can represent the protocols of our little machine as a sort of table, or "map
     011 -> 001
 
 
-We can think of this table as five names.  We can imagine that '100' is a name for 110, and that '000' is a name for 110.  Perhaps there is a way to make our patterns name not only numbers, but other names as well.
+We can think of this table as five names.  We can imagine that '100' is a name for 110, and that '000' is a name for 110.  Our patterns name not only numbers but other names as well.
 
-And, if we can do that, perhaps there is a way to make our machines enact patterns that can do math with names, and not just numbers (which, recall, are just names.)
+And, if we can do that, there is a way to make our machines enact patterns that can do math with names and not just numbers (which, recall, are just names.)
 
 
 Consider:
@@ -906,7 +979,7 @@ Now we can model our machine by using the get() method of the Python dictionary:
     '110'
 
 
-Because we know that our machine is already in a "basin" after at most four cycles, we could use the following function to "tell the future" of any given state:
+Because we know that our machine is already in a "basin" after at most four cycles, we could use the following function to "foretell the future" of any given state (the second argument to the get() method is the default to return if the first argument isn't in the dictionary; here we are just telling it to return the state itself):
 
     def future(m, state, time):
       for _ in range(time):
@@ -926,13 +999,142 @@ Running it at the interactive prompt would look like this:
     '010'
 
 
+We're going to talk about dictionaries of names and definitions in a few different ways.  I like to think of them as "meanings".  To a mechanism such a map from patterns that "are names" to patterns that "are values" is itself a "value" and there cannot be any other kind of "meaning" for a mechanism, or so I suspect.
 
+
+For you and me, there seems to be some other special something that goes along with "meaning" as well, but also we are just like the machines.  "Smoke" means "fire" because the chemicals in smoke trigger certain biological, physical, chemical (and in this context these are all synonyms for each other, or so we suspect) changes in your body.
+
+
+The same thing is true for "words", which are just sounds, and the patterns that appear on other peoples' faces and in what is often called their "body language", which are just pattern of light.
+
+
+Patterns of light hitting your eyes "name" the contents of the internal Universe of another person.  Except, of course, when they don't.
+
+
+We could make a map, a dictionary, from any name to any "meaning".
+
+
+It is interesting that we can build a "machine" that can tell us the future of some other "machine", the workings of whom we do not know, but whom we have observed for "long enough" to have a protocol with "enough" information in it.
+
+
+In that last sentence I used the word "machine" the first time as another meaning for a dictionary, and the second time as it is used in a science known as Cybernetics.  No one knows what "enough" means when used the way it was in a general sense but often "enough" turns out to be not very much at all.
+
+
+At this point, the interested reader is urged, most emphatically, to read and study "Introduction to Cybernetics" by W. Ross Ashby, which has been made publicly available in PDF form (see URL below in the references.)
+
+
+I cannot possibly do better than Ashby.
+
+
+Under no circumstances should you remain ignorant of Cybernetics.
+
+
+Further, there is something called Category Theory which, I believe, is talking about the same kinds of things in the same kinds of ways but with a really crunchy mathematical flavor.  I recently read the paper "Physics, Topology, Logic and Computation: A Rosetta Stone" (see references section) which is a sort of quick skim through showing how Category Theory is used in the four fields mentioned in the title.
 
 
 - -
 
 
-A Universal Circuit?
+Programming
+
+
+People are already using Category Theory for generating computer hardware from expressions (see "Function Interface Models for Hardware Compilation" in the references section.)
+
+
+We can also compose "high-level" functions and programming languages out of the "low-level" circuit expressions.  If our tools provide expressive power for "high-level" descriptions of programs that map very directly and efficiently onto the underlying hardware in the first place it should make the compiler-writers' jobs easier and our programs more efficient.
+
+
+If a computer is modeled as a set of bits with a selectable array of circle expression logic that transforms as much of the bit-set per cycle as we can figure out how to profitable select and transform, how do we figure out how to profitable select those circle expressions?
+
+
+We know how to do it technically.  We can make switching circuits and apply different operations depending on the values of given signals.
+
+
+In effect the signals "name" the operations to take, but from another point of view there is just content-free switching.  The switches and their patterns are themselves always subject to a modeling or naming process that then gives "us" (whatever we are) the "meaning" of a pattern or computation (which is just a dynamic pattern.) 
+
+
+For example, there are extensive standards describing exactly which bit patterns correspond to which of the "real numbers" for many "types" of what is called "floating point representation".
+
+
+There are exotic number systems that represent numbers as sums of there logarithms in bases 2 and 3, that are very nice for certain digital signal processing tasks but quite mind-bending otherwise.
+
+
+TODO: Show how multi-base number systems work using the Circle Language. Fun! ^_^
+
+
+It should not be difficult to start with GBS's circle language interactive computers and add just a bit of functionality to make them complete general universal programming systems that any child could learn.
+
+
+You would add a logical unification engine (like LogPy aka logic.py) and you could either run your circle expressions (as Python or Javascript code or something), or convert them down to assembly or GPU instructions using off-the-shelf packages.  And, of course, you could use something like MyHDL to create VLSI files and print silicon if you felt like it.
+
+
+- -
+
+
+What is the relation between the circles as logical statements and the circles as schematics for logical circuits?
+
+
+They seem the same in some ways and sort-of "orthogonal" in others.  With the logical view we must find steps to convert expressions into equivalent expressions that are in some way "closer" to a form that has "something" we prefer to the previous form.  With the circuit-schematic view we are confronted with direct expressions of the structure and correctness of logical networks.  There are no notational hidden aspects and there can be no "bugs" or errors.  The expressions "are" the correct circuits in the same way that the letter 'a' "is" the letter 'a' and cannot be some other letter (unless we change our minds about the meaning of that particular squiggle, but then we are hardly playing the game correctly.)
+
+
+To go from form to form by logical manipulation is a mechanical process after we have figured out what to do (what program of transformations to apply to change one form into another equivalent form) but the process of figuring out a given program seems, while still having purely mechanical aspects, to partake of something more, something beyond the abilities of those things we call machines.
+
+
+Also, we can construct computer programs (constellations of circle expressions, after the usage in this paper) that help us design and model logic circuits.  Computer-aided design of high-density ICs is an established field with a vast body of art and science behind it.  Since these are just circle expressions creating and modifying circle expressions, why not remove as much of the intervening abstractions and try to find a more direct path?
+
+
+The patterns in the circle expressions considered as logical circuits are computing "proofs" in real-time of the results of, in effect, circle expressions considered as logical propositions.
+
+
+TODO: Reworking expressions using AI with LogPy.
+
+
+Cybernetics [is Category Theory]
+
+
+If, as I suspect, Cybernetics and Category Theory are basically the same thing, then we are about to create some very sophisticated and powerful "machines".
+
+
+Gödel Machines
+
+
+One of the formal results of Cybernetics is that any system that regulates itself must have a "model" of itself within it.
+
+
+If a computer has a model of itself and is allowed to modify its own program it is what is called a "Gödel Machine".
+
+
+A Gödel Machine can be given a "utility function" and it will self-improve at increasing its utility according to that function.
+
+
+The utility function is the "intention" of the machine, and the machine is a universal optimal problem solver.
+
+
+You may wonder if these Gödel Machines actually exist and work as described.
+
+
+Yes.
+
+
+They do.
+
+
+Intention
+
+
+What utility function should the Gödel Machines be given?
+
+
+Conclusion.
+________________________________________
+
+
+Remember when I said, "No more will be said here about the transcendental function of the notation."?  I lied, I will say this: All form is but folly, and you cannot find the distinction, the "horizon", between "you" and "the world" until you remember that there isn't any.
+
+
+
+Appendix A: A Universal Circuit?
+________________________________________
 
 
 Consider the following self-referential form, with 'Q', 'a', and 'b' initially Void-valued:
@@ -950,40 +1152,7 @@ This formal equation, depending on the circumstances of analysis, functions as a
 
 
 
-
-
-
-- -
-
-TODO: Composing "high-level" functions and "programming languages" out of the "low-level" circuit expressions.
-
-If a computer is modelled as a set of bits with a selectable array of circle expression logic that transforms as much of the bit-set per cycle as we can figure out how to profitable select and transform, how do we figure out how to profitable select those circle expressions?
-
-TODO: How do computer designers do it?  We can make switching circuits and apply different operations depending on the values of given signals.  In effect the signals "name" the operations to take, but from another point of view there is just content-free switching.  The switches and their patterns are themselves always subject to a modelling or naming process that then gives "us" (whatever we are) the "meaning" of a pattern or computation (which is just a dynamic pattern.) 
-
-TODO: What is the relation between the circles as logical statements and the circles as schematics for logical circuits?
-
-
-They seem the same in some ways and sort-of "orthagonal" in others.  With the logical view we must find steps to convert expressions into equivalent expressions that are in some way "closer" to a form that has "something" we prefer to the previous form.  With the circuit-schematic view we are confronted with direct expressions of the structure and correctness of logical networks.  There are no notational hidden aspects and there can be no "bugs" or errors.  The expressions "are" the correct circuits in the same way that the letter 'a' "is" the letter 'a' and cannot be some other letter (unless we change our minds about the meaning of that particular squiggle, but then we are hardly playing the game correctly.)
-
-
-To go from form to form by logical manipulation is a mechanical process after we have figured out what to do (what program of transformations to apply to change one form into another equivalent form) but the process of figuring out a given program seems, while still having purely mechanical aspects, to partake of something more, something beyond the abilities of those things we call machines.
-
-
-Also, we can construct computer programs (constellations of circle expressions, after the usage in this paper) that help us design and model logic circuits.  Computer-aided design of high-density ICs is an established field with a vast body of art and science behind it.  Since these are just circle expressions creating and modifying circle expressions, why not remove as much of the intervening abstractions and try to find a more direct path?
-
-
-The patterns in the circle expressions considered as logical circuits are computing "proofs" in real-time of the results of, in effect, circle expressions considered as logical propositions.
-
-
-TODO: Reworking expressions using AI with LogPy.
-
-
-TODO: Shroup et. al. Imaginary Booleans and temporal logical systems.
-
-
-
-Curious Musicians
+Appendix B:Curious Musicians
 ________________________________________
 
 
@@ -1021,15 +1190,10 @@ We would compute by a kind of music.
 
 I have not explored this further, but I think it points the way to a kind of processing where the basic signal values are no longer simply binary but instead are perhaps sine waves or even more exotic forms.  I speculate that we may be able to build what are effectively macro-scale non-exotic quantum computers, or other exotic but practical computing machinery.
 
-TODO: Cybernetics [is Category Theory]
-
-
-Conclusion.
-
-Remember when I said, "No more will be said here about the transcendental function of the notation."?  I lied, I will say this: All form is but folly, and you cannot find the distinction, the "horizon", between "you" and "the world", until you remember that there isn't any.
 
 
 References
+________________________________________
 
 
 "Tao Te Ching: The Definitive Edition" Star, Jonathan; Laozi
@@ -1065,7 +1229,9 @@ George Burnett-Stuart
 http://www.markability.net/
 
 
-William Bricken
+William Bricken, Richard Shoup et. al.
+- - - - - - - - - - - - - - - - - - - - - -
+http://www.boundarymath.org/
 
 
 John Backus and Functional Programming
@@ -1090,4 +1256,8 @@ http://math.ucr.edu/home/baez/rosetta/rose3.pdf
 - - - - - - - - - - - - - - - - - - - - - -
 http://www.cs.bham.ac.uk/~drg/papers/memocode11.pdf
 
+
+Gödel Machines
+- - - - - - - - - - - - - - - - - - - - - -
+http://www.idsia.ch/~juergen/goedelmachine.html
 
