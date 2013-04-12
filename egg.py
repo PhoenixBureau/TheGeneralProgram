@@ -1,9 +1,11 @@
+# -*- coding: utf-8 -*-
+from itertools import product, imap, izip
 
 
 B = ((),), ()
 
 
-mark = lambda form: not form or not any(mark(inner) for inner in form)
+mark = lambda form: not form or not any(imap(mark, form))
 
 
 reduce_ = lambda form: B[mark(form)]
@@ -14,6 +16,7 @@ or_ = lambda *bits: nor(bits)
 and_ = lambda *bits: tuple(nor(bit) for bit in bits)
 nand = lambda *bits: nor(and_(bits))
 xor = lambda *bits: nor(and_(*bits), nor(*bits))
+
 
 
 def walk(meaning, name):
@@ -32,30 +35,65 @@ def reify(meaning, form):
   return form
 
 
-
-########################################################################
-
-
-intify = lambda n: int(bool(n))
-
-
-from itertools import product
-
-
-def FBA(a, b, Cin):
-  h = and_(a, b)
-  y = nor(h, nor(a, b))
-  j = and_(y, Cin)
-  return nor(j, nor(y, Cin)), or_(j, h)
+def collect_names(form, names=None):
+  if names is None:
+    names = set()
+  if isinstance(form, basestring):
+    names.add(form)
+  else:
+    assert isinstance(form, tuple)
+    for inner in form:
+      collect_names(inner, names)
+  return names
 
 
-fba = FBA('a0', 'b0', 'Cin')
+def all_meanings(form):
+  names = sorted(collect_names(form))
+  if not names:
+    return
+  for values in product(*([B] * len(names))):
+    yield dict(izip(names, values))
 
 
-for a, b, c in product(B, B, B):
-  meaning = {'a0': a, 'b0': b, 'Cin': c}
-  su, co = reify(meaning, fba)
-  print '%i + %i + %i = %i %i' % tuple(map(intify, (a, b, c, reduce_(su), reduce_(co))))
+def exhaust(form):
+  for meaning in all_meanings(form):
+    yield meaning, reify(meaning, form)
+
+
+s = lambda term: (str(term)
+                  .replace(' ', '')
+                  .replace("','", ' ')
+                  .replace("'", '')
+                  .replace(',', '')
+                  .replace('(())', '◎')
+                  .replace('()', '○')
+                  )
 
 
 
+# "All humans are mortal a.k.a. mortal OR NOT human
+# IF NOT mortal THEN NOT human (Sorry, "The Highlander".)
+#
+c0 = or_('mortal', nor('human'))
+
+for m, r in exhaust(c0):
+  v = mark(r)
+  print s(r), '->', int(v), m if v else ''
+print
+
+##  ((◎(◎))) -> 1 {'human': ((),), 'mortal': ((),)}
+##  ((○(◎))) -> 1 {'human': ((),), 'mortal': ()}
+##  ((◎◎)) -> 0 
+##  ((○◎)) -> 1 {'human': (), 'mortal': ()}
+##
+#    Non-human immortals;
+#    Non-human mortals;
+#    Human mortals;
+#
+#    but NO human immortals
+
+
+
+##  for m, r in exhaust(and_(*'abcde')):
+##    v = mark(r)
+##    print s(r), '->', int(v), m if v else ''
