@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from egg import nor, solve, s
+from egg import nor, and_, or_, solve, s
 
 #        ( ¬a ∨ ¬b )      ≡        ¬( a ∧ b )
 # or_(nor('a'), nor('b')) == nor(and_('a', 'b'))
@@ -22,7 +22,7 @@ print
 E = nor('mortal'), 'human'
 
 #E = nor('mammal'), 'hairy', 'lactates', 'live-birth'
-E = 'hairy', 'lactates', 'live-birth'
+#E = 'hairy', 'lactates', 'live-birth'
 
 
 no, yes = solve(E)
@@ -55,3 +55,58 @@ print
 ##  for m, r in exhaust(and_(*'abcde')):
 ##    v = mark(r)
 ##    print s(r), '->', int(v), m if v else ''
+
+
+print '''
+From Meguire 2007
+Stoll’s example is in effect the following clause:
+
+Premises:
+  (CU) ⇔ ~C ∧ ~U
+  (S)U ⇔ S → U
+  (WP)I ⇔ (W ∨ P) → I
+  (I)CS⇔ I → (C ∨ S)
+
+Conclusion: (W) ⇔ ~W
+
+'''
+##  A pa calculation verifying this clause goes as follows:
+##
+##    ((CU))((S)U)((WP)I)((I)CS)W′  Enclose premises, concatenate all.
+##        CU((S)U)((WP)I)((I)CS)W′  C1
+##          CU((S))((WP)I)((I)S)W′ C2,2x
+##              CUS((WP)I)((I)S)W′ C1
+##               CUS((WP)I)((I))W′ C2
+##                   CUS((WP)I)IW′ C1
+##                    CUS((WP))IW′ C2
+##                        CUSWPIW′ C1
+##                       W′WCUSPI  OI
+##                             ()  J0.
+##
+##
+
+
+# Note: I use or_() to put "bare" terms in ((*))
+# i.e. (I)CS -> (((I)CS)) This is idempotent to
+# the evaluation but necessary due to Python tuple behavior.
+
+
+a = nor('C', 'U')
+b = or_(('S',), 'U')
+c = or_(nor('W', 'P'), 'I')
+d = or_(nor('I'), 'C', 'S')
+
+e = nor('W')
+
+E = and_(a, b, c, d, nor(e))
+
+valid = not solve(E)[0]
+
+print s(a)
+print s(b)
+print s(c)
+print s(d)
+print
+print '→', s(e)
+print
+print s(E), '->', valid
