@@ -48,7 +48,7 @@ def collect_names(form, names=None):
 
 
 def all_meanings(form):
-  names = sorted(collect_names(form))
+  names = collect_names(form)
   if not names:
     return
   for values in product(*([B] * len(names))):
@@ -60,6 +60,17 @@ def exhaust(form):
     yield meaning, reify(meaning, form)
 
 
+def goal_clause(terms):
+  return nor(and_(*terms))
+
+
+def solve(form):
+  no_yes = [], []
+  for m, r in exhaust(goal_clause(form)):
+    no_yes[mark(r)].append((m, r))
+  return no_yes
+    
+
 s = lambda term: (str(term)
                   .replace(' ', '')
                   .replace("','", ' ')
@@ -70,15 +81,41 @@ s = lambda term: (str(term)
                   )
 
 
-
-# "All humans are mortal a.k.a. mortal OR NOT human
-# IF NOT mortal THEN NOT human (Sorry, "The Highlander".)
+#        ( ¬a ∨ ¬b )      ≡        ¬( a ∧ b )
+# or_(nor('a'), nor('b')) == nor(and_('a', 'b'))
 #
-c0 = or_('mortal', nor('human'))
+# True
+# In the circlang they are both: (((a)(b)))
+# No love for De Morgan...  Sorry dude.
+#
+# c0 = or_(nor(nor('mortal')), nor('human'))
 
-for m, r in exhaust(c0):
-  v = mark(r)
-  print s(r), '->', int(v), m if v else ''
+# c0 = nor(and_(nor('mortal'), 'human'))
+
+
+print "All humans are mortal, a.k.a. mortal OR NOT human,"
+print 'IF NOT mortal THEN NOT human (Sorry, "The Highlander".)'
+print
+print "E = nor('mortal'), 'human'"
+print
+
+E = nor('mortal'), 'human'
+
+E = nor('mammal'), 'hairy', 'lactates', 'live-birth'
+
+
+no, yes = solve(E)
+
+
+print 'Look for acceptable solutions'
+for m, r in yes:
+  print s(r), '->', m
+print
+
+
+print 'Look for counter examples'
+for m, r in no:
+  print s(r), '->', m
 print
 
 ##  ((◎(◎))) -> 1 {'human': ((),), 'mortal': ((),)}
