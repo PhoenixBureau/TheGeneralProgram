@@ -37,31 +37,3 @@ for it in transform((1, 2, 3), M, M, N):
 
 
 
-##
-##    def unwrap(t):
-##      for term in t:
-##        if term == ((),):
-##          pass
-##        elif isinstance(term, tuple) and len(term) == 1 and isinstance(term[0], tuple):
-##          for item in term[0]:
-##            yield item
-##        else:
-##          yield term
-##
-##
-##    def _A(form):
-##      if isinstance(form, basestring):
-##        return form
-##      return tuple(unwrap(form))
-##
-##
-##    def _B(form):
-##      if isinstance(form, basestring):
-##        return form
-##      return ((),) if () in form else form
-##
-##    Reduce = lambda form: (
-##      form if isinstance(form, basestring)
-##      else tuple(_A(_B(tuple(map(Reduce, form)))))
-##      )
-##

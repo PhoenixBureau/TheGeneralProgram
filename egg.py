@@ -18,6 +18,40 @@ nand = lambda *bits: nor(and_(bits))
 xor = lambda *bits: nor(and_(*bits), nor(*bits))
 
 
+def unwrap(form):
+  '''
+  Remove all (()) and let ((*)) -> * in a form. Generator.
+  '''
+  for term in form:
+    if term == ((),):
+      pass
+    elif isinstance(term, tuple) and len(term) == 1 and isinstance(term[0], tuple):
+      # Flatten out one "layer" of "wrapping".
+      for item in term[0]:
+        yield item
+    else:
+      yield term
+
+
+_A = lambda form: (form
+                   if isinstance(form, basestring)
+                   else tuple(unwrap(form)))
+
+
+_B = lambda form: (form
+                   if isinstance(form, basestring)
+                   else ((),) if () in form else form)
+
+
+def Reduce(form):
+  if isinstance(form, basestring):
+    return form
+  if (len(form) == 1
+      and isinstance(form[0], tuple)
+      and len(form[0]) == 1):
+    return Reduce(form[0][0])
+  return tuple(_A(_B(tuple(map(Reduce, form)))))
+
 
 def walk(meaning, name):
   while name in meaning and meaning[name] != name:

@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
-from egg import nor, and_, or_, solve, s
+from egg import nor, and_, or_, solve, Reduce, s
+
 
 #        ( ¬a ∨ ¬b )      ≡        ¬( a ∧ b )
 # or_(nor('a'), nor('b')) == nor(and_('a', 'b'))
@@ -83,7 +84,7 @@ Conclusion: (W) ⇔ ~W
 ##                       W′WCUSPI  OI
 ##                             ()  J0.
 ##
-##
+# Note: *′ = (*)
 
 
 # Note: I use or_() to put "bare" terms in ((*))
@@ -99,9 +100,15 @@ d = or_(('I',), 'C', 'S')
 e = 'W',
 
 E = and_(a, b, c, d, nor(e))
+print 'E =', s(E)
+E = Reduce(E)
+print '**Reduce**'
+print 'E =', s(E)
 
 valid = not solve(E)[0]
-
-print s(a), s(b), s(c), s(d), '→', s(e), '?'
 print
 print s(E), '->', valid
+
+
+
+
