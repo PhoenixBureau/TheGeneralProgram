@@ -65,7 +65,7 @@ Premises:
   (CU) ⇔ ~C ∧ ~U
   (S)U ⇔ S → U
   (WP)I ⇔ (W ∨ P) → I
-  (I)CS⇔ I → (C ∨ S)
+  (I)CS ⇔ I → (C ∨ S)
 
 Conclusion: (W) ⇔ ~W
 
@@ -91,22 +91,17 @@ Conclusion: (W) ⇔ ~W
 # the evaluation but necessary due to Python tuple behavior.
 
 
-a = nor('C', 'U')
+a = 'C', 'U'
 b = or_(('S',), 'U')
-c = or_(nor('W', 'P'), 'I')
-d = or_(nor('I'), 'C', 'S')
+c = or_(('W', 'P'), 'I')
+d = or_(('I',), 'C', 'S')
 
-e = nor('W')
+e = 'W',
 
 E = and_(a, b, c, d, nor(e))
 
 valid = not solve(E)[0]
 
-print s(a)
-print s(b)
-print s(c)
-print s(d)
-print
-print '→', s(e)
+print s(a), s(b), s(c), s(d), '→', s(e), '?'
 print
 print s(E), '->', valid
