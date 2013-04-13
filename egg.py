@@ -24,8 +24,8 @@ def unwrap(form):
   '''
   for term in form:
     if term == ((),):
-      pass
-    elif isinstance(term, tuple) and len(term) == 1 and isinstance(term[0], tuple):
+      continue
+    if isinstance(term, tuple) and len(term) == 1 and isinstance(term[0], tuple):
       # Flatten out one "layer" of "wrapping".
       for item in term[0]:
         yield item
@@ -75,7 +75,6 @@ def collect_names(form, names=None):
   if isinstance(form, basestring):
     names.add(form)
   else:
-    assert isinstance(form, tuple)
     for inner in form:
       collect_names(inner, names)
   return names

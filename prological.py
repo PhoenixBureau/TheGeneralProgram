@@ -19,6 +19,8 @@ print 'IF NOT mortal THEN NOT human (Sorry, "The Highlander".)'
 print
 print "E = nor('mortal'), 'human'"
 print
+print "     ¬ mortal ∨ human"
+print
 
 E = nor('mortal'), 'human'
 
@@ -88,7 +90,7 @@ Conclusion: (W) ⇔ ~W
 
 
 # Note: I use or_() to put "bare" terms in ((*))
-# i.e. (I)CS -> (((I)CS)) This is idempotent to
+# i.e. (I)CS -> (((I)CS)) This is value-preserving for
 # the evaluation but necessary due to Python tuple behavior.
 
 
