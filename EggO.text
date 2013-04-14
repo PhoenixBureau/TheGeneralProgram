@@ -483,36 +483,6 @@ Two circle expressions that yield the same behaviour ("extensional identity") ca
 - -
 
 
-Computers can be modeled as bit-sets (comprised of the registers, status bits, RAM, I/O, &c.) and a set of sets of circle expressions that define precisely transformations between "states" of the bits corresponding to the microcode &c. of the CPU circuitry in question.
-
-
-There is no special treatment for multiple computers connected to each other as compared to the circuitry in one machine connected to itself.
-
-
-The difference between a non-computer-machine and a computer is generally taken to be that, in a computer, the choice of which set of circle expressions to  evaluate over the bits is determined by the values of a certain subset of the bits (i.e. the "Program Counter" or "Instruction Pointer" or some such, and the contents of the program RAM pointed to by same.)
-
-
-The fact that the resulting selected circle expressions will only treat a tiny subset (typically) of the the bits in the total bit-set is precisely the complaint against the Von Neumann "bottleneck" Backus made in his Turing award talk on Functional Programming.
-
-
-The "bottleneck" is unnecessary. It is a notational artifact.
-
-
-I don't wish to belabor this point but it does bear some emphasis.  We have known how to create "parallel" or "concurrent" systems in hardware for a long time.  An eight-bit machine is doing (more than) eight things at a time when it, for example, adds two bytes and stores the result in a register.  For no essential reason we give up this art when we write programs in assembly language (and all "higher-level" programming languages are arrangements of machine instructions in the same way that all material around you is an arrangement of atoms.)
-
-
-We can easily compose large circle expressions that develop results across a larger subset of the bits in the bitset of a computer than those provided in the typical state-of-the-art machines.  In effect, RAM would be one (or a few) very large registers (mega-bits or more) and the Arithmetic-Logic-Unit would apply a myriad of expressions to all or most of the bits in each computational cycle to develop patterns closer to the desired output of the running program.
-
-
-The task of programmers then becomes constructing correct and efficient circle expressions (which are just logic circuit schematics) that develop the desired bit-patterns in the registers.
-
-
-One could imagine that no "output" as such would be needed: the circle expressions can be designed to construct output patterns directly in the register RAM, a portion of which would  be the system's video RAM  (cf. Turing Drawings.)  Alternately bit-patterns could be written to permanent storage or transmitted over a network.
-
-
-- -
-
-
 Circuits
 
 
@@ -629,11 +599,6 @@ We can use the logical methods described so admirably well on the Markable Mark 
 
 
 This is a somewhat more sophisticated approach than the simple term factoring discussed below.  It is also worth noting, again, that it is possible to generate new forms of equivalent value mechanically using existing art and it is possible to evaluate the expected performance of extensionally identical expressions as instantiated into specific physical (or software-on-existing-hardware) forms according to preferred utility metrics mechanically.  (again, cf. Gödel Machines.)
-
-
-It turns out that chip designers have know about this for a long time.
-
-TODO: https://en.wikipedia.org/wiki/Canonical_form_%28Boolean_algebra%29 "whenever performance is vital, going beyond canonical forms and doing the mind-bending Boolean algebra to make the unenhanced NOR gates do the job is well worth while."
 
 
 More Circuits

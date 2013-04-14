@@ -69,6 +69,39 @@ def reify(meaning, form):
   return form
 
 
+def assoc(meaning, key, value):
+  d = meaning.copy()
+  d[key] = value
+  return d
+
+
+def unify(u, v, s):
+  """
+  Find substitution so that u == v while satisfying s
+
+  >>> unify((1, x), (1, 2), {})
+  {x: 2}
+
+  """
+  u = walk(s, u)
+  v = walk(s, v)
+  if u == v:
+    return s
+  if isinstance(u, basestring):
+    return assoc(s, u, v)
+  if isinstance(v, basestring):
+    return assoc(s, v, u)
+  if isinstance(u, tuple) and isinstance(v, tuple):
+    if len(u) != len(v):
+      return False
+    for uu, vv in zip(u, v):  # avoiding recursion
+      s = unify(uu, vv, s)
+      if s == False: # (instead of a Substitution object.)
+        break
+    return s
+  return False
+
+
 def collect_names(form, names=None):
   if names is None:
     names = set()
@@ -112,3 +145,37 @@ s = lambda term: (str(term)
                   .replace('(())', '◎')
                   .replace('()', '○')
                   )
+
+
+def check(goal, rules):
+  for rule in rules:
+    s = unify(rule[0], goal, {})
+    if s:
+      # Proc head matches.
+      return s, reify(s, rule[1:])
+
+
+def grind(out, goals, rules):
+  S = {}
+  while goals:
+    goal = goals.pop(0)
+    s, h = check(goal, Rules)
+    S.update(s)
+    if h:
+      goals.extend(h)
+  return reify(S, out)
+
+
+a = 'append', (), 'x', 'x'
+
+p = 'append', ('cons', 'x', 'y'), 'z', ('cons', 'x', 'u')
+u = 'append',        'y',         'z',        'u'
+
+g = 'append', ('cons', 'a', ()), ('cons', 'b', ()), 'v'
+
+
+Rules = [(a,), (p, u)]
+goals = [g]
+
+
+print grind('v', [g], Rules)

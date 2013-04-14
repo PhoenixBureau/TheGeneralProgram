@@ -244,5 +244,26 @@ def groupby(predicate, coll):
 
 if __name__ == '__main__':
     x = Var('x')
-    y = Var()
+    y = Var('y')
     print run(0, y, (eq, x, 5), (eq, x, y))
+
+
+
+    u = Var('u')
+    z = Var('z')
+    cons = Var('cons')
+    ap = Var('append')
+    a = Var('a')
+    b = Var('b')
+    c = Var('c')
+    v = Var('v')
+
+    A = a, (), x, x
+    P = a, (c, x, y), z, (c, x, u)
+    U = a, y, z, u
+    G = a, (c, a, ()), (c, b, ()), v
+
+
+    new_G = run(0, U, (eq, P, G))
+    print new_G
+    print run(0, v, (eq, A, new_G))
