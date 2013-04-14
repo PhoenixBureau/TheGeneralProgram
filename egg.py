@@ -152,17 +152,18 @@ def check(goal, rules):
     s = unify(rule[0], goal, {})
     if s:
       # Proc head matches.
-      return s, reify(s, rule[1:])
+      return s, rule[1:]
 
 
 def grind(out, goals, rules):
   S = {}
   while goals:
     goal = goals.pop(0)
-    s, h = check(goal, Rules)
+    s, rule_body = check(goal, Rules)
+    if rule_body:
+      goals.extend(rule_body)
+      goals = [reify(s, goal) for goal in goals]
     S.update(s)
-    if h:
-      goals.extend(h)
   return reify(S, out)
 
 
