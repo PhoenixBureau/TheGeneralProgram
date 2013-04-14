@@ -167,16 +167,17 @@ def grind(out, goals, rules):
   return reify(S, out)
 
 
-a = 'append', (), 'x', 'x'
+if __name__ == '__main__':
+  a = 'append', (), 'x', 'x'
 
-p = 'append', ('cons', 'x', 'y'), 'z', ('cons', 'x', 'u')
-u = 'append',        'y',         'z',        'u'
+  p = 'append', ('cons', 'x', 'y'), 'z', ('cons', 'x', 'u')
+  u = 'append',        'y',         'z',        'u'
 
-g = 'append', ('cons', 'a', ()), ('cons', 'b', ()), 'v'
-
-
-Rules = [(a,), (p, u)]
-goals = [g]
+  g = 'append', ('cons', 'a', ()), ('cons', 'b', ()), 'v'
 
 
-print grind('v', [g], Rules)
+  Rules = [(a,), (p, u)]
+  goals = [g]
+
+
+  print grind('v', [g], Rules)
