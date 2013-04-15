@@ -14,18 +14,21 @@ from egg import nor, and_, or_, solve, Reduce, s
 # c0 = nor(and_(nor('mortal'), 'human'))
 
 
+E = ('mortal',), 'human'
+
+#F = and_('John', 'mortal')
+#G = and_('John', 'human')
+#E = nor('mammal'), 'hairy', 'lactates', 'live-birth'
+#E = 'hairy', 'lactates', 'live-birth'
+
+
 print "All humans are mortal, a.k.a. mortal OR NOT human,"
 print 'IF NOT mortal THEN NOT human (Sorry, "The Highlander".)'
 print
-print "E = nor('mortal'), 'human'"
+print "E =", s(E)
 print
 print "     ¬ mortal ∨ human"
 print
-
-E = nor('mortal'), 'human'
-
-#E = nor('mammal'), 'hairy', 'lactates', 'live-birth'
-#E = 'hairy', 'lactates', 'live-birth'
 
 
 no, yes = solve(E)
