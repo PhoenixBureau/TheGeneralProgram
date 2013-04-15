@@ -150,7 +150,7 @@ s = lambda term: (str(term)
 def check(goal, rules):
   for rule in rules:
     s = unify(rule[0], goal, {})
-    if s:
+    if s != False: # as opposed to an empty dict.
       # Proc head matches.
       return s, rule[1:]
 
@@ -159,7 +159,7 @@ def grind(out, goals, rules):
   S = {}
   while goals:
     goal = goals.pop(0)
-    s, rule_body = check(goal, Rules)
+    s, rule_body = check(goal, rules)
     if rule_body:
       goals.extend(rule_body)
       goals = [reify(s, goal) for goal in goals]
@@ -181,3 +181,9 @@ if __name__ == '__main__':
 
 
   print grind('v', [g], Rules)
+
+##  a = 'a', 'b', 'c'
+##  b = 'b', 'c', 'd'
+##  c = 'c', 'e', 'd'
+##  rules = [a, b, c]
+##  goals = ['a']
