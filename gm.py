@@ -9,6 +9,7 @@
 
 '''
 from egg import *
+from random import shuffle, random
 
 
 # Let there be a register of bits.
@@ -25,25 +26,36 @@ Sum, Cout = FBA('a', 'b', 'c')
 
 # Let there be a set of expressions denoting transformations to apply
 # to bits in the register to develop new bit-values for them.
-program = {
 
-  'a': (('z', 'x'),),
-  'b': ('t',),
+k = list(ascii_lowercase)
+shuffle(k)
+program = {}
 
-  'g': ('a', 's',),
-  'h': ('a', 'g',),
-  'i': ('a', 'h',),
-  'j': ('a', 'i',),
+for k, v in zip(ascii_lowercase, k):
+  v = (v,) if random() > 0.5 else v
+  program[k] = v
+  print k, ':', v
+print
 
-  'l': ('b', 's',),
-  'm': ('b', 'g',),
-  'n': ('b', 'h',),
-  'o': ('b', 'i',),
+#program = {
 
-  'w': ('o', 's',),
-  'x': ('n', 'g',),
-  'y': ('m', 'h',),
-  'z': ('l', 'i',),
+##  'a': (('z', 'x'),),
+##  'b': ('t',),
+##
+##  'g': ('a', 's',),
+##  'h': ('a', 'g',),
+##  'i': ('a', 'h',),
+##  'j': ('a', 'i',),
+##
+##  'l': ('b', 's',),
+##  'm': ('b', 'g',),
+##  'n': ('b', 'h',),
+##  'o': ('b', 'i',),
+##
+##  'w': ('o', 's',),
+##  'x': ('n', 'g',),
+##  'y': ('m', 'h',),
+##  'z': ('l', 'i',),
 
 ##  'a': Sum,
 ##  'e': Cout,
@@ -51,11 +63,11 @@ program = {
 ##  'q': (('a', ('q',)), ('q', 'e')), # Universal element.
 ##
 
-  's': ('a', 'b'),
-  't': ('a', ('b',)),
-  'u': (('a',), 'b'),
-  'v': (('a',), ('b',)),
-  }
+##  's': ('a', 'b'),
+##  't': ('a', ('b',)),
+##  'u': (('a',), 'b'),
+##  'v': (('a',), ('b',)),
+#  }
 
 
 def view_register(r=R):
@@ -74,15 +86,24 @@ def cycle(register, program):
   register.update(next_values)
 
 
+r = {}
+i = 0
+v = view_register(R)
+while v not in r:
+  r[v] = i
+  cycle(R, program)
+  v = view_register(R)
+  print v, i
+  i += 1
 
-for c, b, a in product(B, B, B):
-#  print a, b, c, '=' * 30
-  print ascii_lowercase, a, b, c
-  R = dict((name, ((),)) for name in ascii_lowercase)
-  R['a'] = a
-  R['b'] = b
-  R['c'] = c
-  for i in range(28):
-    print view_register(R), i
-    cycle(R, program)
 
+##for c, b, a in product(B, B, B):
+###  print a, b, c, '=' * 30
+##  print ascii_lowercase, a, b, c
+##  R = dict((name, ((),)) for name in ascii_lowercase)
+##  R['a'] = a
+##  R['b'] = b
+##  R['c'] = c
+##  for i in range(28):
+##    print view_register(R), i
+##    cycle(R, program)
