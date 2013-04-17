@@ -9,7 +9,7 @@
 
 '''
 from egg import *
-from random import shuffle, random
+from random import shuffle, random, choice
 
 
 # Let there be a register of bits.
@@ -31,11 +31,18 @@ k = list(ascii_lowercase)
 shuffle(k)
 program = {}
 
+
 for k, v in zip(ascii_lowercase, k):
-  v = (v,) if random() > 0.5 else v
+  r = random()
+  if r < 0.14:
+    a, b = choice(ascii_lowercase), choice(ascii_lowercase)
+    v = ((a, (v,)), (v, b))
+  elif r < 0.4:
+    v = v,
   program[k] = v
   print k, ':', v
 print
+
 
 #program = {
 
