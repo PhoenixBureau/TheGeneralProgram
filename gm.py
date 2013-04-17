@@ -30,11 +30,11 @@ microcode = {
 
 def view_register(r=R):
   names, values = zip(*sorted(r.iteritems()))
-  print ''.join(names)
+##  print ''.join(names)
   print ''.join(str(int(not v)) for v in values)
 
 
-program = dict((name, ()) for name in ascii_lowercase)
+program = dict((name, () if ord(name) % 2 else ((),)) for name in ascii_lowercase)
 
 
 def cycle(register, program):
@@ -46,6 +46,6 @@ def cycle(register, program):
   register.update(next_values)
 
 #program['c'] = 'a'
-while not raw_input('.'):
+while True:
   view_register()
   cycle(R, program)
