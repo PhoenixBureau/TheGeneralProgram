@@ -27,18 +27,34 @@ Sum, Cout = FBA('a', 'b', 'c')
 # to bits in the register to develop new bit-values for them.
 program = {
 
-#  'a': (Cout,),
-  'a': Sum,
-  'e': Cout,
+  'a': (('z', 'x'),),
+  'b': ('t',),
 
-  'q': (('a', ('q',)), ('q', 'e')), # Universal element.
-  'p': (('d', ('p',)), ('p', 'e')),
-  'j': (('d', ('j',)), ('j', 'e')),
+  'g': ('a', 's',),
+  'h': ('a', 'g',),
+  'i': ('a', 'h',),
+  'j': ('a', 'i',),
 
-  's': ('q', 'j'),
-  't': ('q', ('j',)),
-  'u': (('q',), 'j'),
-  'v': (('q',), ('j',)),
+  'l': ('b', 's',),
+  'm': ('b', 'g',),
+  'n': ('b', 'h',),
+  'o': ('b', 'i',),
+
+  'w': ('o', 's',),
+  'x': ('n', 'g',),
+  'y': ('m', 'h',),
+  'z': ('l', 'i',),
+
+##  'a': Sum,
+##  'e': Cout,
+##
+##  'q': (('a', ('q',)), ('q', 'e')), # Universal element.
+##
+
+  's': ('a', 'b'),
+  't': ('a', ('b',)),
+  'u': (('a',), 'b'),
+  'v': (('a',), ('b',)),
   }
 
 
@@ -66,7 +82,7 @@ for c, b, a in product(B, B, B):
   R['a'] = a
   R['b'] = b
   R['c'] = c
-  for i in range(18):
+  for i in range(28):
     print view_register(R), i
     cycle(R, program)
 
