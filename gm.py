@@ -21,34 +21,41 @@ def FBA(a, b, Cin):
   return xor(k, Cin), or_(and_(k, Cin), and_(a, b))
 
 
-Sum, Cout = FBA('a', 'b', 'c')
+Sum0, Cout = FBA('a', 'z', ((),))
+Sum1, Cout = FBA('b', 'y', Cout)
+Sum2, Cout = FBA('c', 'x', Cout)
 
 
 # Let there be a set of expressions denoting transformations to apply
 # to bits in the register to develop new bit-values for them.
 
-k = list(ascii_lowercase)
-shuffle(k)
-program = {}
+##k = list(ascii_lowercase)
+##shuffle(k)
+##program = {}
 
 
-for k, v in zip(ascii_lowercase, k):
-  r = random()
-  if r < 0.14:
-    a, b = choice(ascii_lowercase), choice(ascii_lowercase)
-    v = ((a, (v,)), (v, b))
-  elif r < 0.4:
-    v = v,
-  program[k] = v
-  print k, ':', v
-print
+##for k, v in zip(ascii_lowercase, k):
+##  r = random()
+##  if r < 0.14:
+##    v = choice(ascii_lowercase), choice(ascii_lowercase)
+##  program[k] = v
+##  print k, ':', v
+##print
 
 
-#program = {
+program = {
 
-##  'a': (('z', 'x'),),
-##  'b': ('t',),
-##
+##  'a': ('b',),
+##  'b': 'a',
+
+##  'd': ('f',),
+##  'e': 'd',
+##  'f': 'e',
+
+##  'h': (('b', 'd',),),
+##  'i': (('b', 'e',),),
+##  'j': (('b', 'f',),),
+
 ##  'g': ('a', 's',),
 ##  'h': ('a', 'g',),
 ##  'i': ('a', 'h',),
@@ -64,9 +71,17 @@ print
 ##  'y': ('m', 'h',),
 ##  'z': ('l', 'i',),
 
-##  'a': Sum,
-##  'e': Cout,
-##
+  'a': Sum0,
+  'b': Sum1,
+  'c': Sum2,
+
+##  'y': (),
+
+##  'l': Sum0,
+##  'm': Sum1,
+##  'n': Sum2,
+  'o': Cout
+
 ##  'q': (('a', ('q',)), ('q', 'e')), # Universal element.
 ##
 
@@ -74,7 +89,7 @@ print
 ##  't': ('a', ('b',)),
 ##  'u': (('a',), 'b'),
 ##  'v': (('a',), ('b',)),
-#  }
+  }
 
 
 def view_register(r=R):
@@ -93,24 +108,30 @@ def cycle(register, program):
   register.update(next_values)
 
 
-r = {}
-i = 0
-v = view_register(R)
-while v not in r:
-  r[v] = i
-  cycle(R, program)
+##for i in range(20):
+##  print view_register(R), i
+##  cycle(R, program)
+
+
+for x, y, z in product(B, B, B):
+  print ascii_lowercase, y, x, z
+  R = dict((name, ((),)) for name in ascii_lowercase)
+  R['x'] = x
+  R['y'] = y
+  R['z'] = z
+
+  r = {}
+  i = 0
   v = view_register(R)
-  print v, i
-  i += 1
+  while v not in r:
+    r[v] = i
+    cycle(R, program)
+    v = view_register(R)
+    print v, i
+    i += 1
 
 
-##for c, b, a in product(B, B, B):
-###  print a, b, c, '=' * 30
-##  print ascii_lowercase, a, b, c
-##  R = dict((name, ((),)) for name in ascii_lowercase)
-##  R['a'] = a
-##  R['b'] = b
-##  R['c'] = c
-##  for i in range(28):
+
+##  for i in range(20):
 ##    print view_register(R), i
 ##    cycle(R, program)
