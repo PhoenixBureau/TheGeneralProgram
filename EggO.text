@@ -6,7 +6,7 @@
 
 
 
--
+◎
 
 
     Know names to find the Ten Thousand Things
@@ -18,7 +18,7 @@
     In the beginning was the Void,
     And the Void was without Form.
 
--
+◎
 
 There are three rewards to be won by eating the Egg of Ouroboros.
 
@@ -28,7 +28,7 @@ The second is a notation for universal reasoning that is simple, elegant and dir
 
 Third, new results in circuit design and program construction are enabled.
 
--
+◎
 
 Table of Contents
 
@@ -67,6 +67,8 @@ Appendix B: Curious Musicians
 
 References & Recommended Reading
 
+
+◎
 
 
 Nonsensical Formalities
@@ -292,7 +294,7 @@ Count a number by making an X and counting each diagonal.  If the row ends with 
 
 
 
-     1:  ◎◎◎◎◎◎◎◎◎◎◎○ 1
+     1: ◎◎◎◎◎◎◎◎◎◎◎○ 1
      2: ◎◎◎◎◎○ 1
      4: ◎◎○ 1
      8: ◎ 0
@@ -300,10 +302,17 @@ Count a number by making an X and counting each diagonal.  If the row ends with 
 
     23 = ○◎○○○ = 10111 in binary
 
+
+Bricken has developed several fascinating and useful forms of "Iconic Math".
+
+
 - -
 
 
 For now, we will choose the first method in most of what follows and say that a letter, such as 'a', may be the name of some other pattern of circles.  "Just because."
+
+
+(But really we know that the "letter" 'a' is just a bunch of little tiny circles jammed together in a squiggle with certain properties.  Later on we'll figure out how to talk about those properties properly but for now, "Just Because!")
 
 
 But here's the really weird, the really bizarre and unreasonable thing we proceed to do next: we don't say what pattern of circles the name is a name for yet.
@@ -437,6 +446,9 @@ No matter which order the Guardians answer (Truth about a lie, or a lie about th
 - -
 
 
+We can use circles and "names" to model and solve logical systems.
+
+
 Many people, including George Spencer-Brown in "The Laws of Forms", have examined and explained this singular fact.  A man named George Burnett-Stuart has created a website "The Markable Mark" (see the references section below) that provides a really wonderful and smooth introduction to the world of symbolic logic and formal reasoning using the notation of the Laws of Form, and it is his work which directly stimulated the paper you're reading now (any blame is mine, the inspiration is his.)
 
 
@@ -446,14 +458,123 @@ I really can't do better than Burnett-Stuart's "The Markable Mark".
 I'm going to assume that either you know what I'm on about with the "Primary Logic" already, or that you have gone and played your way through "The Markable Mark" to the point where you understand that any expression of circles and symbols "names" representing circle expressions, and symbols representing expressions of such symbols and circle expressions, and so on, can be manipulated in value-preserving ways by known logic.
 
 
-We can model and solve logical systems using the notation.
+We can model and solve logical systems using the notation.  Here is a brief review.
 
 
-If this were all then we have not said much that is not in any book on logic and symbolic reasoning.  If the only advantage to the Circle Language were that it gives a simple and elegant introduction to formal reasoning then I would be satisfied, as that is a worthy and sorely needed thing.  Admirably, the notation also provides a means of constructing logical circuits and programs.
+Recall the Void-valued form:
+
+    (a(a))
+
+
+Consider the form:
+
+    (a)a
+
+
+No matter the value of the circle pattern named by 'a' might be, that form will be mark-valued.  Whenever a form can be reduced to either a mark or the Void for every possible set of values of the names in the form, the form is said to represent a "tautology".  Where this is not possible the form is said to represent a "satisfiable" statement, and the reduced form mentions each of the names that must be assigned values to be able to "satisfy" (or not) the statement.
+
+
+Names stand for logical terms and the concepts of logical statements can be expressed in the circle language according to the following (partial) translation table (which also includes set operators):
+
+    ¬a             (a)
+
+    a ∧ b  a ∩ b   ((a)(b))
+
+    a ∨ b  a ∪ b   ab
+
+    a → b  a ⊆ b   (a)b
+
+    a ← b  a ⊇ b   a(b)
+
+    a ↔ b  a ⊆ b ⊆ a   ((a(b))((a)b)) -or- ((a)(b))(ab)
+
+           _____
+    a↓b    a ∪ b   (ab)
+
+
+
+Some examples:
+
+"All humans are mortal"
+
+    (mortal) human
+
+
+"John is mortal"
+
+    ((John)(mortal))
+
+
+"John is human"
+
+    ((John)(human))
+
+
+In order to determine if the first two statements support the third as a conclusion we perform the decision procedure:
+
+Enclose the premises and concatinate with the conclusion (switching to single-letter names for ease of notation only):
+
+    ((m)h) (((J)(m))) ((J)(h))
+
+
+Reduce.  We note that the middle term is wrapped and unwrap it:
+
+    ((m)h) (J) (m) ((J)(h))
+
+
+We delete redundant subterms:
+
+    (h) (J) (m) ((h))
+
+
+Note that (h)((h)) matches a(a) if 'a' stands for '(h)' and therefore the expression is mark-valued, a tautology.  It would seem that John's mortality does indeed imply that he's human, although common sense dictates that we might need more information to be sure...
+
+
+(Note that (h)((h)) becomes (h)h  by unwrapping, which is fine but not strictly necessary.  A machine solver might do it but we humans can let our brains figure out patterns any old which way they want to.)
+
+
+The power and elegance of the notation are startling.
+
+
+For example, logical statements that are equivalent under De Morgan's Laws are identical in the Circle Language.  That fact alone should serve as a wake-up call to any computer programmer!
+
+
+If this were all then we have not said much that is not in any book on logic and symbolic reasoning.  If the only advantage to the Circle Language were that it gives a simple and elegant notation for formal reasoning then I would be satisfied, as that is a worthy and sorely needed thing.  Admirably, the notation also provides a means of constructing logical circuits and programs.
 
 
 The resulting way of thinking about machines provides for a unified treatment of hardware and software, parallel and sequential operations, and self-acting (Cybernetic) systems.
 
+
+- -
+
+
+Patterns (Index names from [Meguire 2007]):
+
+
+    C1. ((a)) = a
+
+    C2. a(ab) = a(b)
+
+    C3. ○a = ○
+
+    C4. ((a)b)a = a
+
+    C5. aa = a
+
+    C6. ((a)(b))((a)b) = a
+
+    C7. (((a)b)c) = (ac)((b)c)
+
+    C8. ((a)(r))((b)r) = ((ab)(r))
+
+    C9. (((a)(r))((b)r)) = (a(r))(br)
+
+    J1. ((a)a) = ◎
+
+    J2. ((ar)(br)) = ((a)(b))r
+
+
+- -
 
 
 In the Land of Nor
@@ -524,7 +645,7 @@ The function "mark" reduces any form and returns its Boolean value.  In Python i
 This is a direct "translation" of the sentence. "A mark is circle that is empty or has no marks in it."  In Python the empty tuple is considered to have the Boolean value of False so we invert that value.  If the tuple/form has contents then we recursively examine them to determine if any of them are marks.  In effect we are performing a depth-first "walk" of a tree, and "short-circuiting" the walk as soon as we can determine the "mark"-ness of the tuple/form.
 
 
-There are several optimizations that could be made to this function, simple as it is.  We could "memoize" the function so that it did not re-compute the "mark"-ness of a form that it had "seen" before.  Also, it would be easy to manipulate our forms into a sort of standard form that ensured the "walk" terminated as early as possible.  For now we will neglect such considerations.
+There are several improvements that could be made to this function, simple as it is.  We could "memoize" the function so that it did not re-compute the "mark"-ness of a form that it had "seen" before.  Also, it would be easy to manipulate our forms into a sort of standard form that ensured the "walk" terminated as early as possible.  For now we will neglect such considerations.
 
 
 - -
