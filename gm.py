@@ -8,6 +8,7 @@
 
 
 '''
+from pprint import pprint as p_
 from egg import *
 
 
@@ -19,45 +20,51 @@ def FBA(a, b, Cin):
   return xor(k, Cin), or_(and_(k, Cin), and_(a, b))
 
 
-if __name__ == '__main__':
+# Create expressions denoting a 3-bit adder circuit.
+Sum0, Cout = FBA('a', 'z', ((),))
+Sum1, Cout = FBA('b', 'y', Cout)
+Sum2, Cout = FBA('c', 'x', Cout)
 
-  # Create expressions denoting a 3-bit adder circuit.
-  Sum0, Cout = FBA('a', 'z', ((),))
-  Sum1, Cout = FBA('b', 'y', Cout)
-  Sum2, Cout = FBA('c', 'x', Cout)
+# Let there be a set of expressions denoting
+# transformations to apply from bits in the
+# register to develop new bit-values for them.
+P = {
 
-  # Let there be a set of expressions denoting
-  # transformations to apply from bits in the
-  # register to develop new bit-values for them.
-  P = {
+  # We will plug the output of the adder circuit
+  # into one of its inputs to make a counter.
+  'a': Reduce(Sum0),
+  'b': Reduce(Sum1),
+  'c': Reduce(Sum2),
 
-    # We will plug the output of the adder circuit
-    # into one of its inputs to make a counter.
-    'a': Reduce(Sum0),
-    'b': Reduce(Sum1),
-    'c': Reduce(Sum2),
+  'e': Reduce(Cout),
 
-    'e': Reduce(Cout),
+  }
 
-    'k': and_(*'abc'),
 
-    'q': (('q', 'c'), 'k'),
-    }
+a, b, c = 'abc'
 
-  # Examine the behaviour of the system with various inputs.
-  for x, y, z in product(B, B, B):
+Y = and_(a, b)
+U = or_('x', 'y')
+A = and_(Y, U)
 
-    print ascii_lowercase, x, y, z, # Simple header line.
+#R = dict((name, ((),)) for name in ascii_lowercase)
 
-    # Let there be a register of bits.
-    R = dict((name, ((),)) for name in ascii_lowercase)
 
-    # Initialize the "free" input of the adder.
-    R['x'] = x
-    R['y'] = y
-    R['z'] = z
+# Examine the behaviour of the system with various inputs.
+for x, y, z in product(B, B, B):
 
-    # Run until the system returns to a previously seen state.
-    detect_cycle(R, P)
+  print ascii_lowercase, x, y, z, # Simple header line.
 
-    #run_n_cycles(R, P, 20)
+  # Let there be a register of bits.
+  R = dict((name, ((),)) for name in ascii_lowercase)
+
+  # Initialize the "free" input of the adder.
+  R['x'] = x
+  R['y'] = y
+  R['z'] = z
+
+  # Run until the system returns to a previously seen state.
+  #detect_cycle(R, P)
+
+  print
+  run_n_cycles(R, P, 20)
