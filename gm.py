@@ -24,6 +24,7 @@ def FBA(a, b, Cin):
 Sum0, Cout = FBA('a', 'z', ((),))
 Sum1, Cout = FBA('b', 'y', Cout)
 Sum2, Cout = FBA('c', 'x', Cout)
+Sum3, Cout = FBA('d', 'w', Cout)
 
 # Let there be a set of expressions denoting
 # transformations to apply from bits in the
@@ -35,8 +36,9 @@ P = {
   'a': Reduce(Sum0),
   'b': Reduce(Sum1),
   'c': Reduce(Sum2),
+  'd': Reduce(Sum3),
 
-  'e': Reduce(Cout),
+  'f': Reduce(Cout),
 
   }
 
@@ -51,20 +53,21 @@ A = and_(Y, U)
 
 
 # Examine the behaviour of the system with various inputs.
-for x, y, z in product(B, B, B):
+for w, x, y, z in product(B, B, B, B):
 
-  print ascii_lowercase, x, y, z, # Simple header line.
+  print ascii_lowercase, w, x, y, z, # Simple header line.
 
   # Let there be a register of bits.
   R = dict((name, ((),)) for name in ascii_lowercase)
 
   # Initialize the "free" input of the adder.
+  R['w'] = w
   R['x'] = x
   R['y'] = y
   R['z'] = z
 
   # Run until the system returns to a previously seen state.
-  #detect_cycle(R, P)
+  detect_cycle(R, P)
 
-  print
-  run_n_cycles(R, P, 20)
+  #print
+  #run_n_cycles(R, P, 20)
