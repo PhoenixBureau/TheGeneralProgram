@@ -8,6 +8,7 @@
 
 
 '''
+from random import choice
 from egg import *
 
 
@@ -33,18 +34,22 @@ if __name__ == '__main__':
 
     # We will plug the output of the adder circuit
     # into one of its inputs to make a counter.
-    'a': Sum0,
-    'b': Sum1,
-    'c': Sum2,
+    'a': Reduce(Sum0),
+    'b': Reduce(Sum1),
+    'c': Reduce(Sum2),
 
-    'o': Cout
+    'o': Reduce(Cout),
 
     }
+
+  for ch in 'efghij':
+    P[ch] = choice((nor, and_))(choice('abco'), choice('efghij'))
+    print ch, ':', P[ch]
 
   # Examine the behaviour of the system with various inputs.
   for x, y, z in product(B, B, B):
 
-    print ascii_lowercase, x, y, z # Simple header li.
+    print ascii_lowercase, x, y, z, # Simple header li.
 
     # Let there be a register of bits.
     R = dict((name, ((),)) for name in ascii_lowercase)
@@ -56,3 +61,5 @@ if __name__ == '__main__':
 
     # Run until the system returns to a previously seen state.
     detect_cycle(R, P)
+
+    #run_n_cycles(R, P, 20)

@@ -208,7 +208,7 @@ def view_register(r):
   Return a string representation of a register for insight.
   '''
   values = (r[bit] for bit in sorted(r))
-  return u''.join(u'-○'[not v] for v in values)
+  return ''.join(('-', '○')[not v] for v in values)
 
 
 def run_n_cycles(r, p, n=10, view=True):
@@ -223,12 +223,16 @@ def detect_cycle(r, p, view=True):
   i = 0
   v = view_register(r)
   while v not in seen:
+    if view:
+      print
     seen[v] = i
     cycle(r, p)
     v = view_register(r)
     if view:
-      print v, i
+      print v, i,
     i += 1
+  if view:
+    print seen[v]
 
 
 s = lambda term: (str(term)
