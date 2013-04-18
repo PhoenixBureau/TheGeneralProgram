@@ -192,6 +192,45 @@ def record(form):
   return form, d, c, n
 
 
+def cycle(register, program):
+  '''
+  Run one cycle of the program on the register.
+  '''
+  next_values = register.copy()
+  for bit in register:
+    next_value = reify(register, program.get(bit, bit))
+    next_values[bit] = reduce_(next_value)
+  register.update(next_values)
+
+
+def view_register(r):
+  '''
+  Return a string representation of a register for insight.
+  '''
+  values = (r[bit] for bit in sorted(r))
+  return u''.join(u'-○'[not v] for v in values)
+
+
+def run_n_cycles(r, p, n=10, view=True):
+  for i in range(n):
+    if view:
+      print view_register(r), i
+    cycle(r, p)
+
+
+def detect_cycle(r, p, view=True):
+  seen = {}
+  i = 0
+  v = view_register(r)
+  while v not in seen:
+    seen[v] = i
+    cycle(r, p)
+    v = view_register(r)
+    if view:
+      print v, i
+    i += 1
+
+
 s = lambda term: (str(term)
                   .replace(' ', '')
                   .replace("','", ' ')
