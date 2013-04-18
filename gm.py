@@ -8,7 +8,6 @@
 
 
 '''
-from random import choice
 from egg import *
 
 
@@ -38,18 +37,17 @@ if __name__ == '__main__':
     'b': Reduce(Sum1),
     'c': Reduce(Sum2),
 
-    'o': Reduce(Cout),
+    'e': Reduce(Cout),
 
+    'k': and_(*'abc'),
+
+    'q': (('q', 'c'), 'k'),
     }
-
-  for ch in 'efghij':
-    P[ch] = choice((nor, and_))(choice('abco'), choice('efghij'))
-    print ch, ':', P[ch]
 
   # Examine the behaviour of the system with various inputs.
   for x, y, z in product(B, B, B):
 
-    print ascii_lowercase, x, y, z, # Simple header li.
+    print ascii_lowercase, x, y, z, # Simple header line.
 
     # Let there be a register of bits.
     R = dict((name, ((),)) for name in ascii_lowercase)

@@ -222,17 +222,22 @@ def detect_cycle(r, p, view=True):
   seen = {}
   i = 0
   v = view_register(r)
+
   while v not in seen:
     if view:
       print
     seen[v] = i
+
     cycle(r, p)
+
     v = view_register(r)
     if view:
       print v, i,
+
     i += 1
+
   if view:
-    print seen[v]
+    print seen[v] - 1
 
 
 s = lambda term: (str(term)
