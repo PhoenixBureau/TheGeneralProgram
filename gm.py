@@ -83,7 +83,7 @@ if __name__ == '__main__':
   # Examine the behaviour of the system with various inputs.
   for x, y, z in product(B, B, B):
 
-    print ascii_lowercase, y, x, z # Simple header li.
+    print ascii_lowercase, x, y, z # Simple header li.
 
     # Let there be a register of bits.
     R = dict((name, ((),)) for name in ascii_lowercase)
