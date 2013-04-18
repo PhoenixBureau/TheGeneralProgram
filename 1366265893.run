@@ -1,0 +1,29 @@
+a : h
+b : l
+c : s
+d : x
+e : t
+f : u
+g : r
+h : a
+i : (('u',),)
+j : (('n',), ('w',), ('s',))
+k : f
+l : w
+m : e
+n : p
+o : z
+p : v
+q : ((('c',),), ('c',))
+r : y
+s : q
+t : d
+u : (('h', 'g', 'e'),)
+v : j
+w : i
+x : k
+y : (('s', 'r'),)
+z : n
+
+abcdefghijklmnopqrstuvwxyz
+-------------------------- 0 -1

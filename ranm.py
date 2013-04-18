@@ -9,8 +9,11 @@
 
 '''
 from pprint import pprint as p_
-from random import choice, random, shuffle
+from random import choice, random, shuffle, sample
 from egg import *
+
+
+ops = and_, or_, nand, nor, xor
 
 
 R = dict((name, ((),)) for name in ascii_lowercase)
@@ -21,10 +24,17 @@ shuffle(K)
 
 P = {}
 for k, v in zip(ascii_lowercase, K):
-  if random() < 0.25:
-    v = v,
+#  if random() < 0.125:
+  op = choice(ops)
+  args = sample(K, choice((1, 2, 3)))
+  v = op(*args)
+##    v = v,
+##  else:
+##    v = xor(v, k)
   P[k] = v
-  print k, ':', v
+
+
+p_(P)
 print
 
 

@@ -43,31 +43,18 @@ P = {
   }
 
 
-a, b, c = 'abc'
-
-Y = and_(a, b)
-U = or_('x', 'y')
-A = and_(Y, U)
-
-#R = dict((name, ((),)) for name in ascii_lowercase)
+# Let there be a register of bits.
+R = dict.fromkeys(ascii_lowercase, ((),))
 
 
 # Examine the behaviour of the system with various inputs.
-for w, x, y, z in product(B, B, B, B):
+for R['w'], R['x'], R['y'], R['z'] in product(B, B, B, B):
 
-  print ascii_lowercase, w, x, y, z, # Simple header line.
-
-  # Let there be a register of bits.
-  R = dict((name, ((),)) for name in ascii_lowercase)
-
-  # Initialize the "free" input of the adder.
-  R['w'] = w
-  R['x'] = x
-  R['y'] = y
-  R['z'] = z
+  # Simple header line.
+  print ascii_lowercase, '%(w)s %(x)s %(y)s %(z)s' % R,
 
   # Run until the system returns to a previously seen state.
   detect_cycle(R, P)
 
-  #print
-  #run_n_cycles(R, P, 20)
+  # Reset the register
+  R = dict.fromkeys(ascii_lowercase, ((),))
