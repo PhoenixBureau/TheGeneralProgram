@@ -34,11 +34,9 @@ class LilMachine(object):
     shuffle(kid_p)
     kid_p = dict(kid_p)
     # Mutation
-    if self.P == mate.P or random() < 0.001:
-      kid_p[choice(self.R.keys())] = Reduce(choice(ops)(
-        choice(self.R.keys()),
-        choice(mate.R.keys()),
-        ))
+    if self.P == mate.P or random() < 0.01:
+      k, expression = next(generate_program(1, self.R.keys()))
+      kid_p[k] = expression
     return LilMachine(self.R.keys(), **kid_p)
 
   def __iter__(self):
@@ -69,10 +67,10 @@ def cyc(pop):
       pop.remove(lm)
 
 
-def repopulate(pop, selection):
-  if len(pop) < 200:
+def repopulate(N, pop, selection):
+  if len(pop) < N:
     p = sorted(pop, reverse=True, key=selection)
-    p = p[:200 - len(pop)]
+    p = p[:N - len(pop)]
     for parent in p:
       pop.append(parent.reproduce(choice(pop)))
 
@@ -80,9 +78,9 @@ def repopulate(pop, selection):
 if __name__ == '__main__':
   target_generations_number = 768
 
-  N = 10
+  N, M = 10, 200
   K = list(ascii_lowercase[:N])
-  P = (dict(generate_program(5, K)) for _ in range(200))
+  P = (dict(generate_program(5, K)) for _ in range(M))
   population = [LilMachine(K, **program) for program in P]
 
   Gens = 0
@@ -90,9 +88,9 @@ if __name__ == '__main__':
 
     cyc(population)
 
-    print Gens, '%-5.3g' % (len(population) / 200.0), max(lm.generation for lm in population)
+    print Gens, '%-5.3g' % (len(population) / float(M)), max(lm.generation for lm in population)
     Gens += 1
 
-    repopulate(population, lambda lm: lm.generation)
+    repopulate(M, population, lambda lm: lm.generation)
     # And a sport for luck.
     population.append(LilMachine(K, **dict(generate_program(5, K))))
