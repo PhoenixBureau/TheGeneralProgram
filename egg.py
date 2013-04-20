@@ -101,7 +101,10 @@ def walk(meaning, name):
 
 def reify(meaning, form):
   if isinstance(form, basestring):
-    return walk(meaning, form)
+    try:
+      return walk(meaning, form)
+    except RuntimeError:
+      return form
   if isinstance(form, tuple):
     return tuple(reify(meaning, inner) for inner in form)
   return form
@@ -179,6 +182,18 @@ def name_normalize(form, symbols=ascii_lowercase):
   names = collect_names(form)
   meaning = dict(izip(sorted(names), symbols))
   return reify(meaning, form)
+
+
+def standard_form(x, form):
+  Ex = reify({x: ((),)}, form)
+  E_x_ = reify({x: ()}, form)
+  return (x, Ex), ((x,), E_x_)
+
+
+def fstan(form):
+  for name in collect_names(form):
+    form = Reduce(standard_form(name, form))
+  return form
 
 
 def record(form):

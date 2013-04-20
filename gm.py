@@ -58,3 +58,11 @@ for R['w'], R['x'], R['y'], R['z'] in product(B, B, B, B):
 
   # Reset the register
   R = dict.fromkeys(ascii_lowercase, ((),))
+
+
+##a = P['a']
+##z = P.get('z', 'z')
+##
+##print 'aa = reify(P, a)'
+
+#
