@@ -27,18 +27,6 @@ class LilMachine(object):
     self.generation += 1
     return True
 
-  def reproduce(self, mate):
-    kid_p = []
-    kid_p.extend(self.P.items())
-    kid_p.extend(mate.P.items())
-    shuffle(kid_p)
-    kid_p = dict(kid_p)
-    # Mutation
-    if self.P == mate.P or random() < 0.01:
-      k, expression = next(generate_program(1, self.R.keys()))
-      kid_p[k] = expression
-    return LilMachine(self.R.keys(), **kid_p)
-
   def __iter__(self):
     return self
 
@@ -52,6 +40,20 @@ class LilMachine(object):
     return '<LM at %i: %s>' % (self.generation - 1, view_register(self.R))
 
 
+def reproduce(one, mate):
+  kid_p = []
+  kid_p.extend(one.P.items())
+  kid_p.extend(mate.P.items())
+  shuffle(kid_p)
+  kid_p = dict(kid_p)
+  alphabet = one.R.keys()
+  # Mutation
+  if one.P == mate.P or random() < 0.01:
+    k, expression = next(generate_program(1, alphabet))
+    kid_p[k] = expression
+  return LilMachine(alphabet, **kid_p)
+
+
 def generate_program(N, alphabet):
   for _ in range(N):
     op = choice(ops)
@@ -62,7 +64,7 @@ def generate_program(N, alphabet):
 def cyc(pop):
   for lm in pop[:]:
     try:
-      v = lm.next()
+      lm.next()
     except StopIteration:
       pop.remove(lm)
 
@@ -72,7 +74,7 @@ def repopulate(N, pop, selection):
     p = sorted(pop, reverse=True, key=selection)
     p = p[:N - len(pop)]
     for parent in p:
-      pop.append(parent.reproduce(choice(pop)))
+      pop.append(reproduce(parent, choice(pop)))
 
 
 if __name__ == '__main__':
