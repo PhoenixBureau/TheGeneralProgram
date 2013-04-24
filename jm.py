@@ -24,11 +24,15 @@ def print_register(reg):
 
 def print_register(reg):
   for bit_expression in reg:
+    fb = fstan(bit_expression)
+    print s(bit_expression)
+    print s(fb)
     print ' '.join(sorted(collect_names(bit_expression)))
     for meaning, r in exhaust(bit_expression):
+      rfb = reify(meaning, fb)
       for name, expression in view_meaning(meaning):
         print expression,
-      print '->', s(Reduce(r))
+      print '->', s(Reduce(r)), s(Reduce(rfb))
     print '-' * 16
   print '=' * 16
 
