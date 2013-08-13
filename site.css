@@ -1,0 +1,28 @@
+h1 h2  h3 {
+  font-family: 'Muli', sans-serif;
+}
+
+h1 {
+  font-size: 32pt;
+}
+
+body {
+  margin-left: 1em;
+  margin-right: 1em;
+  font-size: 16pt;
+}
+
+.prose {
+  font-family: 'EB Garamond', serif;
+  -webkit-column-width: 15em;
+  -webkit-column-gap:   1.5em;  
+  -moz-column-width:    15em;
+  -moz-column-gap:      1.5em;
+  column-width:         15em;
+  column-gap:           1.5em;
+}
+
+.prose > p {
+  text-align: justify;
+}
+
