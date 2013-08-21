@@ -179,7 +179,7 @@ These are the two rules:
           ○ ↔ ○○
 
     nothing ↔ ◎
-    
+
 
 These rules can be described in language in many ways. We can say that any mark is the same as any number of marks, and that the Void is the same as a non-mark.  Using the rules from left-to-right (in the above depiction) generates new forms, and using them right-to-left reduces forms back to either a mark or the Void.
 
@@ -192,7 +192,7 @@ ________________________________________
 Once we can generate myriad forms we can perform another trick that is somewhat mysterious and somewhat concrete (like the primal distinction.)  The name of this trick is "naming", and it is, in a sense, the opposite of Void.
 
 
-The initial distinction can be considered a name for itself.  By existing (which it only does because you made it) the distinction the distinguishes something from the Void, and as there is no other thing to name, it names itself.
+The initial distinction can be considered a name for itself.  By existing (which it only does because you made it) the distinction distinguishes something from the Void, and as there is no other thing to name, it names itself.
 
 
 The Void is unknowable, inexpressible, but every distinction is a self-creating "name".
@@ -436,8 +436,8 @@ The Guardians Again
 Let's use 'd' for the "name" of a door and redraw our little diagram:
 
     Door   Guardian   Guardian   Answer
-    d            ○            ◎            (((d))) -> (d)
-    d            ◎            ○            (((d))) -> (d)
+    d--------○----------◎--------(((d))) -> (d)
+    d--------◎----------○--------(((d))) -> (d)
 
 
 No matter which order the Guardians answer (Truth about a lie, or a lie about the Truth) if you can get them both in line they will always answer "not 'd'" and so tell you the name of the door.
@@ -472,6 +472,10 @@ Consider the form:
 
 
 No matter the value of the circle pattern named by 'a' might be, that form will be mark-valued.  Whenever a form can be reduced to either a mark or the Void for every possible set of values of the names in the form, the form is said to represent a "tautology".  Where this is not possible the form is said to represent a "satisfiable" statement, and the reduced form mentions each of the names that must be assigned values to be able to "satisfy" (or not) the statement.
+
+
+
+- -
 
 
 Names stand for logical terms and the concepts of logical statements can be expressed in the circle language according to the following (partial) translation table (which also includes set operators):
@@ -766,7 +770,7 @@ But notice that both expressions contain the common sub-expression '((a)(b))'?  
 
     def HBA(a, b):
       carry = and_(a, b)
-      return nor(carry, nor(a, b))
+      return carry, nor(carry, nor(a, b))
 
 
 This function captures (and parameterizes) the creation of a Half-Bit Adder circuit, refactoring it from the first expression but creating an identical result.
@@ -883,6 +887,17 @@ The expressions give the desired output behaviour.
 
 Digital logic designers have been developing circuits to compute mathematical and logical functions for many decades, and there is an extensive body of design that can be directly expressed and understood in terms of the Circle Language. Although we have not touched upon the Church Encoding we can see that we have here simple rules that can be combined to generate patterns that we can interpret as numbers, and patterns that can be interpreted as "doing math" to those numbers.
 
+
+- -
+
+
+((((((a1)(b1))(a1 b1)))((((((((a0)(b0))(a0 b0)))(Cin))((a0)(b0))))))((((a1)(b1))(a1 b1))(((((((a0)(b0))(a0 b0)))(Cin))((a0)(b0))))))
+
+E = ((((a1)(b1))(a1 b1)((((a0)(b0))(a0 b0)(Cin))((a0)(b0))))((((a1)(b1))(a1 b1))(((a0)(b0))(a0 b0)(Cin))((a0)(b0))))
+
+Ea1 = ((((◎)(b1))(◎b1)((((a0)(b0))(a0 b0)(Cin))((a0)(b0))))((((◎)(b1))(◎b1))(((a0)(b0))(a0 b0)(Cin))((a0)(b0))))
+
+Ea1 = (((b1)((((a0)(b0))(a0 b0)(Cin))((a0)(b0))))(b1(((a0)(b0))(a0 b0)(Cin))((a0)(b0))))
 
 - -
 
