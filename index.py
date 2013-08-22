@@ -347,4 +347,4 @@ if __name__ == '__main__':
     
     ))
   print H
-  print >> open('del.html', 'w'), H
+  print >> open('index.html', 'w'), H
