@@ -13,7 +13,7 @@ def index(ht=None, blocks=()):
     h.title('The Egg of Ouroboros Web Site')
     h.meta(charset='utf-8')
     h.link(
-      href='http://fonts.googleapis.com/css?family=EB+Garamond|Muli:400,300',
+      href='http://fonts.googleapis.com/css?family=Inconsolata|EB+Garamond|Muli:400,300',
       rel='stylesheet',
       type_='text/css',
       )
@@ -270,8 +270,106 @@ def guardians_1(d):
       with t.tr as tr:
         for datum in row:
           tr.td(datum)
-
   d.p('''No matter which order the Guardians answer (Truth about a lie, or a lie about the Truth) if you can get them both in line they will always answer "(d)" and so tell you the name of the door.''')
+
+
+def markable(d):
+  d.p('''We can use circles and "names" to model and solve logical systems.''')
+  d.p('''Many people, including George Spencer-Brown in "The Laws of Forms", have examined and explained this singular fact.  A man named George Burnett-Stuart has created a website "The Markable Mark" that provides a really wonderful and smooth introduction to the world of symbolic logic and formal reasoning using the notation of the Laws of Form, and it is his work which directly stimulated the paper you're reading now (any blame is mine, the inspiration is his.)''')
+  d.p('''I really can't do better than Burnett-Stuart's "The Markable Mark".''')
+  d.p('''I'm going to assume that you have gone and played your way through "The Markable Mark" to the point where you understand that any expression of circles and symbols "names" representing circle expressions, and symbols representing expressions of such symbols and circle expressions, and so on, can be manipulated in value-preserving ways by known logic.''')
+  d.p('''Whenever a form can be reduced to either a mark or the Void for every possible set of values of the names in the form, the form is said to represent a "tautology".  Where this is not possible the form is said to represent a "satisfiable" statement, and the reduced form mentions each of the names that must be assigned values to be able to "satisfy" (or not) the statement.''')
+
+  separator(d)
+
+  d.p('''Names stand for logical terms and the concepts of logical statements can be expressed in the circle language according to the following (partial) translation table:''')
+  d.p(u'''¬a     becomes        (a)''')
+  d.p(u'''a ∧ b becomes  ((a)(b))''')
+  d.p(u'''a ∨ b    becomes  ab''')
+  d.p(u'''a → b    becomes  (a)b''')
+  d.p(u'''a ← b  becomes   a(b)''')
+  d.p(u'''a ↔ b   becomes  ((a(b))((a)b)) -or- ((a)(b))(ab)''')
+  d.p(u'''a ↓ b  becomes   (ab)''')
+
+  separator(d)
+
+  d.p('''Some examples:''')
+  d.p('''"All humans are mortal"''')
+  d.blockquote('(mortal) human')
+  d.p('''"John is mortal"''')
+  d.blockquote('((John)(mortal))')
+  d.p('''"John is human"''')
+  d.blockquote('((John)(human))')
+  d.p(u'''In order to determine if the first two statements support the third as a conclusion we perform the decision procedure:''')
+  d.p(u'''Enclose the premises and concatinate with the conclusion (switching to single-letter names for ease of notation only):''')
+  d.blockquote('((m)h) (((J)(m))) ((J)(h))')
+  d.p(u'''Reduce.  We note that the middle term is wrapped and unwrap it:''')
+  d.blockquote('((m)h) (J) (m) ((J)(h))')
+  d.p(u'''We delete redundant subterms:''')
+  d.blockquote('(h) (J) (m) ((h))')
+  d.p(u'''Note that (h)((h)) matches a(a) if 'a' stands for '(h)' and therefore the expression is mark-valued, a tautology.  It would seem that John's mortality does indeed imply that he's human, although common sense dictates that we might need more information to be sure...''')
+  d.p('''(Note that (h)((h)) becomes (h)h  by unwrapping, which is fine but not strictly necessary.  A machine solver might do it but we humans can let our brains figure out patterns any old which way they want to.)''')
+  d.p('''The power and elegance of the notation are startling.''')
+  d.p('''For example, logical statements that are equivalent under De Morgan's Laws are identical in the Circle Language.''')
+  d.p('''If this were all then we have not said much that is not in any book on logic and symbolic reasoning.  If the only advantage to the Circle Language were that it gives a simple and elegant notation for formal reasoning then I would be satisfied, as that is a worthy and sorely needed thing.  Admirably, the notation also provides a means of constructing logical circuits and programs.''')
+  d.p('''The resulting way of thinking about machines provides for a unified treatment of hardware and software, parallel and sequential operations, and self-acting (Cybernetic) systems.''')
+
+
+def patterns(d):
+  d.h3('Patterns', align="center")
+  d.p('''(Index names from [Meguire 2007]):''')
+  d.blockquote(u'C1. ((a)) = a')
+  d.blockquote(u'C2. a(ab) = a(b)')
+  d.blockquote(u'C3. ○a = ○')
+  d.blockquote(u'C4. ((a)b)a = a')
+  d.blockquote(u'C5. aa = a')
+  d.blockquote(u'C6. ((a)(b))((a)b) = a')
+  d.blockquote(u'C7. (((a)b)c) = (ac)((b)c)')
+  d.blockquote(u'C8. ((a)(r))((b)r) = ((ab)(r))')
+  d.blockquote(u'C9. (((a)(r))((b)r)) = (a(r))(br)')
+  d.blockquote(u'J1. ((a)a) = ◎ = Void')
+  d.blockquote(u'J2. ((ar)(br)) = ((a)(b))r')
+
+
+def nor(d):
+  d.h3('In the Land of Nor', align="center")
+  d.p('''The key is to notice that a mark acts as a "NOR" gate on its contents.''')
+  d.p('''A circle in the Circle Language "is":''')
+  with d.ul as ul:
+    ul.li('A signal')
+    ul.li('The value of a signal')
+    ul.li('An operation.')
+  d.p('''A circle is both a value (term) and an action (name). This is a very subtle point and can be tricky to understand properly if you haven't encountered it before.  In the lambda calculus each lambda term is both a value and [the name for] an action to take on some values to derive or generate new values, which can themselves be lambda terms.  Likewise, in the SKI combinator calculus the combinators are both values and names of actions to take.  In computer programming, all programs are stored as sequences of bits, which are values.  The bits "name" the actions to take.''')
+  d.p('''We can interpret the content-free Circle Language forms as networks of NOR (not-or) logic gates.  It is known art that all logic gate networks can be constructed out of NOR gates.  Therefore the Circle Language is a notation for digital logic circuits, and every digital logic circuit can be represented as a form of the Circle Language.''')
+  d.p('''It is perhaps unnecessary to remark that all computers can be represented in the Circle Language.''')
+
+
+def gm_0(d):
+  d.p('''Each LoF mark form ("circle expression") is a specification of a network of logic gates and a proof of the expectable operation of that network. The proof proves the circuit and the circuit computes the proof.''')
+  d.p('''Composing circle expressions composes the proofs and connects the circuits.''')
+  d.p(u'''Two circle expressions that yield the same behaviour ("extensional identity") can have different properties otherwise (intentional dis-identity.)  This can be exploited to create programs and hardware with characteristics that are desirable while proving extensional identity with "correct" forms.  It should be possible to construct simple systems that search for extensionally identical forms of expressions automatically.  (cf. Gödel Machines.)''')
+
+
+def circuits(d):
+  d.h3('Circuits', align="center")
+  d.p('''The circle language can be interpreted as digital logic circuits.''')
+  d.blockquote(u'nor a, b -> (ab)')
+  d.blockquote(u'or a, b -> ((ab))')
+  d.blockquote(u'and a, b -> ((a)(b))')
+  d.blockquote(u'nand a, b -> (((a)(b)))')
+  d.blockquote(u'xor a, b -> (((a)(b))(ab))')
+  d.p('''It should be understood that more than two symbols may appear within a form.  The symbols are taken to stand for any other pattern of circles, or circles and symbols, as described above in the section on using circle expressions to represent the formal logics, but here they also represent the "inputs" to the digital circuits.  The expressions themselves are the "outputs".''')
+  d.p('''For concreteness we will develop a model of the Circle Language using the Python computer programming language.''')
+  d.p('''In Python, let "a form" be any data-structure composed entirely of tuples.''')
+  d.p('''The function "mark" reduces any form and returns True if the form is mark-valued and False if the form is Void-valued.  In Python it can be implemented as:''')
+  d.code.pre('''\
+
+    def mark(form):
+      return not form or not any(mark(inner) for inner in form))
+
+  ''')
+  d.p('''This is a direct "translation" of the sentence. "A mark is circle that is empty or has no marks in it."  In Python the empty tuple is considered to have the Boolean value of False so we invert that value.  If the tuple/form has contents then we recursively examine them to determine if any of them are marks.  In effect we are performing a depth-first "walk" of a tree, and "short-circuiting" the walk as soon as we can determine the "mark"-ness of the tuple/form.''')
+  d.p('''There are several improvements that could be made to this function, simple as it is.  We could "memoize" the function so that it did not re-compute the "mark"-ness of a form that it had "seen" before.  Also, it would be easy to manipulate our forms into a sort of standard form that ensured the "walk" terminated as early as possible.  For now we will neglect such considerations.''')
 
 
 def f(d):
@@ -332,6 +430,13 @@ def copyright_notice(b):
   d += '.'
 
 
+def surreal(d):
+  d.h3('Surreal Numbers', align="center")
+  separator(d)
+  d.p('''Conway was thinking about the game Go and found numbers. He told Knuth about them and Knuth went on vacation for a week and wrote a love story. Knuth said, "Call them Surreal Numbers." and Conway agreed, so that's what they're called.''')
+  d.p('True story!')
+
+
 if __name__ == '__main__':
   H = index(blocks=(
     first,
@@ -339,11 +444,16 @@ if __name__ == '__main__':
     part_one,
     nomy,
     naming_0,
-    lambda d: (d.h3('Surreal Numbers', align="center"), separator(d)),
+    surreal,
     naming_1,
     guardians_0,
     rules,
     guardians_1,
+    markable,
+    patterns,
+    nor,
+    gm_0,
+    circuits,
     
     ))
   print H

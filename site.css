@@ -12,6 +12,12 @@ body {
   font-size: 16pt;
 }
 
+code > pre {
+  overflow: auto;
+  font-size: 16pt;
+  font-family: 'Inconsolata', sans-serif;
+}
+
 .prose {
   font-family: 'EB Garamond', serif;
   -webkit-column-width: 15em;
