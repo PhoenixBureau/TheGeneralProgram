@@ -636,11 +636,7 @@ For concreteness we will develop a model of the Circle Language using the Python
 
 In Python, let "a form" be any data-structure composed entirely of tuples.
 
-
-We shall consider the absence of any form to be "the ground" and have the Boolean value of True.  A "mark" is the empty tuple or any tuple without a mark in it, we shall consider marks to have the Boolean value of False.
-
-
-The function "mark" reduces any form and returns its Boolean value.  In Python it can be implemented as:
+The function "mark" reduces any form and returns True if the form is mark-valued and False if the form is Void-valued.  In Python it can be implemented as:
 
     def mark(form):
       return not form or not any(mark(inner) for inner in form))
