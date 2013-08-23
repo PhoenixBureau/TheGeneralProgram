@@ -350,7 +350,7 @@ def gm_0(d):
   d.p(u'''Two circle expressions that yield the same behaviour ("extensional identity") can have different properties otherwise (intentional dis-identity.)  This can be exploited to create programs and hardware with characteristics that are desirable while proving extensional identity with "correct" forms.  It should be possible to construct simple systems that search for extensionally identical forms of expressions automatically.  (cf. Gödel Machines.)''')
 
 
-def circuits(d):
+def circuits_0(d):
   d.h3('Circuits', align="center")
   d.p('''The circle language can be interpreted as digital logic circuits.''')
   d.blockquote(u'nor a, b -> (ab)')
@@ -372,6 +372,266 @@ def circuits(d):
   d.p('''There are several improvements that could be made to this function, simple as it is.  We could "memoize" the function so that it did not re-compute the "mark"-ness of a form that it had "seen" before.  Also, it would be easy to manipulate our forms into a sort of standard form that ensured the "walk" terminated as early as possible.  For now we will neglect such considerations.''')
 
 
+def circuits_1(d):
+  d.p('''We can implement a model of Binary Boolean Logic gates using the tuple-based form of the Circle Language with the following Python functions:''')
+  d.code.pre('''\
+
+    nor = lambda *bits: bits
+    or_ = lambda *bits: nor(bits)
+    and_ = lambda *bits: tuple(nor(bit) for bit in bits)
+    nand = lambda *bits: nor(and_(*bits))
+    xor = lambda *bits: nor(and_(*bits), nor(*bits))
+
+  ''')
+  d.p('''If we use the above functions to generate circle expressions for the symbols 'a' and 'b' we can examine their forms:''')
+  d.code.pre('''\
+
+    a, b = 'ab'
+
+    nor(a, b) -> ('a', 'b')
+    or(a, b) -> (('a', 'b'),)
+    and(a, b) -> (('a',), ('b',))
+    nand(a, b) -> ((('a',), ('b',)),)
+    xor(a, b) -> ((('a',), ('b',)), ('a', 'b'))
+
+  ''')
+  d.p(u'''Here are truth tables generated from the above definitions by means of substituting the values in the first two columns (as tuple mark ○ and not-mark ◎ values for Boolean values) into the above expressions and then reducing them by means of the "mark" function.''')
+  d.code.pre('''\
+
+     and_
+    ------
+     00|0
+     01|0
+     10|0
+     11|1
+
+  ''')
+  d.code.pre('''\
+
+     or_
+    ------
+     00|0
+     01|1
+     10|1
+     11|1
+
+  ''')
+  d.code.pre('''\
+
+     nand
+    ------
+     00|1
+     01|1
+     10|1
+     11|0
+
+  ''')
+  d.code.pre('''\
+
+     nor
+    ------
+     00|1
+     01|0
+     10|0
+     11|0
+
+  ''')
+  d.code.pre('''\
+
+     xor
+    ------
+     00|0
+     01|1
+     10|1
+     11|0
+
+  ''')
+  d.p('''As you can verify for yourself, the expressions do indeed generate the expected values for their logical functions.''')
+  d.p('''A standard XOR gate built out of NOR gates might look like this if it were to be translated directly into Circle Expressions:''')
+  d.code.pre('''\
+
+    ((a(ab))((ab)b))
+
+  ''')
+  d.p('''But we have the expression:''')
+  d.code.pre('''\
+
+    (((a)(b))(ab))
+
+  ''')
+  d.p('''We can use the logical methods described so admirably well on the Markable Mark web site to prove that the two expressions will always evaluate to the same results no matter the particular values of the 'a' and 'b' sub-expressions.''')
+  d.code.pre('''\
+
+    ((a(ab))((ab)b)) = (((a)(b))(ab)) # Ugh, double check that this ain't inverted! TODO
+
+  ''')
+  d.p(u'''This is a somewhat more sophisticated approach than the simple term factoring discussed below.  It is also worth noting, again, that it is possible to generate new forms of equivalent value mechanically using existing art and it is possible to evaluate the expected performance of extensionally identical expressions as instantiated into specific physical (or software-on-existing-hardware) forms according to preferred utility metrics mechanically.  (again, cf. Gödel Machines.)''')
+
+
+def more_circuits(d):
+  d.h3('More Circuits', align="center")
+  d.p('''If we want to choose one of four options given a two-bit binary number we can make use of these expressions (where 'a' and 'b' are the bits and "endianness" is irrelevant):''')
+  d.code.pre('''\
+
+    Two-Binary-Digits-to-One-of-Four-Selector:
+    (ab) (a(b)) ((a)b) ((a)(b))
+
+  ''')
+  d.p('''For each pair of possible combinations of two binary signals only one of the above expressions will evaluate to True and the others will evaluate to False.''')
+  d.p('''If we label the "inputs" 'a', 'b', 'c', and 'd' and permit only one at a time to be True, we can compose these expressions that will evaluate to the binary digits that encode our selection:''')
+  d.code.pre('''\
+
+    One-of-Four-to-Two-Binary-Digits:
+    ((ab)) ((ac))
+
+  ''')
+  d.p('''Note that 'd' is ignored.  Selecting option 'd' is the same as selecting no option: 'd' "is" zero. The first expression gives the most-significant-bit while the second give the least-significant-bit.''')
+  d.p('''It is trivial to construct a circle expression that denotes a "Half-Bit Adder" circuit and proves its function. A circuit that will sum two binary inputs and output the sum and a "carry" or overflow signal can be represented by the following circle expressions (taking 'a' and 'b' as the binary digits to add together):''')
+  d.code.pre('''\
+
+    Half-Bit Adder:
+    Sum: (((a)(b))(ab))
+    Carry: ((a)(b))
+
+  ''')
+  d.p('''As you can plainly see, the sum is given by XORing the inputs while the carry signal is just logical AND of the inputs.  In Python:''')
+  d.code.pre('''\
+
+    half_bit_adder = xor(a, b), and_(a, b)
+
+  ''')
+  d.p('''But notice that both expressions contain the common sub-expression '((a)(b))'?  In fact, the "carry" expression is a sub-expression of the "sum".  We can reflect that in the Python code to generate the expression:''')
+  d.code.pre('''\
+
+    def HBA(a, b):
+      carry = and_(a, b)
+      return carry, nor(carry, nor(a, b))
+
+  ''')
+  d.p('''This function captures (and parameterizes) the creation of a Half-Bit Adder circuit, refactoring it from the first expression but creating an identical result.''')
+  d.p('''While it can be fun to perform these sorts of manipulations manually it should be obvious that they are highly susceptible to automated treatment.  There is no need to refactor the expressions at the level of Python source code, I am only doing that to illustrate the process concretely.  We explore below means of manipulating the circle expressions (as Python data structures) directly using logical unification algorithms.''')
+  d.p('''In order to have richer expressions across which to reason and extend the reach of our notation we can compose expressions to generate new expressions that capture the behaviour of the composition of logic circuits.''')
+  d.p('''For example, in order to build a general adder circuit that can be ganged together with copies of itself to add "wider" binary numbers we must arrange to take into account a 'Cin' signal to "carry in" the carry signal from an optional previous adder circuit.  Taking a standard circuit from the existing literature we have:''')
+  d.code.pre('''\
+
+    Full-Bit Adder:
+    Sum: ((((((a)(b))(ab)))(Cin))((((a)(b))(ab))Cin))
+    Carry: (((((((a)(b))(ab)))(Cin))((a)(b))))
+
+  ''')
+  d.p('''And here is the resulting Truth-Table, as generated by reducing the above expressions after substituting the input values for their symbols:''')
+  d.code.pre('''\
+
+     a  b Cin  Sum Cout
+     0  0  0  -> 0 0
+     0  0  1  -> 1 0
+     0  1  0  -> 1 0
+     0  1  1  -> 0 1
+     1  0  0  -> 1 0
+     1  0  1  -> 0 1
+     1  1  0  -> 0 1
+     1  1  1  -> 1 1
+
+  ''')
+  d.p('''The expressions give the desired output behaviour.''')
+  d.p('''The Python code to generate the Full Bit Adder is straightforward:''')
+  d.code.pre('''\
+
+    def FBA(a, b, Cin):
+      k = xor(a, b)
+      return xor(k, Cin), or_(and_(k, Cin), and_(a, b))
+
+  ''')
+  d.p('''And again, we can refactor the expressions "manually" in the Python code just by noticing and "pulling out" sub-expressions into formal calls to the generating functions (all of which are defined in terms of the nor() operation anyway. We are just drawing circles around circles.)''')
+  d.code.pre('''\
+
+    def FBA(a, b, Cin):
+      h = and_(a, b)
+      y = nor(h, nor(a, b))
+      j = and_(y, Cin)
+      return nor(j, nor(y, Cin)), or_(j, h)
+
+  ''')
+  d.p('''I should note that I originally performed this factoring by simple string replacement on the original expressions (as a string, as they appear above) substituting new string symbols for the terms I wished to factor by means of calls to the replace() method of the expression string.  This works fine but there are better methods which are discussed below.''')
+  d.p('''Again, even though the resulting expressions from each form of the FBA() function are identical, the circuits represented are not.''')
+  d.p('''Logically they are both composed of the same arrangement of NOR gates but if you were to construct each of the above circuits using discrete IC components that matched the operations that appear in the functions the resulting circuits would calculate the same results but with variations in, say, power consumption, speed and other factors (but one would expect the variations to be small depending on the components chosen as modern hardware is quite efficient.)''')
+  d.p('''Once we have the expressions for a Full-Bit Adder circuit that can be composed with copies of itself to create "wider" adders doing so is easy:''')
+  d.code.pre('''\
+
+    Sum0, Cout0 = FBA(a0, b0, Cin)
+    Sum1, Cout1 = FBA(a1, b1, Cout0)
+
+  ''')
+  d.p('''This generates the following expressions (note that we don't care about Cout0 because it is just passed back in to the carry signal of the next stage.  The output expressions are three: two bits for the sum and one for the carry):''')
+  d.code.pre('''\
+
+    Sum0: ((((((a0)(b0))(a0 b0)))(Cin))((((a0)(b0))(a0 b0))Cin))
+
+    Sum1: ((((((a1)(b1))(a1 b1)))((((((((a0)(b0))(a0 b0)))(Cin))((a0)(b0))))))
+      ((((a1)(b1))(a1 b1))(((((((a0)(b0))(a0 b0)))(Cin))((a0)(b0))))))
+
+    Cout1: (((((((a1)(b1))(a1 b1)))((((((((a0)(b0))(a0 b0)))(Cin))((a0)(b0))))))((a1)(b1))))
+
+  ''')
+  d.p('''We can do things to these expressions to make them simpler, but first let's "run" them by trying different inputs and checking the values of the outputs.  I've done that and formatted the binary values in decimal to make it easier to read.  Note that the 'Cout1' signal indicates an "overflow" of the two bits and so counts as 4 for purposes of determining the output of the adder as a decimal number.''')
+  d.code.pre('''\
+
+    a   b  Cin sum carry
+    0 + 0 + 0 = 0 + 0
+    1 + 0 + 0 = 1 + 0
+    0 + 1 + 0 = 1 + 0
+    1 + 1 + 0 = 2 + 0
+    0 + 0 + 1 = 1 + 0
+    1 + 0 + 1 = 2 + 0
+    0 + 1 + 1 = 2 + 0
+    1 + 1 + 1 = 3 + 0
+    2 + 0 + 0 = 2 + 0
+    3 + 0 + 0 = 3 + 0
+    2 + 1 + 0 = 3 + 0
+    3 + 1 + 0 = 0 + 4
+    2 + 0 + 1 = 3 + 0
+    3 + 0 + 1 = 0 + 4
+    2 + 1 + 1 = 0 + 4
+    3 + 1 + 1 = 1 + 4
+    0 + 2 + 0 = 2 + 0
+    1 + 2 + 0 = 3 + 0
+    0 + 3 + 0 = 3 + 0
+    1 + 3 + 0 = 0 + 4
+    0 + 2 + 1 = 3 + 0
+    1 + 2 + 1 = 0 + 4
+    0 + 3 + 1 = 0 + 4
+    1 + 3 + 1 = 1 + 4
+    2 + 2 + 0 = 0 + 4
+    3 + 2 + 0 = 1 + 4
+    2 + 3 + 0 = 1 + 4
+    3 + 3 + 0 = 2 + 4
+    2 + 2 + 1 = 1 + 4
+    3 + 2 + 1 = 2 + 4
+    2 + 3 + 1 = 2 + 4
+    3 + 3 + 1 = 3 + 4
+
+  ''')
+  d.p('''The expressions give the desired output behaviour.''')
+  d.p('''Digital logic designers have been developing circuits to compute mathematical and logical functions for many decades, and there is an extensive body of design that can be directly expressed and understood in terms of the Circle Language. Although we have not touched upon the Church Encoding we can see that we have here simple rules that can be combined to generate patterns that we can interpret as numbers, and patterns that can be interpreted as "doing math" to those numbers.''')
+
+
+def srflipflop(d):
+  d.p('''Consider the following self-referential form:''')
+
+  d.code.pre('''\
+
+    The Set-Reset Flip-Flop:
+    q = ((qs)r)
+
+  ''')
+
+  d.p(u'''If both 's' and 'r' are allowed to be Void-valued the expression becomes 'q = ((q))' which is a statement of the basic rule '◎ = Void'.  It (the equation, not 'q') is trivially True (stable) for either value that 'q' may assume.''')
+
+  d.p('''If 'q' is the mark (or we can say "has the value of the mark") then the value of 's' is ignored, but the value of 'r' can "invert" the value of the whole expression if it is permitted to be the value of the mark.  Likewise, the same situation holds in a kind of symmetry when 'q' is Void-valued.  In that case, the value of 'r' is ignored but 's' can "invert" the value of the whole expression if it is permitted to assume the value of the mark.''')
+
+  d.p('''This is a kind of "memory" circuit called a Set-Reset Flip-Flop.''')
+
+
 def f(d):
   d.p('''''')
 
@@ -388,6 +648,15 @@ def f(d):
   d.p('''''')
 
   d.p('''''')
+
+  d.code.pre('''\
+  ''')
+
+  d.code.pre('''\
+  ''')
+
+  d.code.pre('''\
+  ''')
 
 
 def blbr(d, items):
@@ -453,7 +722,10 @@ if __name__ == '__main__':
     patterns,
     nor,
     gm_0,
-    circuits,
+    circuits_0,
+    circuits_1,
+    more_circuits,
+    srflipflop,
     
     ))
   print H
