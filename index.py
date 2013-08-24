@@ -43,7 +43,7 @@ def first(d):
 
   separator(d)
 
-  d.p('''Over the last century a small group of researchers, working largely independently and in isolation, have discovered and refined the Universal Language.''')
+  d.p('''Over the last century a small group of researchers, working largely independently and in isolation, have discovered and elucidated the Universal Language.''')
   d.p('''It is a logic-symbolic notation, not a spoken language (i.e. not like Esperanto), that captures and expresses the essence of logical reasoning in a direct and very powerful way.''')
   p = d.p('''The rules of logical reasoning (and Set Theory, etc.) expressed in the Universal Language admit of a ''')
   p.a('decision procedure', href="https://en.wikipedia.org/wiki/Decision_problem")
@@ -152,6 +152,7 @@ def nomy(d):
 
 
 def naming_0(d):
+  d.h3('Naming Order, Ordering Names', align="center")
   d.p('''There are two ways of making names out of the circle language, and both are "cheating".''')
   d.p('''First, we can simply arrange patterns of circles to represent distinct symbols that we then "let stand for" other patterns.  This is how most kinds of printers actually work.  An "ink-jet" printer, for example, is precisely placing tiny circles of ink on the paper to make patterns that our nervous systems recognize.  A "dot-matrix" printer is just putting dots in a matrix.''')
   d.p('''The other way of naming patterns is to come up with some "ordering" convention for patterns, and then use those "numbers" to "index" any other sequence of patterns.''')
@@ -193,6 +194,7 @@ def naming_0(d):
 
 
 def naming_1(d):
+  d.h3('Naming Unknown', align="center")
   d.p('''For now, we will choose the first method in most of what follows and say that a letter, such as 'a', may be the name of some other pattern of circles.  "Just because."''')
   d.p('''(But really we know that the "letter" 'a' is just a bunch of little tiny circles jammed together in a squiggle with certain properties.  Later on we'll figure out how to talk about those properties properly but for now, "Just Because!")''')
   d.p('''But here's the really weird, the really bizarre and unreasonable thing we proceed to do next: we don't say what pattern of circles the name is a name for yet.''')
@@ -632,6 +634,223 @@ def srflipflop(d):
   d.p('''This is a kind of "memory" circuit called a Set-Reset Flip-Flop.''')
 
 
+def machine_0(d):
+  d.p('''We can model the operation over time of a system in two essential ways: we can record a protocol and analyze it, or we can analyze the system of expressions directly.''')
+
+  d.p('''Consider a simple "machine" with only three bits in one register, and only one "instruction" hard-coded to perform:''')
+
+  d.code.pre('''\
+
+    a = (bc)   b = (c)   c = (a(c))
+
+  ''')
+
+  d.p('''Where a, b, and c are the initial state of the three bits in the register and the "next" state is given by evaluating each expression.''')
+
+  d.p('''We can learn the "future" state of this computer by simply re-composing the expressions with themselves to effectively create circuits that compute the future state of the system one or more "cycles" ahead.''')
+
+  d.p('''Let's "run" our computer in this manner for a few cycles. Substituting the original expressions into themselves we get:''')
+
+  d.code.pre('''\
+
+    a = ((c)(a(c)))
+
+    b = ((a(c)))
+
+    c = ((bc) ((a(c))) )
+
+  ''')
+
+  d.p('''And again, after two "computing" cycles.''')
+
+  d.code.pre('''\
+
+    a = (((a(c)))((bc)((a(c)))))
+
+    b = (((bc)((a(c)))))
+
+    c = (((c)(a(c)))(((bc)((a(c))))))
+
+  ''')
+
+  d.p('''We can also "plug in" actual values and then simulate the system by re-applying the above expressions to the values.  Doing this for each of the possible values of a, b, and c give us the following protocols:''')
+
+  d.code.pre('''\
+
+    0 0 0 cycle: 0
+    1 1 0 cycle: 1
+    0 1 0 cycle: 2
+    0 1 0 cycle: 3
+    0 1 0 cycle: 4
+
+    0 0 1 cycle: 0
+    0 0 1 cycle: 1
+    0 0 1 cycle: 2
+    0 0 1 cycle: 3
+    0 0 1 cycle: 4
+
+    0 1 0 cycle: 0
+    0 1 0 cycle: 1
+    0 1 0 cycle: 2
+    0 1 0 cycle: 3
+    0 1 0 cycle: 4
+
+    0 1 1 cycle: 0
+    0 0 1 cycle: 1
+    0 0 1 cycle: 2
+    0 0 1 cycle: 3
+    0 0 1 cycle: 4
+
+    1 0 0 cycle: 0
+    1 1 0 cycle: 1
+    0 1 0 cycle: 2
+    0 1 0 cycle: 3
+    0 1 0 cycle: 4
+
+    1 0 1 cycle: 0
+    0 0 0 cycle: 1
+    1 1 0 cycle: 2
+    0 1 0 cycle: 3
+    0 1 0 cycle: 4
+
+    1 1 0 cycle: 0
+    0 1 0 cycle: 1
+    0 1 0 cycle: 2
+    0 1 0 cycle: 3
+    0 1 0 cycle: 4
+
+    1 1 1 cycle: 0
+    0 0 0 cycle: 1
+    1 1 0 cycle: 2
+    0 1 0 cycle: 3
+    0 1 0 cycle: 4
+
+  ''')
+
+  d.p('''It seems our machine has a little bit of interesting behaviour "at the beginning" and then settles down within four cycles to one of two steady states, or "basins".  We can graph this arrangement like so:''')
+
+  d.code.pre('''\
+
+         100 -->\\
+                110 -> 010
+  111 -> 000 -->/
+
+  011 -> 001
+
+  ''')
+
+  d.p('''The system seems to always end up in either abc=010 or abc=001 and then stay there.''')
+
+  separator(d)
+
+  d.p('''If we examine the expressions for the machine after just one cycle we see that we can reduce them a bit:''')
+
+  d.code.pre('''\
+
+    a = ((c)(a))
+
+    b = a(c)
+
+    c = (a(c))
+
+  ''')
+
+  d.p('''Then to get the results of the second cycles we substitute the machine's expressions into these expressions:''')
+
+  d.code.pre('''\
+
+    a = (((a(c)))((bc)))
+
+    b = (bc)((a(c)))
+
+    c = ((bc)((a(c))))
+
+  ''')
+
+  d.p('''Reducing again gives us:''')
+
+  d.code.pre('''\
+
+    a = (a(c)bc)
+
+    b = (bc)a(c)
+
+    c = ((bc)a(c))
+
+  ''')
+
+  d.p('''Which reduce again to:''')
+
+  d.code.pre('''\
+
+    a = _
+
+    b = a(c)
+
+    c = (a(c))
+
+  ''')
+
+  d.p('''Notice that 'a' has been eliminated, it will never again assume a mark value. Also notice that 'b' and 'c' are inverse of each other.  This shows up in the two stable steady states, or "basins", of our protocol above.  Once 'a' has become Void-valued it can be dropped from the expressions for 'b' and 'c':''')
+
+  d.code.pre('''\
+
+    b = (c)
+
+    c = ((c)) = c
+
+  ''')
+
+  d.p('''And we see that 'c' remains 'c' and 'b' is "not 'c'" thereafter.''')
+
+  d.code.pre('''\
+  ''')
+
+  d.p('''We could also continue substituting the original machine expressions into 'b' and 'c' to see what happens:''')
+
+  d.code.pre('''\
+
+    b = ((a(c)))
+
+    c = (a(c))
+
+  ''')
+
+  d.p('''And since 'a' is Void-valued:''')
+
+  d.code.pre('''\
+
+    b = (((c))) = (c)
+
+    c = ((c)) = c
+
+  ''')
+
+  d.p('''The system is stable.''')
+
+  separator(d)
+
+  d.p('''It turns out that in many cases, useful cases, we can go directly from the expression version to the protocol version, and from the protocol version to the expression version, and sometimes both ways, without having to "run" the system.''')
+
+  d.p('''In other cases this is not possible, and in some cases no one knows (or can prove) the thing one way or another.''')
+
+  d.p('''Another interesting question is, "What precisely are these expressions and protocols versions of?"  The answer seems to be "momentum".  Or, more precisely, "patterns in momentum".  But that hardly helps because no one knows (or can prove) what momentum "is".''')
+
+
+def machine_2(d):
+  d.p('''Consider the adder circuits.  If we were to connect the output signals to one set of the input signals and let the system "run free" we would expect nothing to happen, unless the "free" input signals were permitted to assume some value (other than all-Void, representing the number zero.)''')
+
+  d.p('''If the "free" input were zero, then any pattern on the inputs/outputs would remain stable. But if a pattern were introduced into the "free" inputs and allowed to remain stable, the adder circuit would begin to count.''')
+
+  d.p('''The "bound" input would be "output-plus-whatever" (where "whatever" is the pattern on the "free" input"), but the output is just the "bound" input, so the system as a whole would cycle, adding the "number" pattern in the "free" input to the "number" pattern propagating through the input/output signal "lines" in a continuous cascade.''')
+
+  d.p('''How can we know the behaviour of the adder circuit connected to itself just by thinking about it?  We didn't compose any expressions, nor run any simulations, did we?  Perhaps our brains did so without our noticing, but if we review the above train of thought it doesn't really seems necessary, does it?''')
+
+  d.p('''We did something like, "if a+b = c, and c = a, then c+b = c"  but that only makes sense if b = 0, but we are saying that we want to know what happens if b = "something else".  It turns out that either you get what is called a "paradox" or you get what is called "time".  But of course those are just two more names for "things" nobody understands.''')
+
+  d.p('''Nevertheless, the circuits work.''')
+
+
 def f(d):
   d.p('''''')
 
@@ -667,7 +886,7 @@ def blbr(d, items):
 
 
 def separator(n):
-  n.div(u'◎', align="center")
+  n.div(u'- = ◎ = -', align="center")
 
 
 def copyright_notice(b):
@@ -726,7 +945,8 @@ if __name__ == '__main__':
     circuits_1,
     more_circuits,
     srflipflop,
-    
+    machine_0,
+    machine_2,
     ))
   print H
   print >> open('index.html', 'w'), H

@@ -18,14 +18,28 @@ code > pre {
   font-family: 'Inconsolata', sans-serif;
 }
 
+hr {
+  max-width: 20em;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 1.6em;
+  margin-bottom: 3em;
+}
+
 .prose {
   font-family: 'EB Garamond', serif;
+  min-width: 15em;
+  max-width: 25em;
+  margin-left: auto;
+  margin-right: auto;
+/*
   -webkit-column-width: 15em;
   -webkit-column-gap:   1.5em;  
   -moz-column-width:    15em;
   -moz-column-gap:      1.5em;
   column-width:         15em;
   column-gap:           1.5em;
+*/
 }
 
 .prose > p {
