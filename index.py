@@ -619,38 +619,28 @@ def more_circuits(d):
 
 def srflipflop(d):
   d.p('''Consider the following self-referential form:''')
-
   d.code.pre('''\
 
     The Set-Reset Flip-Flop:
     q = ((qs)r)
 
   ''')
-
   d.p(u'''If both 's' and 'r' are allowed to be Void-valued the expression becomes 'q = ((q))' which is a statement of the basic rule '◎ = Void'.  It (the equation, not 'q') is trivially True (stable) for either value that 'q' may assume.''')
-
   d.p('''If 'q' is the mark (or we can say "has the value of the mark") then the value of 's' is ignored, but the value of 'r' can "invert" the value of the whole expression if it is permitted to be the value of the mark.  Likewise, the same situation holds in a kind of symmetry when 'q' is Void-valued.  In that case, the value of 'r' is ignored but 's' can "invert" the value of the whole expression if it is permitted to assume the value of the mark.''')
-
   d.p('''This is a kind of "memory" circuit called a Set-Reset Flip-Flop.''')
 
 
 def machine_0(d):
   d.p('''We can model the operation over time of a system in two essential ways: we can record a protocol and analyze it, or we can analyze the system of expressions directly.''')
-
   d.p('''Consider a simple "machine" with only three bits in one register, and only one "instruction" hard-coded to perform:''')
-
   d.code.pre('''\
 
     a = (bc)   b = (c)   c = (a(c))
 
   ''')
-
   d.p('''Where a, b, and c are the initial state of the three bits in the register and the "next" state is given by evaluating each expression.''')
-
   d.p('''We can learn the "future" state of this computer by simply re-composing the expressions with themselves to effectively create circuits that compute the future state of the system one or more "cycles" ahead.''')
-
   d.p('''Let's "run" our computer in this manner for a few cycles. Substituting the original expressions into themselves we get:''')
-
   d.code.pre('''\
 
     a = ((c)(a(c)))
@@ -660,9 +650,7 @@ def machine_0(d):
     c = ((bc) ((a(c))) )
 
   ''')
-
   d.p('''And again, after two "computing" cycles.''')
-
   d.code.pre('''\
 
     a = (((a(c)))((bc)((a(c)))))
@@ -672,9 +660,7 @@ def machine_0(d):
     c = (((c)(a(c)))(((bc)((a(c))))))
 
   ''')
-
   d.p('''We can also "plug in" actual values and then simulate the system by re-applying the above expressions to the values.  Doing this for each of the possible values of a, b, and c give us the following protocols:''')
-
   d.code.pre('''\
 
     0 0 0 cycle: 0
@@ -726,9 +712,7 @@ def machine_0(d):
     0 1 0 cycle: 4
 
   ''')
-
   d.p('''It seems our machine has a little bit of interesting behaviour "at the beginning" and then settles down within four cycles to one of two steady states, or "basins".  We can graph this arrangement like so:''')
-
   d.code.pre('''\
 
          100 -->\\
@@ -738,13 +722,9 @@ def machine_0(d):
   011 -> 001
 
   ''')
-
   d.p('''The system seems to always end up in either abc=010 or abc=001 and then stay there.''')
-
   separator(d)
-
   d.p('''If we examine the expressions for the machine after just one cycle we see that we can reduce them a bit:''')
-
   d.code.pre('''\
 
     a = ((c)(a))
@@ -754,9 +734,7 @@ def machine_0(d):
     c = (a(c))
 
   ''')
-
   d.p('''Then to get the results of the second cycles we substitute the machine's expressions into these expressions:''')
-
   d.code.pre('''\
 
     a = (((a(c)))((bc)))
@@ -766,9 +744,7 @@ def machine_0(d):
     c = ((bc)((a(c))))
 
   ''')
-
   d.p('''Reducing again gives us:''')
-
   d.code.pre('''\
 
     a = (a(c)bc)
@@ -778,9 +754,7 @@ def machine_0(d):
     c = ((bc)a(c))
 
   ''')
-
   d.p('''Which reduce again to:''')
-
   d.code.pre('''\
 
     a = _
@@ -790,9 +764,7 @@ def machine_0(d):
     c = (a(c))
 
   ''')
-
   d.p('''Notice that 'a' has been eliminated, it will never again assume a mark value. Also notice that 'b' and 'c' are inverse of each other.  This shows up in the two stable steady states, or "basins", of our protocol above.  Once 'a' has become Void-valued it can be dropped from the expressions for 'b' and 'c':''')
-
   d.code.pre('''\
 
     b = (c)
@@ -800,14 +772,8 @@ def machine_0(d):
     c = ((c)) = c
 
   ''')
-
   d.p('''And we see that 'c' remains 'c' and 'b' is "not 'c'" thereafter.''')
-
-  d.code.pre('''\
-  ''')
-
   d.p('''We could also continue substituting the original machine expressions into 'b' and 'c' to see what happens:''')
-
   d.code.pre('''\
 
     b = ((a(c)))
@@ -815,9 +781,7 @@ def machine_0(d):
     c = (a(c))
 
   ''')
-
   d.p('''And since 'a' is Void-valued:''')
-
   d.code.pre('''\
 
     b = (((c))) = (c)
@@ -825,57 +789,149 @@ def machine_0(d):
     c = ((c)) = c
 
   ''')
-
   d.p('''The system is stable.''')
-
   separator(d)
-
   d.p('''It turns out that in many cases, useful cases, we can go directly from the expression version to the protocol version, and from the protocol version to the expression version, and sometimes both ways, without having to "run" the system.''')
-
   d.p('''In other cases this is not possible, and in some cases no one knows (or can prove) the thing one way or another.''')
-
   d.p('''Another interesting question is, "What precisely are these expressions and protocols versions of?"  The answer seems to be "momentum".  Or, more precisely, "patterns in momentum".  But that hardly helps because no one knows (or can prove) what momentum "is".''')
 
 
 def machine_2(d):
   d.p('''Consider the adder circuits.  If we were to connect the output signals to one set of the input signals and let the system "run free" we would expect nothing to happen, unless the "free" input signals were permitted to assume some value (other than all-Void, representing the number zero.)''')
-
   d.p('''If the "free" input were zero, then any pattern on the inputs/outputs would remain stable. But if a pattern were introduced into the "free" inputs and allowed to remain stable, the adder circuit would begin to count.''')
-
   d.p('''The "bound" input would be "output-plus-whatever" (where "whatever" is the pattern on the "free" input"), but the output is just the "bound" input, so the system as a whole would cycle, adding the "number" pattern in the "free" input to the "number" pattern propagating through the input/output signal "lines" in a continuous cascade.''')
-
   d.p('''How can we know the behaviour of the adder circuit connected to itself just by thinking about it?  We didn't compose any expressions, nor run any simulations, did we?  Perhaps our brains did so without our noticing, but if we review the above train of thought it doesn't really seems necessary, does it?''')
-
   d.p('''We did something like, "if a+b = c, and c = a, then c+b = c"  but that only makes sense if b = 0, but we are saying that we want to know what happens if b = "something else".  It turns out that either you get what is called a "paradox" or you get what is called "time".  But of course those are just two more names for "things" nobody understands.''')
-
   d.p('''Nevertheless, the circuits work.''')
 
 
-def f(d):
-  d.p('''''')
-
-  d.p('''''')
-
-  d.p('''''')
-
-  d.p('''''')
-
-  d.p('''''')
-
-  d.p('''''')
-
-  d.p('''''')
-
-  d.p('''''')
-
+def machine_3(d):
+  d.h3('More Names', align="center")
+  d.p('''We can represent the protocols of our little machine as a sort of table, or "map", from each state of the bits to the state after one cycle:''')
   d.code.pre('''\
-  ''')
 
-  d.code.pre('''\
-  ''')
+    100 -> 110
+    110 -> 010
+    111 -> 000
+    000 -> 110
+    011 -> 001
 
-  d.code.pre('''\
   ''')
+  d.p('''We can think of this table as five names.  We can imagine that '100' is a name for 110, and that '000' is a name for 110.  Our patterns name not only numbers but other names as well.''')
+  d.p('''And, if we can do that, there is a way to make our machines enact patterns that can do math with names and not just numbers (which, recall, are just names.)''')
+  d.p('''Consider:''')
+  d.code.pre('''\
+
+    c = ( (a(q)) (qb) )
+
+  ''')
+  d.p('''If 'q' is Void-valued then 'c' will assume the value of 'b', but if 'q' is a mark then 'c' will assume the value of 'a'.  This expression uses 'q' to name either 'a' or 'b'.  (In computer programming parlance this is an "If Statement".)''')
+
+
+def machine_4(d):
+  d.h3('Meaning', align="center")
+  d.p('''Let's put our table of names into a dictionary (or "namespace") in Python:''')
+  d.code.pre('''\
+
+    machine = {
+      '100': '110',
+      '110': '010',
+      '111': '000',
+      '000': '110',
+      '011': '001',
+      }
+
+  ''')
+  d.p('''Now we can model our machine by using the get() method of the Python dictionary:''')
+  d.code.pre('''\
+
+    >>> machine.get('100')
+    '110'
+
+  ''')
+  d.p('''Because we know that our machine is already in a "basin" after at most four cycles, we could use the following function to "foretell the future" of any given state (the second argument to the get() method is the default to return if the first argument isn't in the dictionary; here we are just telling it to return the state itself):''')
+  d.code.pre('''\
+
+    def future(m, state, time):
+      for _ in range(time):
+        state = m.get(state, state)
+      return state
+
+  ''')
+  d.p('''Running it at the interactive prompt would look like this:''')
+  d.code.pre('''\
+
+    >>> future(machine, '100', 4)
+    '010'
+
+    >>> future(machine, '011', 4)
+    '001'
+
+    >>> future(machine, '111', 4)
+    '010'
+
+  ''')
+  d.p('''We're going to talk about dictionaries of names and definitions in a few different ways.  I like to think of them as "meanings".  To a mechanism such a map from patterns that "are names" to patterns that "are values" is itself a "value" and there cannot be any other kind of "meaning" for a mechanism, or so I suspect.''')
+  d.p('''For you and me, there seems to be some other special something that goes along with "meaning" as well, but also we are just like the machines.  "Smoke" means "fire" because the chemicals in smoke trigger certain biological, physical, chemical (and in this context these are all synonyms for each other, or so we suspect) changes in your body.''')
+  d.p('''The same thing is true for "words", which are just sounds, and the patterns that appear on other peoples' faces and in what is often called their "body language", which are just pattern of light.''')
+  d.p('''Patterns of light hitting your eyes "name" the contents of the internal Universe of another person.  Except, of course, when they don't.''')
+  d.p('''We could make a map, a dictionary, from any name to any "meaning".''')
+  d.p('''It is interesting that we can build a "machine" that can tell us the future of some other "machine", the workings of whom we do not know, but whom we have observed for "long enough" to have a protocol with "enough" information in it.''')
+  d.p('''In that last sentence I used the word "machine" the first time as another meaning for a dictionary, and the second time as it is used in a science known as Cybernetics.  No one knows what "enough" means when used the way it was in a general sense but often "enough" turns out to be not very much at all.''')
+  d.p('''At this point, the interested reader is urged, most emphatically, to read and study "Introduction to Cybernetics" by W. Ross Ashby, which has been made publicly available in PDF form (see URL below in the references.)''')
+  d.p('''I cannot possibly do better than Ashby.''')
+  d.p('''Further, there is something called Category Theory which, I believe, is talking about the same kinds of things in the same kinds of ways but with a really crunchy mathematical flavor.  I recently read the paper "Physics, Topology, Logic and Computation: A Rosetta Stone" (see references section) which is a sort of quick skim through showing how Category Theory is used in the four fields mentioned in the title.''')
+
+
+def programming_0(d):
+  d.h3('Programming', align="center")
+  d.p('''People are already using Category Theory for generating computer hardware from expressions (see "Function Interface Models for Hardware Compilation" in the references section.)''')
+  d.p('''We can also compose "high-level" functions and programming languages out of the "low-level" circuit expressions.  If our tools provide expressive power for "high-level" descriptions of programs that map very directly and efficiently onto the underlying hardware in the first place it should make the compiler-writers' jobs easier and our programs more efficient.''')
+  d.p('''If a computer is modeled as a set of bits with a selectable array of circle expression logic that transforms as much of the bit-set per cycle as we can figure out how to profitable select and transform, how do we figure out how to profitable select those circle expressions?''')
+  d.p('''We know how to do it technically.  We can make switching circuits and apply different operations depending on the values of given signals.''')
+  d.p('''In effect the signals "name" the operations to take, but from another point of view there is just content-free switching.  The switches and their patterns are themselves always subject to a modeling or naming process that then gives "us" (whatever we are) the "meaning" of a pattern or computation (which is just a dynamic pattern.)''')
+  d.p('''For example, there are extensive standards describing exactly which bit patterns correspond to which of the "real numbers" for many "types" of what is called "floating point representation".''')
+  d.p('''There are exotic number systems that represent numbers as sums of there logarithms in bases 2 and 3, that are very nice for certain digital signal processing tasks but quite mind-bending otherwise.''')
+  d.p('''It should not be difficult to start with GBS's circle language interactive computers and add just a bit of functionality to make them complete general universal programming systems that any child could learn.''')
+  d.p('''You would add a logical unification engine (like LogPy aka logic.py) and you could either run your circle expressions (as Python or Javascript code or something), or convert them down to assembly or GPU instructions using off-the-shelf packages.  And, of course, you could use something like MyHDL to create VLSI files and print silicon if you felt like it.''')
+
+def programming_1(d):
+  d.p('''What is the relation between the circles as logical statements and the circles as schematics for logical circuits?''')
+  d.p('''They seem the same in some ways and sort-of "orthogonal" in others.  With the logical view we must find steps to convert expressions into equivalent expressions that are in some way "closer" to a form that has "something" we prefer to the previous form.  With the circuit-schematic view we are confronted with direct expressions of the structure and correctness of logical networks.  There are no notational hidden aspects and there can be no "bugs" or errors.  The expressions "are" the correct circuits in the same way that the letter 'a' "is" the letter 'a' and cannot be some other letter (unless we change our minds about the meaning of that particular squiggle, but then we are hardly playing the game correctly.)''')
+  d.p('''To go from form to form by logical manipulation is a mechanical process after we have figured out what to do (what program of transformations to apply to change one form into another equivalent form) but the process of figuring out a given program seems, while still having purely mechanical aspects, to partake of something more, something beyond the abilities of those things we call machines.''')
+  d.p('''Also, we can construct computer programs (constellations of circle expressions, after the usage in this paper) that help us design and model logic circuits.  Computer-aided design of high-density ICs is an established field with a vast body of art and science behind it.  Since these are just circle expressions creating and modifying circle expressions, why not remove as much of the intervening abstractions and try to find a more direct path?''')
+  d.p('''The patterns in the circle expressions considered as logical circuits are computing "proofs" in real-time of the results of, in effect, circle expressions considered as logical propositions.''')
+
+
+def cyb(d):
+  d.h3('Cybernetics [is Category Theory]', align="center")
+  d.p('''If, as I suspect, Cybernetics and Category Theory are basically the same thing, then we are about to create some very sophisticated and powerful "machines".''')
+
+def GM(d):
+  d.h3(u'Gödel Machines', align="center")
+  d.p(u'''One of the formal results of Cybernetics is that any system that regulates itself must have a "model" of itself within it.''')
+  d.p(u'''If a computer has a model of itself and is allowed to modify its own program it is what is called a "Gödel Machine".''')
+  d.p(u'''A Gödel Machine can be given a "utility function" and it will self-improve at increasing its utility according to that function.''')
+  d.p('''The utility function is the "intention" of the machine, and the machine is a universal optimal problem solver.''')
+  d.p(u'''You may wonder if these Gödel Machines actually exist and work as described.''')
+  d.p('''Yes.''')
+  d.p('''They do.''')
+
+
+def Intention(d):
+  d.h3('Intention', align="center")
+  d.p(u'''What utility function should the Gödel Machines be given?''')
+
+
+def conclusion(d):
+  d.h3('Conclusion', align="center")
+  d.p('''Remember when I said, "No more will be said here about the transcendental function of the notation."?  I lied, I will say this: All form is but folly, and you cannot find the distinction, the "horizon", between "you" and "the world" until you remember that there isn't any.''')
+
+
+def ihadto(d):
+  d.h3('''Apology''', align='center')
+  d.p('''I had to write this.  I am not an academic, nor a mathematician.  My qualifications for writing about this subject are non-existant.  I have found nothing new, nor have I added anything to what the people who have elucidated this have already discovered.  This book isn't even very good at explaining what I'm trying to explain.  The only reason you should read this is to begin to approach what has been written by the others I mention below.  To that end, if anything here seems unclear, please refer to the sources.''')
+  d.br ; d.br ; d.br
 
 
 def blbr(d, items):
@@ -927,6 +983,7 @@ def surreal(d):
 
 if __name__ == '__main__':
   H = index(blocks=(
+    ihadto,
     first,
     part_zero,
     part_one,
@@ -947,6 +1004,14 @@ if __name__ == '__main__':
     srflipflop,
     machine_0,
     machine_2,
+    machine_3,
+    machine_4,
+    programming_0,
+    programming_1,
+    cyb,
+    GM,
+    Intention,
+    conclusion,
     ))
   print H
   print >> open('index.html', 'w'), H
