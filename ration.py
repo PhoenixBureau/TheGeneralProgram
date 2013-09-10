@@ -10,7 +10,7 @@ from egg import and_, implies, s, Reduce, fstan
 ##v = cache(((),))
 
 
-a, b, c, d = 'abcd'
+a, b, c = 'abc'
 
 # (a -> b and b -> c) -> (a -> c)
 

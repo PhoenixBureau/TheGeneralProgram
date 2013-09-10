@@ -1005,6 +1005,60 @@ It seems our machine has a little bit of interesting behaviour "at the beginning
 
 The system seems to always end up in either abc=010 or abc=001 and then stay there.
 
+If we examine the expressions for the machine after just one cycle we see that we can reduce them a bit:
+
+    a = ((c)(a))
+
+    b = a(c)
+
+    c = (a(c))
+
+Then to get the results of the second cycles we substitute the machine's expressions into these expressions:
+
+    a = (((a(c)))((bc)))
+
+    b = (bc)((a(c)))
+
+    c = ((bc)((a(c))))
+
+Reducing again gives us:
+
+    a = (a(c)bc)
+
+    b = (bc)a(c)
+
+    c = ((bc)a(c))
+
+Which reduce again to:
+
+    a = _
+
+    b = a(c)
+
+    c = (a(c))
+
+Notice that 'a' has been eliminated, it will never again assume a mark value. Also notice that 'b' and 'c' are inverse of each other.  This shows up in the two stable steady states, or "basins", of our protocol above.  Once 'a' has become Void-valued it can be dropped from the expressions for 'b' and 'c':
+
+    b = (c)
+
+    c = ((c)) = c
+
+And we see that 'c' remains 'c' and 'b' is "not 'c'" thereafter.
+
+We could also continue substituting the original machine expressions into 'b' and 'c' to see what happens:
+
+    b = ((a(c)))
+
+    c = (a(c))
+
+And since 'a' is Void-valued:
+
+    b = (((c))) = (c)
+
+    c = ((c)) = c
+
+The system is stable.
+
 
 It turns out that in many cases, useful cases, we can go directly from the expression version to the protocol version, and from the protocol version to the expression version, and sometimes both ways, without having to "run" the system.
 
@@ -1155,7 +1209,7 @@ If a computer is modeled as a set of bits with a selectable array of circle expr
 We know how to do it technically.  We can make switching circuits and apply different operations depending on the values of given signals.
 
 
-In effect the signals "name" the operations to take, but from another point of view there is just content-free switching.  The switches and their patterns are themselves always subject to a modeling or naming process that then gives "us" (whatever we are) the "meaning" of a pattern or computation (which is just a dynamic pattern.) 
+In effect the signals "name" the operations to take, but from another point of view there is just content-free switching.  The switches and their patterns are themselves always subject to a modeling or naming process that then gives "us" (whatever we are) the "meaning" of a pattern or computation (which is just a dynamic pattern.)
 
 
 For example, there are extensive standards describing exactly which bit patterns correspond to which of the "real numbers" for many "types" of what is called "floating point representation".
