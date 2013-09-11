@@ -166,7 +166,7 @@ def collect_names(form, names=None):
 # for those names.
 
 def all_meanings(form):
-  names = collect_names(form)
+  names = sorted(collect_names(form))
   for values in product(*([B] * len(names))):
     yield dict(izip(names, values))
 
@@ -210,7 +210,7 @@ def reify(meaning, form):
 
 ##  for M in all_meanings(adder.values()):
 ##    for output_signal in sorted(adder):
-##      print output_signal, int(mark`(reify(M, adder[output_signal]))), ',',
+##      print output_signal, int(mark(reify(M, adder[output_signal]))), ',',
 ##    print
 ##      
 ##  >>> 
@@ -234,3 +234,45 @@ def reify(meaning, form):
 ##  Carry 0 , Sum0 0 , Sum1 0 , Sum2 1 , Sum3 1 ,
 ##  Carry 0 , Sum0 0 , Sum1 0 , Sum2 0 , Sum3 1 ,
 ##  Carry 1 , Sum0 0 , Sum1 0 , Sum2 0 , Sum3 0 ,
+
+# In order to ease our understanding let's create a function that creates an
+# integer out of a sequence of signal values (taken from B.)
+
+def int_from_bits(*bits):
+  return sum(2**n for n, bit in enumerate(reversed(bits)) if not bit)
+
+
+output_signal_names = 'Carry Sum0 Sum1 Sum2 Sum3'.split()
+
+
+def format_inputs(a0, a1, a2, a3,
+             b0, b1, b2, b3,
+             Cin):
+  print ''.join(str(int(not flag)) for flag in (a0, a1, a2, a3)),
+  print ''.join(str(int(not flag)) for flag in (b0, b1, b2, b3))
+  return (
+    int_from_bits(a0, a1, a2, a3),
+    int_from_bits(b0, b1, b2, b3),
+    int(not bool(Cin)),
+    )
+
+
+def format_outputs(Carry, Sum0, Sum1, Sum2, Sum3):
+  return int_from_bits(Sum0, Sum1, Sum2, Sum3), 4 * int(not bool(Carry))
+
+
+print 'a   b  Cin sum carry'
+
+for M in all_meanings(adder.values()):
+  a, b, Cin = format_inputs(**M)
+##  print M
+  res = dict(
+    (output_signal, reduce_(reify(M, adder[output_signal])))
+    for output_signal in output_signal_names
+    )
+##  print res
+  sum_, carry = format_outputs(**res)
+  print b, '+', a, '+', Cin,
+  print '=', sum_, '+', carry
+  print
+

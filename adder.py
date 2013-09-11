@@ -53,7 +53,7 @@ if __name__ == '__main__':
 
   print; print
 
-  N = lambda bits: sum(2**n for n, bit in enumerate(bits) if bool(bit))
+  N = lambda bits: sum(2**n for n, bit in enumerate(bits) if bit)
 
   print 'a   b  Cin sum carry'
   for a1 in B:
