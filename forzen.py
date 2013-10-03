@@ -7,6 +7,10 @@ class f(frozenset):
     return '(%s)' % ' '.join(map(repr, self))
 
 
+Mark = f()
+Void = f((Mark,))
+
+
 mark = lambda form: not form or not any(imap(mark, form))
 
 nor = lambda *bits: f(bits)
@@ -35,10 +39,36 @@ def insert(form, replacement, *indicies):
 a = f()
 b = nor(a)
 c = nor(b)
+d = nor(c)
 j = xor(a, a, a, a)
 k = xor(1, 2, 3)
 
 B = a, b
+
+
+def _f0(thing):
+  return thing != Void
+
+def _zeroth_item_of(form):
+  return iter(form).next()
+
+def unwrap(form):
+  '''
+  Remove all (()) and let ((*)) -> * in a form. Generator.
+  '''
+  for term in filter(_f0, form):
+
+    if not isinstance(term, f):
+      yield term
+
+    elif len(term) == 1:
+      inner = _zeroth_item_of(term)
+      if isinstance(inner, f):
+        for item in unwrap(inner):
+          yield item
+    else:
+      yield f(unwrap(term))
+      
 
 
 def FBA(a, b, Cin):
@@ -91,12 +121,30 @@ def solve(form):
   return no_yes
 
 
-for m, o in exhaust(fba[0]):
-  c = reify(m, fba[1])
-  print int(not mark(o)), int(not mark(c)), m
-##  print o
-##  print c
-  print
+M = {
+  'a': nor(*map(nor, 'bc')),
+  'b': nor(*map(nor, 'c')),
+  'c': nor(*map(nor, 'd')),
+  }
+
+g = nor(and_(*'abc'))
+
+##for m, o in exhaust(g):
+##  print mark(o), m
+
+
+print g
+print M
+print reify(M, g)
+
+#  'a' ('c') ('b') 'c' ('d') 'b' ('c')
+
+##for m, o in exhaust(fba[0]):
+##  c = reify(m, fba[1])
+##  print int(not mark(o)), int(not mark(c)), m
+####  print o
+####  print c
+##  print
 
 
 ## This is how insert works.
