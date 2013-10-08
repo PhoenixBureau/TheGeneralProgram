@@ -18,7 +18,8 @@ nor = lambda *bits: bits
 or_ = lambda *bits: nor(bits)
 and_ = lambda *bits: tuple(nor(bit) for bit in bits)
 nand = lambda *bits: nor(and_(*bits))
-xor = lambda *bits: nor(and_(*bits), nor(*bits))
+eqiv = lambda *bits: (bits, and_(*bits))
+xor = lambda *bits: nor(eqiv(*bits))
 
 
 def implies(x, y):
