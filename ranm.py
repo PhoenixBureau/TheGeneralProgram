@@ -1,12 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 '''
-
-  Gödel Machine
-
-  [First attempt]
-
-
 '''
 from pprint import pprint as p_
 from random import choice, random, shuffle, sample

@@ -179,7 +179,7 @@ These are the two rules:
           ○ ↔ ○○
 
     nothing ↔ ◎
-    
+
 
 These rules can be described in language in many ways. We can say that any mark is the same as any number of marks, and that the Void is the same as a non-mark.  Using the rules from left-to-right (in the above depiction) generates new forms, and using them right-to-left reduces forms back to either a mark or the Void.
 
@@ -192,7 +192,7 @@ ________________________________________
 Once we can generate myriad forms we can perform another trick that is somewhat mysterious and somewhat concrete (like the primal distinction.)  The name of this trick is "naming", and it is, in a sense, the opposite of Void.
 
 
-The initial distinction can be considered a name for itself.  By existing (which it only does because you made it) the distinction the distinguishes something from the Void, and as there is no other thing to name, it names itself.
+The initial distinction can be considered a name for itself.  By existing (which it only does because you made it) the distinction distinguishes something from the Void, and as there is no other thing to name, it names itself.
 
 
 The Void is unknowable, inexpressible, but every distinction is a self-creating "name".
@@ -436,8 +436,8 @@ The Guardians Again
 Let's use 'd' for the "name" of a door and redraw our little diagram:
 
     Door   Guardian   Guardian   Answer
-    d            ○            ◎            (((d))) -> (d)
-    d            ◎            ○            (((d))) -> (d)
+    d--------○----------◎--------(((d))) -> (d)
+    d--------◎----------○--------(((d))) -> (d)
 
 
 No matter which order the Guardians answer (Truth about a lie, or a lie about the Truth) if you can get them both in line they will always answer "not 'd'" and so tell you the name of the door.
@@ -472,6 +472,10 @@ Consider the form:
 
 
 No matter the value of the circle pattern named by 'a' might be, that form will be mark-valued.  Whenever a form can be reduced to either a mark or the Void for every possible set of values of the names in the form, the form is said to represent a "tautology".  Where this is not possible the form is said to represent a "satisfiable" statement, and the reduced form mentions each of the names that must be assigned values to be able to "satisfy" (or not) the statement.
+
+
+
+- -
 
 
 Names stand for logical terms and the concepts of logical statements can be expressed in the circle language according to the following (partial) translation table (which also includes set operators):
@@ -632,11 +636,7 @@ For concreteness we will develop a model of the Circle Language using the Python
 
 In Python, let "a form" be any data-structure composed entirely of tuples.
 
-
-We shall consider the absence of any form to be "the ground" and have the Boolean value of True.  A "mark" is the empty tuple or any tuple without a mark in it, we shall consider marks to have the Boolean value of False.
-
-
-The function "mark" reduces any form and returns its Boolean value.  In Python it can be implemented as:
+The function "mark" reduces any form and returns True if the form is mark-valued and False if the form is Void-valued.  In Python it can be implemented as:
 
     def mark(form):
       return not form or not any(mark(inner) for inner in form))
@@ -766,7 +766,7 @@ But notice that both expressions contain the common sub-expression '((a)(b))'?  
 
     def HBA(a, b):
       carry = and_(a, b)
-      return nor(carry, nor(a, b))
+      return carry, nor(carry, nor(a, b))
 
 
 This function captures (and parameterizes) the creation of a Half-Bit Adder circuit, refactoring it from the first expression but creating an identical result.
@@ -887,6 +887,17 @@ Digital logic designers have been developing circuits to compute mathematical an
 - -
 
 
+((((((a1)(b1))(a1 b1)))((((((((a0)(b0))(a0 b0)))(Cin))((a0)(b0))))))((((a1)(b1))(a1 b1))(((((((a0)(b0))(a0 b0)))(Cin))((a0)(b0))))))
+
+E = ((((a1)(b1))(a1 b1)((((a0)(b0))(a0 b0)(Cin))((a0)(b0))))((((a1)(b1))(a1 b1))(((a0)(b0))(a0 b0)(Cin))((a0)(b0))))
+
+Ea1 = ((((◎)(b1))(◎b1)((((a0)(b0))(a0 b0)(Cin))((a0)(b0))))((((◎)(b1))(◎b1))(((a0)(b0))(a0 b0)(Cin))((a0)(b0))))
+
+Ea1 = (((b1)((((a0)(b0))(a0 b0)(Cin))((a0)(b0))))(b1(((a0)(b0))(a0 b0)(Cin))((a0)(b0))))
+
+- -
+
+
 Consider the following self-referential form:
 
     The Set-Reset Flip-Flop:
@@ -993,6 +1004,60 @@ It seems our machine has a little bit of interesting behaviour "at the beginning
 
 
 The system seems to always end up in either abc=010 or abc=001 and then stay there.
+
+If we examine the expressions for the machine after just one cycle we see that we can reduce them a bit:
+
+    a = ((c)(a))
+
+    b = a(c)
+
+    c = (a(c))
+
+Then to get the results of the second cycles we substitute the machine's expressions into these expressions:
+
+    a = (((a(c)))((bc)))
+
+    b = (bc)((a(c)))
+
+    c = ((bc)((a(c))))
+
+Reducing again gives us:
+
+    a = (a(c)bc)
+
+    b = (bc)a(c)
+
+    c = ((bc)a(c))
+
+Which reduce again to:
+
+    a = _
+
+    b = a(c)
+
+    c = (a(c))
+
+Notice that 'a' has been eliminated, it will never again assume a mark value. Also notice that 'b' and 'c' are inverse of each other.  This shows up in the two stable steady states, or "basins", of our protocol above.  Once 'a' has become Void-valued it can be dropped from the expressions for 'b' and 'c':
+
+    b = (c)
+
+    c = ((c)) = c
+
+And we see that 'c' remains 'c' and 'b' is "not 'c'" thereafter.
+
+We could also continue substituting the original machine expressions into 'b' and 'c' to see what happens:
+
+    b = ((a(c)))
+
+    c = (a(c))
+
+And since 'a' is Void-valued:
+
+    b = (((c))) = (c)
+
+    c = ((c)) = c
+
+The system is stable.
 
 
 It turns out that in many cases, useful cases, we can go directly from the expression version to the protocol version, and from the protocol version to the expression version, and sometimes both ways, without having to "run" the system.
@@ -1144,7 +1209,7 @@ If a computer is modeled as a set of bits with a selectable array of circle expr
 We know how to do it technically.  We can make switching circuits and apply different operations depending on the values of given signals.
 
 
-In effect the signals "name" the operations to take, but from another point of view there is just content-free switching.  The switches and their patterns are themselves always subject to a modeling or naming process that then gives "us" (whatever we are) the "meaning" of a pattern or computation (which is just a dynamic pattern.) 
+In effect the signals "name" the operations to take, but from another point of view there is just content-free switching.  The switches and their patterns are themselves always subject to a modeling or naming process that then gives "us" (whatever we are) the "meaning" of a pattern or computation (which is just a dynamic pattern.)
 
 
 For example, there are extensive standards describing exactly which bit patterns correspond to which of the "real numbers" for many "types" of what is called "floating point representation".

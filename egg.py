@@ -2,6 +2,7 @@
 from itertools import product, imap, izip
 from operator import eq
 from string import ascii_lowercase
+from collections import defaultdict
 
 
 B = ((),), ()
@@ -18,8 +19,13 @@ reduce_ = lambda form: B[mark(form)]
 nor = lambda *bits: bits
 or_ = lambda *bits: nor(bits)
 and_ = lambda *bits: tuple(nor(bit) for bit in bits)
-nand = lambda *bits: nor(and_(bits))
-xor = lambda *bits: nor(and_(*bits), nor(*bits))
+nand = lambda *bits: nor(and_(*bits))
+eqiv = lambda *bits: (bits, and_(*bits))
+xor = lambda *bits: nor(eqiv(*bits))
+
+
+def implies(x, y):
+  return nor(nor((x,), y))
 
 
 # Forms with names.  (Tuples and strings.)
@@ -49,13 +55,11 @@ def unwrap(form):
     yield term
 
 
-_A = lambda form: (form
-                   if isinstance(form, basestring)
+_A = lambda form: (form if isinstance(form, basestring)
                    else tuple(unwrap(form)))
 
 
-_B = lambda form: (form
-                   if isinstance(form, basestring)
+_B = lambda form: (form if isinstance(form, basestring)
                    else ((),) if () in form else form)
 
 
@@ -93,9 +97,14 @@ def normalize(form):
   return tuple(sorted((normalize(inner) for inner in form), key=sort_key))
 
 
-def walk(meaning, name):
+def walk(meaning, name, seen=None):
+  if seen is None:
+    seen = set()
   while name in meaning and meaning[name] != name:
     name = meaning[name]
+    if name in seen:
+      break
+    seen.add(name)
   if isinstance(name, tuple):
     return tuple(walk(meaning, inner) for inner in name)
   return name
@@ -127,6 +136,22 @@ def collect_names(form, names=None):
     for inner in form:
       collect_names(inner, names)
   return names
+
+
+def collect_names_histogram(form, names=None):
+  if names is None:
+    names = defaultdict(int)
+  if isinstance(form, basestring):
+    names[form] += 1
+  else:
+    for inner in form:
+      collect_names_histogram(inner, names)
+  return names
+
+
+def names_by_frequency(form):
+  c = collect_names_histogram(form)
+  return sorted(c, key=lambda k: (-c[k], k))
 
 
 def all_meanings(form):
@@ -183,6 +208,12 @@ def unify(u, v, s, eq=eq):
 def name_normalize(form, symbols=ascii_lowercase):
   names = collect_names(form)
   meaning = dict(izip(sorted(names), symbols))
+  return reify(meaning, form)
+
+
+def name_normalize_by_frequency(form, symbols=ascii_lowercase):
+  names = names_by_frequency(form)
+  meaning = dict(izip(names, symbols))
   return reify(meaning, form)
 
 
