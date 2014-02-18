@@ -17,11 +17,15 @@ reduce_ = lambda form: B[mark(form)]
 
 
 nor = lambda *bits: bits
-or_ = lambda *bits: nor(bits)
-and_ = lambda *bits: tuple(nor(bit) for bit in bits)
-nand = lambda *bits: nor(and_(*bits))
-eqiv = lambda *bits: (bits, and_(*bits))
-xor = lambda *bits: nor(eqiv(*bits))
+or_ = lambda *bits: (bits,)
+and_ = lambda *bits: tuple((bit,) for bit in bits)
+nand = lambda *bits: (and_(*bits),)
+xor = lambda *bits: (bits, and_(*bits))
+nxor = lambda *bits: (xor(*bits),)
+
+
+ifthen = lambda q, a, b: ((a, (q,)), (q, b))
+flipflop = lambda q, r, s: ((s, q), r)
 
 
 def implies(x, y):

@@ -3,7 +3,7 @@ See http://markability.net/five_liars.htm
 and http://iconicmath.com/mypdfs/bl-fiveliars.090625.pdf
 to make some sense of this...
 '''
-from egg import eqiv, xor, nand, or_, fstan, s
+from egg import xor, nxor, nand, or_, fstan, s
 
 
 a, b, c, d, e, f, g, h, i, j = 'abcdefghij'
@@ -18,11 +18,11 @@ tale = {
 #
 # a = [ [b|(g)] | ( [d|(i)] ) ]
 
-  a: eqiv(xor(b, g), eqiv(d, i)),  # same as xor(xor(b, g), xor(d, i)) etc...
+  a: xor(nxor(b, g), xor(d, i)),  # same as nxor(nxor(b, g), nxor(d, i)) etc...
 
 # f = ( [ (c)(h) | (e)(j) ] )
 
-  f: xor(nand(c, h), nand(e, j)),
+  f: nxor(nand(c, h), nand(e, j)),
 
 #===------------------------------------------------------------
 #  B says:
@@ -31,11 +31,11 @@ tale = {
 #
 # b = [ [a|(f)] | ( [c|(h)] ) ]
 
-  b:  eqiv(xor(a, f), eqiv(c, h)),
+  b:  xor(nxor(a, f), xor(c, h)),
 
 # g = ( [ (d)(i) | ej ] )
 
-  g: xor(nand(d, i), or_(e, j)),
+  g: nxor(nand(d, i), or_(e, j)),
 
 #===------------------------------------------------------------
 #  C says:
@@ -44,11 +44,11 @@ tale = {
 #
 # c = ( [af|di] )
 
-  c: xor(or_(a, f), or_(d, i)),
+  c: nxor(or_(a, f), or_(d, i)),
 
 # h = ( [ [b|(g)] | (e)(j) ] )
 
-  h: xor(xor(b, g), nand(e, j)),
+  h: nxor(nxor(b, g), nand(e, j)),
 
 #===------------------------------------------------------------
 #  D says:
@@ -57,11 +57,11 @@ tale = {
 
 # d = ( [ (a)(f) | (e)(j) ] )
 
-  d: xor(nand(a, f), nand(e, j)),
+  d: nxor(nand(a, f), nand(e, j)),
 
 # i = ( [ (b)(g) | ch ] )
 
-  i: xor(nand(b, g), or_(c, h)),
+  i: nxor(nand(b, g), or_(c, h)),
 
 #===------------------------------------------------------------
 #  E says:
@@ -70,11 +70,11 @@ tale = {
 
 # e = ([af|bg])
 
-  e : xor(or_(a, f), or_(b, g)),
+  e : nxor(or_(a, f), or_(b, g)),
 
 # j = ( [ [c|(h)] | [d|(i)] ] )
 
-  j: eqiv(xor(c, h), eqiv(d, i)),
+  j: xor(nxor(c, h), xor(d, i)),
 
 #===------------------------------------------------------------
   }
@@ -82,7 +82,7 @@ tale = {
 
 # Conjunction of equivalence of each statements' symbol and "meaning":
 E = or_(*(
-  eqiv(name, expr)
+  xor(name, expr)
   for name, expr in tale.iteritems()
   ))
 
