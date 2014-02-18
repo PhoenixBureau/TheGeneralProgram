@@ -96,7 +96,7 @@ def view_register(r=R):
   names, values = zip(*sorted(r.iteritems()))
 ##  print ''.join(names)
   return ''.join(str(int(not v)) for v in values
-                 ).replace('0', '-').replace('1', '○')
+                 ).replace('0', '-').replace('1', 'o')
 
 
 def cycle(register, program):
