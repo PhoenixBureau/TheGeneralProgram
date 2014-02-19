@@ -13,9 +13,9 @@ program = {
   }
 p_(program)
 m = Machine(alphabet, program)
-m.R['a'] = o
-print m
+m.R['z'] = o
 for n in range(100):
-  m.cycle()
   print '%3i' % n, m
+  m.cycle()
+print m
 
