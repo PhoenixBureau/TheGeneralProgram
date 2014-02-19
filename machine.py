@@ -1,4 +1,4 @@
-from void import void, reify
+from void import void, reify, pretty
 
 
 _ = (),
@@ -28,3 +28,11 @@ class Machine(object):
 def view_register(r):
   values = (r[bit] for bit in sorted(r))
   return ''.join(('-', 'o')[not v] for v in values)
+
+
+def view_program(p):
+  return '\n'.join(
+    '%s: %s' % (bit, pretty(p[bit]))
+     for bit in sorted(p)
+    )
+
