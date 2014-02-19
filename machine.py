@@ -36,6 +36,10 @@ class Machine(object):
       n += 1
       self.cycle()
 
+  def save(self, file_ish):
+    import pickle
+    pickle.dump(self, file_ish)
+
 
 def view_register(r):
   values = (r[bit] for bit in sorted(r))
