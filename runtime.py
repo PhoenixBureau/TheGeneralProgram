@@ -14,14 +14,14 @@ print view_program(program)
 
 
 m = Machine(alphabet, program)
-m.R['z'] = o
+m.R['j'] = m.R['z'] = o
 
 
 n, looped_to, seen = m.find_cycle(noisy=True)
 
 
 print 'at', n, 'looped to', looped_to
-print '\n'.join(seen)
+#print '\n'.join(seen)
 
 
 ##for n in range(100):
