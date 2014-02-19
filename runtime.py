@@ -17,19 +17,13 @@ m = Machine(alphabet, program)
 m.R['z'] = o
 
 
-for n in range(100):
-  print '%3i' % n, m
-  m.cycle()
+n, looped_to, seen = m.find_cycle(noisy=True)
 
 
-##seen = {str(m)}
-##n = 0
-##while True:
+print 'at', n, 'looped to', looped_to
+print '\n'.join(seen)
+
+
+##for n in range(100):
 ##  print '%3i' % n, m
-##  n += 1
 ##  m.cycle()
-##  s = str(m)
-##  if s in seen:
-##    print 'looped.'
-##    break
-##  seen.add(s)

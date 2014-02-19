@@ -24,6 +24,18 @@ class Machine(object):
   def __repr__(self):
     return '[%s]' % (view_register(self.R),)
 
+  def find_cycle(self, noisy=False):
+    seen, n = {}, 0
+    while True:
+      s = str(self)
+      if s in seen:
+        return n, seen[s], sorted(seen, key=seen.get)
+      if noisy:
+        print ('%3i' % n), s
+      seen[s] = n
+      n += 1
+      self.cycle()
+
 
 def view_register(r):
   values = (r[bit] for bit in sorted(r))
