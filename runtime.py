@@ -12,9 +12,6 @@ def generate_program(alphabet, per_bit):
     }
 
 
-  ##    and_(letter, choice(alphabet)),
-
-
 def enprogramate(per_bit): # Brutal decorator abuse ensues.
   @wraps(per_bit)
   def gen_prog(alphabet):
@@ -32,13 +29,33 @@ def xor_ring_program(i, letter, alphabet):
   return xor(letter, alphabet[(i + 1) % len(alphabet)])
 
 
-A = ascii_lowercase[:10]
+@enprogramate
+def and_rand_program(i, letter, alphabet):
+  return and_(letter, choice(alphabet)),
 
 
+# Run the xor ring pattern in the top N bits.
+N = 16
+A = ascii_lowercase[:N]
 program = xor_ring_program(A)
+
+
+# bit x is the AND of the lower three xor ring bits.
+program['x'] = and_(*A[N - 3:N])
+
+
 print view_program(program)
-m = Machine(A, program)
+
+
+# Build a machine with all the bits..
+m = Machine(ascii_lowercase, program)
+
+
+# Initialize the lowest bit in the xor ring.
 m.R[A[-1]] = o
+
+
+# Find (visibly) the cycle.
 n, looped_to, seen = m.find_cycle(noisy=True)
 
 
