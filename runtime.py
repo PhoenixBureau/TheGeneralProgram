@@ -1,7 +1,7 @@
 from functools import wraps
 from random import choice
 from string import ascii_lowercase
-from egg import xor, and_, and_
+from egg import xor, and_
 from machine import Machine, _, o, view_program
 
 
