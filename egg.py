@@ -12,7 +12,6 @@ mark = lambda form: not form or not any(imap(mark, form))
 void = lambda form: any(not void(i) for i in form)
 
 
-
 reduce_ = lambda form: B[mark(form)]
 
 
