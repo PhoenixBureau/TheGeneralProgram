@@ -1,18 +1,20 @@
+from egg import s
+
+
 Mark = ()
 Void = '_'
 
 
-def dp(E, partial=None, symbols=None):
-
+def dp(E, partial=None):
   if partial is None:
-    assert symbols is None, repr(symbols)
     partial = {}
-#    symbols = symbols_of(E)
 
   if not E:
     return partial
 
+  print '[' + ', '.join(map(s, E)) + ']'
   if Mark in E:
+    print
     return
 
   v = next_symbol_of(E)
@@ -20,16 +22,14 @@ def dp(E, partial=None, symbols=None):
 
   partial[v] = Mark
   Ev = list(vup(E, v))
-  print Ev
-  res = dp(Ev, partial, symbols)
+  res = dp(Ev, partial)
   if res is not None:
     return res
 
   print 'trying', v, '= Void'
   partial[v] = Void
   Ev = list(puv(E, v))
-  print Ev
-  res = dp(Ev, partial, symbols)
+  res = dp(Ev, partial)
   if res is not None:
     return res
 
@@ -50,30 +50,17 @@ def puv(E, v):
     yield tuple(i for i in clause if i != v)
 
 
-def symbols_of(E, seen=None):
-  if seen is None:
-    seen = set()
-  for i in E:
-    if isinstance(i, basestring):
-      if i not in seen:
-        seen.add(i)
-        yield i
-    else:
-      for j in symbols_of(i, seen):
-        yield j
-
-
 def next_symbol_of(E):
   for clause in E:
     for term in clause:
       if isinstance(term, basestring):
         return term
-      elif term:
+      if term:
         return term[0]
   raise Exception("no more symbols")
 
 
-a, b, c, d, e = 'abcde'
+a, b, c, d, e, f, g = 'abcdefg'
 
 E = [
   # (a, (b,), c, b),
@@ -83,5 +70,23 @@ E = [
   (a, (b,), (d,)),
   ]
 
+H = [
+  (a, (f,), (g,)),
+  (f, (b,)),
+  (f, (c,)),
+  (g, (b,)),
+  (g, (d,)),
+  ((a,), (f,)),
+  (b, c),
+  (d, b),
+  ]
+
+G = [
+  ((a,), b),
+  ((b,), c),
+  ((c,), d),
+  ((c,), (d,)),
+  ]
+
 print
-print dp(E)
+print dp(H)

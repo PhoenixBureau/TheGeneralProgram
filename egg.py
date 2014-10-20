@@ -259,7 +259,7 @@ def view_register(r):
   Return a string representation of a register for insight.
   '''
   values = (r[bit] for bit in sorted(r))
-  return ''.join(('-', '○')[not v] for v in values)
+  return ''.join(('-', 'O')[not v] for v in values)
 
 
 def run_n_cycles(r, p, n=10, view=True):
