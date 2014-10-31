@@ -1,5 +1,4 @@
 from egg import s
-from perv import pervade
 
 
 def bits_of(i, width):
@@ -14,7 +13,7 @@ def claws(tags, n, width):
   '''
   Return a LoF form that is () iff the tagged signals "mean" n.
 
-  I.e. claws('a', 3) -> ( (a0) (a1) a2 )
+  I.e. claws('a', 3, 3) -> ( (a0) (a1) a2 )
 
   Where a0 is the least significant bit of n, etc., and 1:() 0: (()).
 

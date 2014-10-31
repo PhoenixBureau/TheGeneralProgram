@@ -109,11 +109,12 @@ Z = fstan(E)
 #
 # ...are the two answers.  Neat.
 
-print 'Full expression:'
-print s(E)
-print
-print
-print
-print 'Standard form:'
-print s(Z)
-print
+if __name__ == '__main__':
+  print 'Full expression:'
+  print s(E)
+  print
+  print
+  print
+  print 'Standard form:'
+  print s(Z)
+  print
