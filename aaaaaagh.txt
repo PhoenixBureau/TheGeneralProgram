@@ -1,0 +1,38 @@
+( ((((K( (( (B)A )) J))reset))B) (((K( (( (B)A )) J))reset)A) )
+( ((((K(    (B)A    J))reset))B) (((K(    (B)A    J))reset)A) )
+( ((((K(    ( )A    J))reset))B) (((K(    (B)     J))reset)A) )
+( ((((K(    ( )      ))reset))B) (((K(    (B)     J))reset)A) )
+( ((((K               )reset))B) (((K(    (B)     J))reset)A) )
+
+( ( (( (K)reset )) B) (A(reset(K(J(B))))) )
+( (    (K)reset    B) (A(reset(K(J(B))))) )
+
+E = ( (B(K)reset) (A(reset(K(J(B))))) )
+
+Eb =   ( ( (K)reset) (A(reset(K(J( ))))) )
+Eb =   ( ( (K)reset) (A(reset(K      ))) )
+Eb =   (  ((K)reset) (A ((K)reset) ) )
+Eb =   (  ((K)reset) (A            ) )
+
+Eb =   ((A)(reset(K)))
+
+
+E_b_ = ( (O(K)reset) (A(reset(K(J(O))))) )
+E_b_ = ( (O        ) (A(reset(K(J   )))) )
+E_b_ = (             (A(reset(K(J   )))) )
+E_b_ = ((A(reset(K(J)))))
+
+E_b_ = A(reset(K(J)))
+
+
+E = ( (b Eb) ((b) E_b_))
+
+E = (
+  ( B  ( (A) (reset(K   )) ) )
+  ((B)    A  (reset(K(J)))   )
+  )
+
+
+
+
+
